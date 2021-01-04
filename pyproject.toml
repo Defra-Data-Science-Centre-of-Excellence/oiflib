@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "oiflib"
 version = "0.1.0"
-description = ""
+description = "OIF-related python libraries"
 authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 
 [tool.poetry.dependencies]
