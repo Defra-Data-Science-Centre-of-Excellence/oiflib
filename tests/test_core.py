@@ -13,7 +13,7 @@ input_right_false_schema = spark.createDataFrame(data=[[1]], schema=["B"])
 
 input_right_false_collect = spark.createDataFrame(data=[[2]], schema=["A"])
 
-input_right_false_type = spark.createDataFrame(data=["1"], schema=["A"])
+input_right_false_type = spark.createDataFrame(data=[["1"]], schema=["A"])
 
 ## Define tests
 def test_are_dfs_equal_true():
