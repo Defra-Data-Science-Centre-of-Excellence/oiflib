@@ -2,7 +2,7 @@
 name = "oiflib"
 version = "0.1.0"
 description = "OIF-related python libraries"
-licence = "MIT"
+license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
 repository = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
