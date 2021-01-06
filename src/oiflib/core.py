@@ -1,8 +1,10 @@
+"""Core functions used across all OIF modules."""
+
 # standard library
 from typing import List
 
 # third-party
-from pyspark.sql import DataFrame  # type: ignore
+from pyspark.sql import DataFrame
 
 
 def melt(

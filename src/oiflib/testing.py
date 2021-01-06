@@ -1,5 +1,7 @@
+"""Test functions for OIF modules."""
+
 # third-party packages
-from pyspark.sql import DataFrame  # type: ignore
+from pyspark.sql import DataFrame
 
 
 def are_dfs_equal(df1: DataFrame, df2: DataFrame) -> bool:
