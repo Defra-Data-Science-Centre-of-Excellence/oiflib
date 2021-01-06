@@ -1,4 +1,8 @@
-def are_dfs_equal(df1, df2):
+# third-party packages
+from pyspark.sql import DataFrame  # type: ignore
+
+
+def are_dfs_equal(df1: DataFrame, df2: DataFrame) -> bool:
     """Returns true if the schema and data of two dataframes are equal"""
     if df1.schema != df2.schema:
         return False

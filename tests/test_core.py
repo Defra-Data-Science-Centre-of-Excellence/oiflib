@@ -1,5 +1,6 @@
-from oiflib.testing import are_dfs_equal
+# Local
 from oiflib.core import melt
+from oiflib.testing import are_dfs_equal
 
 
 def test_actual_equals_expected(spark):
