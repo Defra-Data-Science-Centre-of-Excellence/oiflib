@@ -1,6 +1,6 @@
 from oiflib.testing import are_dfs_equal
 from oiflib.core import melt
-from .configtest import spark
+from .fixtures import spark
 
 ## Define tests
 def test_actual_equals_expected(spark):
