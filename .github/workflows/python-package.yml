@@ -42,7 +42,7 @@ jobs:
     
     - name: Check with mypy
       run: |
-        poetry run mypy .
+        poetry run mypy ./src
 
     - name: Test with pytest
       run: |
