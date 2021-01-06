@@ -8,12 +8,12 @@ def test_actual_equals_expected(spark):
 
     ## Create test input
     input_received = spark.createDataFrame(
-    data=[
-        ["a", 1, 2],
-        ["b", 3, 4],
-        ["c", 5, 6],
-    ],
-    schema=["A", "B", "C"],
+        data=[
+            ["a", 1, 2],
+            ["b", 3, 4],
+            ["c", 5, 6],
+        ],
+        schema=["A", "B", "C"],
     )
 
     ## Create expected output

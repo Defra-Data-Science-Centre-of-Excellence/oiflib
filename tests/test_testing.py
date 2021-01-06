@@ -3,9 +3,11 @@ from oiflib.testing import are_dfs_equal
 from pyspark.sql import SparkSession
 from .configtest import spark
 
+
 @pytest.fixture
 def input_left(spark):
     return spark.createDataFrame(data=[[1]], schema=["A"])
+
 
 ## Define tests
 def test_are_dfs_equal_true(input_left):
