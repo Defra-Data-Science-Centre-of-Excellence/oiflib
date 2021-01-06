@@ -1,7 +1,8 @@
-def are_dfs_equal(df1, df2):
-    """Returns true if the schema and data of two dataframes are equal"""
-    if df1.schema != df2.schema:
-        return False
-    if df1.collect() != df2.collect():
-        return False
-    return True
+from typing import List
+from pyspark.sql import DataFrame # type: ignore
+
+def melt(df: DataFrame, id_vars: str, var_name: str = "variable", value_name: str = "value") -> DataFrame:
+  """"Unpivot a DataFrame from wide to long format"""
+  var_columns: List[str] = [col for col in df.columns if col not in id_vars]
+  expression: str = ', '.join([', '.join(['\'' + x + '\'', '`' + x + '`']) for x in var_columns])
+  return df.selectExpr(id_vars, f"stack({len(var_columns)},{expression}) as ({var_name}, {value_name})").orderBy(var_name, id_vars)
