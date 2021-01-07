@@ -1,5 +1,5 @@
-src
-===
+oiflib
+======
 
 .. toctree::
    :maxdepth: 4
