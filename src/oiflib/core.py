@@ -35,12 +35,12 @@ def melt(
     ).orderBy(var_name, id_vars)
 
 
-def read_input(input_path: str, input_file: str) -> DataFrame:
-    """TODO docstring."""
-    return spark.read.parquet(f"{input_path}/{input_file}")
+# def read_input(input_path: str, input_file: str) -> DataFrame:
+#     """TODO docstring."""
+#     return spark.read.parquet(f"{input_path}/{input_file}")
 
 
-def write_output(df: DataFrame, output_path: str, output_file: str) -> bool:
-    """TODO docstring."""
-    df.write.mode("overwrite").parquet(f"{output_path}/{output_file}")
-    return True
+# def write_output(df: DataFrame, output_path: str, output_file: str) -> bool:
+#     """TODO docstring."""
+#     df.write.mode("overwrite").parquet(f"{output_path}/{output_file}")
+#     return True
