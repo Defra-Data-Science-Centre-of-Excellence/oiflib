@@ -4,7 +4,9 @@
 from typing import List
 
 # third-party
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
+
+spark: SparkSession = SparkSession.builder.enableHiveSupport().getOrCreate()
 
 
 def melt(
@@ -31,3 +33,14 @@ def melt(
     return df.selectExpr(
         id_vars, f"stack({len(var_columns)},{expression}) as ({var_name}, {value_name})"
     ).orderBy(var_name, id_vars)
+
+
+def read_input(input_path: str, input_file: str) -> DataFrame:
+    """TODO docstring."""
+    return spark.read.parquet(f"{input_path}/{input_file}")
+
+
+def write_output(df: DataFrame, output_path: str, output_file: str) -> bool:
+    """TODO docstring."""
+    df.write.mode("overwrite").parquet(f"{output_path}/{output_file}")
+    return True

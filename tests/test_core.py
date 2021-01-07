@@ -1,9 +1,13 @@
-# Local
+"""TODO docstring."""
+
+# Third-party libraries
+from chispa.dataframe_comparer import assert_df_equality
+
+# Local libraries
 from oiflib.core import melt
-from oiflib.testing import are_dfs_equal
 
 
-def test_actual_equals_expected(spark):
+def test_melt(spark):
     """Return true if actual DataFrame and expected DataFrame are equal"""
 
     # Create test input
@@ -32,4 +36,4 @@ def test_actual_equals_expected(spark):
     # Apply function to input
     output_actual = melt(df=input_received, id_vars="A")
 
-    assert are_dfs_equal(output_expected, output_actual)
+    assert_df_equality(output_expected, output_actual)
