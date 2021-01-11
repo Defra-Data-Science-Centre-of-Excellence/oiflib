@@ -5,7 +5,13 @@ import pytest
 from chispa.dataframe_comparer import assert_df_equality
 
 # Local libraries
-from oiflib.air.one import filter_rows, drop_columns, clean_column_values, unpivot, process_air_one
+from oiflib.air.one import (
+    filter_rows,
+    drop_columns,
+    clean_column_values,
+    unpivot,
+    process_air_one,
+)
 
 
 # Define left DataFrame as fixture for use in multiple tests
