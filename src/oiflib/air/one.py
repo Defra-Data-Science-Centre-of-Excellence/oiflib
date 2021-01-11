@@ -46,10 +46,10 @@ def unpivot(df: DataFrame) -> DataFrame:
 
 def process_air_one(df: DataFrame) -> DataFrame:
     """TODO docstring."""
-    df_filtered_rows: DataFrame = filter_rows(df)
-
-    df_dropped_columns: DataFrame = drop_columns(df_filtered_rows)
-
-    df_cleaned_column_values: DataFrame = clean_column_values(df_dropped_columns)
-
-    return unpivot(df_cleaned_column_values)
+    return (
+        df
+        .transform(filter_rows)
+        .transform(drop_columns)
+        .transform(clean_column_values)
+        .transform(unpivot)
+    )
