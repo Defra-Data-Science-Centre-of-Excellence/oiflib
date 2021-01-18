@@ -5,12 +5,12 @@ import pytest
 from chispa.dataframe_comparer import assert_df_equality
 
 # Local libraries
-from oiflib.air.one import (
+from oiflib.air.one.transform import (
     filter_rows,
     drop_columns,
     clean_column_values,
     unpivot,
-    process_air_one,
+    transform_air_one,
 )
 
 
@@ -148,7 +148,7 @@ def test_unpivot(spark, df_input):
     assert_df_equality(df_output_expected, df_output_actual)
 
 
-def test_process_air_one(spark, df_input):
+def test_transform_air_one(spark, df_input):
     """Cleans the column values as expected."""
     # Create expected output
     df_output_expected = spark.createDataFrame(
@@ -167,6 +167,6 @@ def test_process_air_one(spark, df_input):
     )
 
     # Apply function to input
-    df_output_actual = process_air_one(df=df_input)
+    df_output_actual = transform_air_one(df=df_input)
 
     assert_df_equality(df_output_expected, df_output_actual)

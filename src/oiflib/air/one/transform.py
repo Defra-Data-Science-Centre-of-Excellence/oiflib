@@ -76,7 +76,7 @@ def unpivot(df: DataFrame) -> DataFrame:
     )
 
 
-def process_air_one(df: DataFrame) -> DataFrame:
+def transform_air_one(df: DataFrame) -> DataFrame:
     """Processes the air one input.
 
     This function applies the filter_rows(), drop_columns(),
