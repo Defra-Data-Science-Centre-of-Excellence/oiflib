@@ -5,6 +5,8 @@
 
 A public repository for [25 Year Environment Plan Outcome Indicator Framework (OIF)](https://www.gov.uk/government/publications/25-year-environment-plan-progress-reports) related python libraries.
 
+## Tools and practices
+
 This project implements many of the tools and best practices recommended in [Hypermodern Python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/), it uses:
 
 - [pyenv](https://github.com/pyenv/pyenv) for Python version management
@@ -46,6 +48,44 @@ However, it doesn't currently use:
 - [pypi](https://pypi.org/) for package hosting or [testpypi](https://test.pypi.org/) to test package hosting
 - [release-drafter](https://github.com/release-drafter/release-drafter) to help draft release notes
 - [Semantic Versioning](https://semver.org/) to indicate breaking changes, minor changes, or bug fixes
+
+---
+
+## Structure
+
+```
+src
+|
+|---oiflib
+|   |
+|   |---<theme>
+|   |   |
+|   |   |---<indicator>
+|   |   |   |   <activity>.py
+|   |   |   |   <activity>.py
+|   |   |   |   ...
+|   |   |
+|   |   |---<indicator>
+|   |   |   |   ...
+|   |   |
+|   |   |   ...
+|   |
+|   |---<theme>
+|   |   |   ...
+|   |
+|   |   ...
+```
+
+The `oiflib` package is divided into theme modules. These theme modules are divided into indicator modules. These indicator modules are divided into activity modules.
+
+There are four activity modules under each indicator:
+
+1. `get`
+1. `validate`
+1. `transform`
+1. `enrich`
+
+---
 
 ## Documentation
 
