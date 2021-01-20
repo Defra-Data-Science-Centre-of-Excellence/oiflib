@@ -37,3 +37,5 @@ def test_melt(spark):
     output_actual = melt(df=input_received, id_vars="A")
 
     assert_df_equality(output_expected, output_actual)
+
+    spark.stop()

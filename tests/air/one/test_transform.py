@@ -60,6 +60,8 @@ def test_filter_rows(spark, df_input):
 
     assert_df_equality(df_output_expected, df_output_actual)
 
+    spark.stop()
+
 
 def test_drop_columns(spark, df_input):
     """Drops the expected columns."""
@@ -83,6 +85,8 @@ def test_drop_columns(spark, df_input):
     df_output_actual = drop_columns(df=df_input)
 
     assert_df_equality(df_output_expected, df_output_actual)
+
+    spark.stop()
 
 
 def test_clean_column_values(spark, df_input):
@@ -109,6 +113,8 @@ def test_clean_column_values(spark, df_input):
     df_output_actual = clean_column_values(df=df_input)
 
     assert_df_equality(df_output_expected, df_output_actual)
+
+    spark.stop()
 
 
 def test_unpivot(spark, df_input):
@@ -147,6 +153,8 @@ def test_unpivot(spark, df_input):
 
     assert_df_equality(df_output_expected, df_output_actual)
 
+    spark.stop()
+
 
 def test_transform_air_one(spark, df_input):
     """Cleans the column values as expected."""
@@ -170,3 +178,5 @@ def test_transform_air_one(spark, df_input):
     df_output_actual = transform_air_one(df=df_input)
 
     assert_df_equality(df_output_expected, df_output_actual)
+
+    spark.stop()
