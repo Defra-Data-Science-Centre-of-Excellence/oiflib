@@ -7,4 +7,4 @@ import pytest
 def spark():
     from pyspark.sql import SparkSession
 
-    return SparkSession.builder.enableHiveSupport().getOrCreate()
+    return SparkSession.builder.master("local").appName("oiflib").getOrCreate()
