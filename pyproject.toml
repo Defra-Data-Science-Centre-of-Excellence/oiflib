@@ -10,7 +10,7 @@ authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pyspark = "^3.0.1"
+pandas = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
