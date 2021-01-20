@@ -139,3 +139,7 @@ cython_debug/
 
 # VS Code stuff
 .vscode/
+
+# Azure stuff
+local-sp.json
+setenv.sh
