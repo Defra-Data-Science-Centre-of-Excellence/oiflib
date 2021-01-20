@@ -1,82 +1,83 @@
-"""Functions for transforming the Air One input data into a tidy format."""
+"""Functions for transforming the Air One input data into a tidy format using pandas."""
 
-from pyspark.sql import DataFrame
-from pyspark.sql import functions as fn
+import pandas as pd
 
-from oiflib.core import melt
+df_raw = pd.read_excel(
+    io="http://uk-air.defra.gov.uk/reports/cat09/2010220959_DA_API_1990-2018_V1.0.xlsx",
+    sheet_name="England API",
+    usecols="B:AA",
+    skiprows=13,
+)
 
 
-def filter_rows(df: DataFrame) -> DataFrame:
+def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
     """Returns the total rows for the five pollutants.
 
     Args:
-        df (DataFrame): The raw air one input DataFrame.
+        df (pd.DataFrame): The raw air one input DataFrame.
 
     Returns:
-        DataFrame: A DataFrame including only the total rows for the five pollutants.
+        pd.DataFrame: A DataFrame including only the total rows for the five pollutants.
     """
-    return df.filter(
-        df.ShortPollName.isin(
-            "NH3 Total",
-            "NOx Total",
-            "SO2 Total",
-            "VOC Total",
-            "PM2.5 Total",
+    return df.query(
+        expr='ShortPollName == ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total"]',
+    )
+
+
+def drop_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Removes the unused "NFRCode" and "SourceName" columns.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame. It should be the output of filter_rows()
+            but doesn't have to be.
+
+    Returns:
+        pd.DataFrame: A DataFrame the unused columns removed.
+    """
+    return df.drop(
+        columns=["NFRCode", "SourceName"],
+    )
+
+
+def clean_column_values(df: pd.DataFrame) -> pd.DataFrame:
+    """Removes " Total" from the "ShortPollName" column and changes "VOC" to "NMVOC".
+
+    Args:
+        df (pd.DataFrame): The input DataFrame. It should be the output of drop_columns()
+            but doesn't have to be.
+
+    Returns:
+        pd.DataFrame: A DataFrame with a cleaned "ShortPollName column.
+    """
+    return df.assign(
+        ShortPollName=(
+            df.ShortPollName.str.replace(pat=" Total", repl="").str.replace(
+                pat="VOC",
+                repl="NMVOC",
+            )
         )
     )
 
 
-def drop_columns(df: DataFrame) -> DataFrame:
-    """Removes the unused "NFRCode" and "SourceName" columns.
-
-    Args:
-        df (DataFrame): The input DataFrame. It should be the output of filter_rows()
-            but doesn't have to be.
-
-    Returns:
-        DataFrame: A DataFrame the unused columns removed.
-    """
-    return df.drop("NFRCode", "SourceName")
-
-
-def clean_column_values(df: DataFrame) -> DataFrame:
-    """Removes " Total" from the "ShortPollName" column and changes "VOC" to "NMVOC".
-
-    Args:
-        df (DataFrame): The input DataFrame. It should be the output of drop_columns()
-            but doesn't have to be.
-
-    Returns:
-        DataFrame: A DataFrame with a cleaned "ShortPollName column.
-    """
-    df_cleaned: DataFrame = df.withColumn(
-        "ShortPollName", fn.regexp_replace(df.ShortPollName, " Total", "")
-    )
-    return df_cleaned.withColumn(
-        "ShortPollName", fn.regexp_replace(df_cleaned.ShortPollName, "VOC", "NMVOC")
-    )
-
-
-def unpivot(df: DataFrame) -> DataFrame:
+def unpivot(df: pd.DataFrame) -> pd.DataFrame:
     """Unpivots the Year column names into a "Year" column.
 
     Args:
-        df (DataFrame): The input DataFrame. It's intended to be the output of
+        df (pd.DataFrame): The input DataFrame. It's intended to be the output of
             clean_column_values() but doesn't have to be.
 
     Returns:
-        DataFrame: A long-format DataFrame with "ShortPollName", "Year", and
+        pd.DataFrame: A long-format DataFrame with "ShortPollName", "Year", and
             "Emissions" columns.
     """
-    return melt(
-        df=df,
-        id_vars="ShortPollName",
-        var_name="Year",
-        value_name="Emissions",
+    return df.melt(
+        id_vars='ShortPollName', 
+        var_name='Year', 
+        value_name='Emissions',
     )
 
 
-def transform_air_one(df: DataFrame) -> DataFrame:
+def transform_air_one(df: pd.DataFrame) -> pd.DataFrame:
     """Processes the air one input.
 
     This function applies the filter_rows(), drop_columns(),
@@ -84,15 +85,15 @@ def transform_air_one(df: DataFrame) -> DataFrame:
     input data.
 
     Args:
-        df (DataFrame): The raw air one input DataFrame.
+        df (pd.DataFrame): The raw air one input DataFrame.
 
     Returns:
-        DataFrame: A long-format DataFrame with "ShortPollName", "Year", and
+        pd.DataFrame: A long-format DataFrame with "ShortPollName", "Year", and
             "Emissions" columns.
     """
     return (
-        df.transform(filter_rows)
-        .transform(drop_columns)
-        .transform(clean_column_values)
-        .transform(unpivot)
+        df.pipe(filter_rows)
+        .pipe(drop_columns)
+        .pipe(clean_column_values)
+        .pipe(unpivot)
     )
