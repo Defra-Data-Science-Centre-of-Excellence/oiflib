@@ -71,9 +71,9 @@ def unpivot(df: pd.DataFrame) -> pd.DataFrame:
             "Emissions" columns.
     """
     return df.melt(
-        id_vars='ShortPollName', 
-        var_name='Year', 
-        value_name='Emissions',
+        id_vars="ShortPollName",
+        var_name="Year",
+        value_name="Emissions",
     )
 
 
@@ -92,8 +92,5 @@ def transform_air_one(df: pd.DataFrame) -> pd.DataFrame:
             "Emissions" columns.
     """
     return (
-        df.pipe(filter_rows)
-        .pipe(drop_columns)
-        .pipe(clean_column_values)
-        .pipe(unpivot)
+        df.pipe(filter_rows).pipe(drop_columns).pipe(clean_column_values).pipe(unpivot)
     )
