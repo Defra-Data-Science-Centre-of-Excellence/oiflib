@@ -1,23 +1,45 @@
+"""TODO module docstring."""
+
+import pandas as pd
 
 
-df_a2_raw.NCFormat = df_a2_raw.NCFormat.ffill()
+def forward_fill_column(df: pd.DataFrame) -> pd.DataFrame:
+    """TODO function docstring.
 
-df_a2_raw['category'] = None
+    Args:
+        df (pd.DataFrame): [description]
 
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Land use') & df_a2_raw.IPCC.str.contains('4[A|G]'), 'category'] = 'Forestry sink'
-df_a2_raw.loc[df_a2_raw.NCFormat == 'Agriculture', 'category'] = 'Agriculture'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Business') & df_a2_raw.IPCC.str.contains('2[E-F]|2G[1-2]'), 'category'] = 'Fluorinated gases'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Industrial') & df_a2_raw.IPCC.str.contains('2B9|2C[3-4]'), 'category'] = 'Fluorinated gases'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Residential') & df_a2_raw.IPCC.str.contains('2F4'), 'category'] = 'Fluorinated gases'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Land use') & df_a2_raw.IPCC.str.contains('4[B-E|_]'), 'category'] = 'Land use & land use change'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Business') & df_a2_raw.IPCC.str.contains('5C'), 'category'] = 'Waste'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Residential') & df_a2_raw.IPCC.str.contains('5[B-C]'), 'category'] = 'Waste'
-df_a2_raw.loc[df_a2_raw.NCFormat.str.contains('Waste') & df_a2_raw.IPCC.str.contains('5[A-D]'), 'category'] = 'Waste'
+    Returns:
+        pd.DataFrame: [description]
+    """
+    df.NCFormat: pd.Series = df.NCFormat.ffill()
 
-df_a2_melted = (
-    df_a2_raw
-    .groupby('category')
-    .sum()
-    .reset_index()
-    .melt(id_vars='category', var_name='Year', value_name='GHG - kt CO2 Equiv')
+    return df
+
+
+def unpivot(df: pd.DataFrame) -> pd.DataFrame:
+    """TODO function docstring.
+
+    Args:
+        df (pd.DataFrame): [description]
+
+    Returns:
+        pd.DataFrame: [description]
+    """
+    return df.melt(
+        id_vars=["NCFormat", "IPCC"],
+        var_name="Year",
+        value_name="GWP_CO2_AR4",
     )
+
+
+def transform_air_two(df: pd.DataFrame) -> pd.DataFrame:
+    """TODO function docstring.
+
+    Args:
+        df (pd.DataFrame): [description]
+
+    Returns:
+        pd.DataFrame: [description]
+    """
+    return df.pipe(forward_fill_column).pipe(unpivot)
