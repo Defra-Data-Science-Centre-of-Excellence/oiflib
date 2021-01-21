@@ -6,11 +6,11 @@ import pytest
 
 # Local libraries
 from oiflib.air.one.transform import (
-    filter_rows,
-    drop_columns,
     clean_column_values,
-    unpivot,
+    drop_columns,
+    filter_rows,
     transform_air_one,
+    unpivot,
 )
 
 
@@ -24,7 +24,14 @@ def df_input() -> pd.DataFrame:
     """
     return pd.DataFrame(
         data={
-            "ShortPollName": ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total", "Another Total"],
+            "ShortPollName": [
+                "NH3 Total",
+                "NOx Total",
+                "SO2 Total",
+                "VOC Total",
+                "PM2.5 Total",
+                "Another Total",
+            ],
             "NFRCode": [0] * 6,
             "SourceName": [0] * 6,
             "Value": [1, 2, 3, 4, 5, 6],
@@ -37,7 +44,13 @@ def test_filter_rows(df_input: pd.DataFrame):
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
-            "ShortPollName": ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total"],
+            "ShortPollName": [
+                "NH3 Total",
+                "NOx Total",
+                "SO2 Total",
+                "VOC Total",
+                "PM2.5 Total",
+            ],
             "NFRCode": [0] * 5,
             "SourceName": [0] * 5,
             "Value": [1, 2, 3, 4, 5],
@@ -55,7 +68,14 @@ def test_drop_columns(df_input: pd.DataFrame):
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
-            "ShortPollName": ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total", "Another Total"],
+            "ShortPollName": [
+                "NH3 Total",
+                "NOx Total",
+                "SO2 Total",
+                "VOC Total",
+                "PM2.5 Total",
+                "Another Total",
+            ],
             "Value": [1, 2, 3, 4, 5, 6],
         },
     )
@@ -89,7 +109,15 @@ def test_unpivot(df_input: pd.DataFrame):
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
-            "ShortPollName": ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total", "Another Total"] * 3,
+            "ShortPollName": [
+                "NH3 Total",
+                "NOx Total",
+                "SO2 Total",
+                "VOC Total",
+                "PM2.5 Total",
+                "Another Total",
+            ]
+            * 3,
             "Year": ["NFRCode"] * 6 + ["SourceName"] * 6 + ["Value"] * 6,
             "Emissions": [0] * 6 + [0] * 6 + [1, 2, 3, 4, 5, 6],
         },
