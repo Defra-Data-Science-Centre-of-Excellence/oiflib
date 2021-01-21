@@ -68,7 +68,6 @@
 # df_raw.rdd.map(lambda x: pyspark_ffill(x, "NCFormat")).toDF().show(10)
 
 
-
 # for x in df_raw.select("NCFormat").collect():
 #     value: Row = x if x["NCFormat"] != "NaN" else value
 #     value
