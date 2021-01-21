@@ -2,13 +2,6 @@
 
 import pandas as pd
 
-df_raw = pd.read_excel(
-    io="http://uk-air.defra.gov.uk/reports/cat09/2010220959_DA_API_1990-2018_V1.0.xlsx",
-    sheet_name="England API",
-    usecols="B:AA",
-    skiprows=13,
-)
-
 
 def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
     """Returns the total rows for the five pollutants.
