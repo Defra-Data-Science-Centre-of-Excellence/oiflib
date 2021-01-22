@@ -12,6 +12,8 @@ authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 python = "^3.9"
 pandas = "^1.2.0"
 openpyxl = "^3.0.6"
+pandera = "^0.6.1"
+jupyter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
