@@ -49,6 +49,11 @@ However, it doesn't currently use:
 - [release-drafter](https://github.com/release-drafter/release-drafter) to help draft release notes
 - [Semantic Versioning](https://semver.org/) to indicate breaking changes, minor changes, or bug fixes
 
+It also uses the following additional tools:
+
+- [interrogate](https://interrogate.readthedocs.io/en/latest/) to check for missing docstrings
+- [pandera](https://pandera.readthedocs.io/en/stable/) for data validation
+
 ---
 
 ## Structure
