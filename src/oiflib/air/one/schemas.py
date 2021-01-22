@@ -1,5 +1,3 @@
-"""TODO module docstring."""
-
 from pandera import Check, Column, DataFrameSchema, Float, Int, String
 
 schema_extracted: DataFrameSchema = DataFrameSchema(
