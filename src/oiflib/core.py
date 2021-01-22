@@ -1,4 +1,4 @@
-"""General functions for oiflib."""
+"""Core functions for oiflib."""
 
 import pandas as pd
 
