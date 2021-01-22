@@ -1,4 +1,4 @@
-"""Tests for oiflib.air.one.transform module"""
+"""Tests for oiflib.air.one.transform module."""
 
 # Third-party Libraries
 import pandas as pd
@@ -20,7 +20,8 @@ def df_input() -> pd.DataFrame:
     """Creates a minimal DataFrame for testing oiflib.air.one.transform functions.
 
     Returns:
-        pd.DataFrame: A minimal DataFrame for testing oiflib.air.one.transform functions.
+        pd.DataFrame: A minimal DataFrame for testing oiflib.air.one.transform
+        functions.
     """
     return pd.DataFrame(
         data={
@@ -87,7 +88,7 @@ def test_drop_columns(df_input: pd.DataFrame):
 
 
 def test_clean_column_values(df_input: pd.DataFrame):
-    """Total is removed from pollutant names and NM is prefixed to VOC"""
+    """Total is removed from pollutant names and NM is prefixed to VOC."""
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={

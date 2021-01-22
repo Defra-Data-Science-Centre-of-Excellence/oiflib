@@ -1,9 +1,9 @@
-"""Tests for oiflib.air.one.enrich module"""
+"""Tests for oiflib.air.one.enrich module."""
 
 # Third-party Libraries
+import pytest
 from pandas import DataFrame
 from pandas.testing import assert_frame_equal
-import pytest
 
 # Local libraries
 from oiflib.air.one.enrich import enrich_air_one, index_emissions_to_base_year
@@ -32,7 +32,10 @@ def test_expected_air_one_enrich() -> DataFrame:
     )
 
 
-def test_index_to_base_year(test_input_air_one_enrich: DataFrame, test_expected_air_one_enrich: DataFrame):
+def test_index_to_base_year(
+    test_input_air_one_enrich: DataFrame,
+    test_expected_air_one_enrich: DataFrame,
+):
     assert_frame_equal(
         left=test_input_air_one_enrich.pipe(index_emissions_to_base_year),
         right=test_expected_air_one_enrich,
@@ -42,7 +45,10 @@ def test_index_to_base_year(test_input_air_one_enrich: DataFrame, test_expected_
     ) is False
 
 
-def test_enrich_air_one(test_input_air_one_enrich: DataFrame, test_expected_air_one_enrich: DataFrame):
+def test_enrich_air_one(
+    test_input_air_one_enrich: DataFrame,
+    test_expected_air_one_enrich: DataFrame,
+):
     assert_frame_equal(
         left=enrich_air_one(test_input_air_one_enrich),
         right=test_expected_air_one_enrich,
