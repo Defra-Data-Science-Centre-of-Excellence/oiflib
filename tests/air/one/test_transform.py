@@ -40,7 +40,7 @@ def df_input() -> pd.DataFrame:
 
 
 def test_filter_rows(df_input: pd.DataFrame):
-    """Filters the rows as expected."""
+    """Only the total rows of the five pollutants are returned."""
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
@@ -64,7 +64,7 @@ def test_filter_rows(df_input: pd.DataFrame):
 
 
 def test_drop_columns(df_input: pd.DataFrame):
-    """Drops the expected columns."""
+    """NCRCode and SourceName are dropped."""
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
@@ -87,7 +87,7 @@ def test_drop_columns(df_input: pd.DataFrame):
 
 
 def test_clean_column_values(df_input: pd.DataFrame):
-    """Cleans the column values as expected."""
+    """Total is removed from pollutant names and NM is prefixed to VOC"""
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
@@ -130,7 +130,7 @@ def test_unpivot(df_input: pd.DataFrame):
 
 
 def test_transform_air_one(df_input: pd.DataFrame):
-    """Cleans the column values as expected."""
+    """Air one input data is filtered, cleaned, and unpivoted."""
     # Create expected output
     df_output_expected: pd.DataFrame = pd.DataFrame(
         data={
