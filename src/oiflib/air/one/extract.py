@@ -2,6 +2,8 @@
 
 import pandas as pd
 
+from oiflib.core import column_name_to_string
+
 
 def extract_air_one() -> pd.DataFrame:
     """TODO function docstring.
@@ -14,4 +16,5 @@ def extract_air_one() -> pd.DataFrame:
         sheet_name="England API",
         usecols="B:AA",
         skiprows=13,
-    )
+        nrows=1602,
+    ).pipe(column_name_to_string)
