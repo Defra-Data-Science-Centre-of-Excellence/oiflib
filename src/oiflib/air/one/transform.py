@@ -13,7 +13,12 @@ def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: A DataFrame including only the total rows for the five pollutants.
     """
     return df.query(
-        expr='ShortPollName == ["NH3 Total", "NOx Total", "SO2 Total", "VOC Total", "PM2.5 Total"]',
+        expr="ShortPollName == ["
+        '"NH3 Total",'
+        '"NOx Total",'
+        '"SO2 Total",'
+        '"VOC Total",'
+        '"PM2.5 Total"]'
     )
 
 
@@ -36,8 +41,8 @@ def clean_column_values(df: pd.DataFrame) -> pd.DataFrame:
     """Removes " Total" from the "ShortPollName" column and changes "VOC" to "NMVOC".
 
     Args:
-        df (pd.DataFrame): The input DataFrame. It should be the output of drop_columns()
-            but doesn't have to be.
+        df (pd.DataFrame): The input DataFrame. It should be the output of
+            drop_columns() but doesn't have to be.
 
     Returns:
         pd.DataFrame: A DataFrame with a cleaned "ShortPollName column.
@@ -65,8 +70,8 @@ def unpivot(df: pd.DataFrame) -> pd.DataFrame:
     """
     return df.melt(
         id_vars="ShortPollName",
-        var_name="Year",
-        value_name="Emissions",
+        var_name="EmissionYear",
+        value_name="Emission",
     )
 
 
@@ -81,8 +86,8 @@ def transform_air_one(df: pd.DataFrame) -> pd.DataFrame:
         df (pd.DataFrame): The raw air one input DataFrame.
 
     Returns:
-        pd.DataFrame: A long-format DataFrame with "ShortPollName", "Year", and
-            "Emissions" columns.
+        pd.DataFrame: A long-format DataFrame with "ShortPollName", "EmissionYear", and
+            "Emission" columns.
     """
     return (
         df.pipe(filter_rows).pipe(drop_columns).pipe(clean_column_values).pipe(unpivot)
