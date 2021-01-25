@@ -12,7 +12,7 @@ def column_name_to_string(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame with column names converted to string.
     """
-    df.columns: pd.Index = df.columns.astype(str)
+    df.columns = df.columns.astype(str)
     return df
 
 
