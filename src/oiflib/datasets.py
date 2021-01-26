@@ -1,6 +1,8 @@
 """A dictionary of OIF datasets."""
 
-oif_datasets: dict = {
+from typing import Dict, Union
+
+oif_datasets: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = {
     "air": {
         "one": {
             "io": "http://uk-air.defra.gov.uk/reports/cat09/2010220959_DA_API_1990-2018_V1.0.xlsx",  # noqa
@@ -30,7 +32,7 @@ oif_datasets: dict = {
             "sheet_name": "Annex1",
             "skiprows": 2,
         },
-        "six": "",
-        "seven": "",
+        "six": {"": ""},
+        "seven": {"": ""},
     },
 }
