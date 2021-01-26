@@ -1,8 +1,9 @@
 """Tests for oiflib.air.one.transform module."""
 
 # Third-party Libraries
-import pandas as pd
-import pytest
+from pandas import DataFrame
+from pandas.testing import assert_frame_equal
+from pytest import fixture
 
 # Local libraries
 from oiflib.air.one.transform import (
@@ -15,15 +16,15 @@ from oiflib.air.one.transform import (
 
 
 # Define left DataFrame as fixture for use in multiple tests
-@pytest.fixture
-def df_input() -> pd.DataFrame:
+@fixture
+def df_input() -> DataFrame:
     """Creates a minimal DataFrame for testing oiflib.air.one.transform functions.
 
     Returns:
-        pd.DataFrame: A minimal DataFrame for testing oiflib.air.one.transform
+        DataFrame: A minimal DataFrame for testing oiflib.air.one.transform
         functions.
     """
-    return pd.DataFrame(
+    return DataFrame(
         data={
             "ShortPollName": [
                 "NH3 Total",
@@ -40,10 +41,10 @@ def df_input() -> pd.DataFrame:
     )
 
 
-def test_filter_rows(df_input: pd.DataFrame):
+def test_filter_rows(df_input: DataFrame):
     """Only the total rows of the five pollutants are returned."""
     # Create expected output
-    df_output_expected: pd.DataFrame = pd.DataFrame(
+    df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": [
                 "NH3 Total",
@@ -59,15 +60,15 @@ def test_filter_rows(df_input: pd.DataFrame):
     )
 
     # Apply function to input
-    df_output_actual: pd.DataFrame = filter_rows(df=df_input)
+    df_output_actual: DataFrame = filter_rows(df=df_input)
 
-    pd.testing.assert_frame_equal(df_output_expected, df_output_actual)
+    assert_frame_equal(df_output_expected, df_output_actual)
 
 
-def test_drop_columns(df_input: pd.DataFrame):
-    """NCRCode and SourceName are dropped."""
+def test_drop_columns(df_input: DataFrame):
+    """NCRCode and SourceName are dropped."""  # noqa - proper capitalisation is not applicable
     # Create expected output
-    df_output_expected: pd.DataFrame = pd.DataFrame(
+    df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": [
                 "NH3 Total",
@@ -82,15 +83,15 @@ def test_drop_columns(df_input: pd.DataFrame):
     )
 
     # Apply function to input
-    df_output_actual: pd.DataFrame = drop_columns(df=df_input)
+    df_output_actual: DataFrame = drop_columns(df=df_input)
 
-    pd.testing.assert_frame_equal(df_output_expected, df_output_actual)
+    assert_frame_equal(df_output_expected, df_output_actual)
 
 
-def test_clean_column_values(df_input: pd.DataFrame):
+def test_clean_column_values(df_input: DataFrame):
     """Total is removed from pollutant names and NM is prefixed to VOC."""
     # Create expected output
-    df_output_expected: pd.DataFrame = pd.DataFrame(
+    df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5", "Another"],
             "NFRCode": [0] * 6,
@@ -100,15 +101,15 @@ def test_clean_column_values(df_input: pd.DataFrame):
     )
 
     # Apply function to input
-    df_output_actual: pd.DataFrame = clean_column_values(df=df_input)
+    df_output_actual: DataFrame = clean_column_values(df=df_input)
 
-    pd.testing.assert_frame_equal(df_output_expected, df_output_actual)
+    assert_frame_equal(df_output_expected, df_output_actual)
 
 
-def test_unpivot(df_input: pd.DataFrame):
+def test_unpivot(df_input: DataFrame):
     """Unpivots the input as expected."""
     # Create expected output
-    df_output_expected: pd.DataFrame = pd.DataFrame(
+    df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": [
                 "NH3 Total",
@@ -125,15 +126,15 @@ def test_unpivot(df_input: pd.DataFrame):
     )
 
     # Apply function to input
-    df_output_actual: pd.DataFrame = unpivot(df=df_input)
+    df_output_actual: DataFrame = unpivot(df=df_input)
 
-    pd.testing.assert_frame_equal(df_output_expected, df_output_actual)
+    assert_frame_equal(df_output_expected, df_output_actual)
 
 
-def test_transform_air_one(df_input: pd.DataFrame):
+def test_transform_air_one(df_input: DataFrame):
     """Air one input data is filtered, cleaned, and unpivoted."""
     # Create expected output
-    df_output_expected: pd.DataFrame = pd.DataFrame(
+    df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5"],
             "Year": ["Value"] * 5,
@@ -142,6 +143,6 @@ def test_transform_air_one(df_input: pd.DataFrame):
     )
 
     # Apply function to input
-    df_output_actual: pd.DataFrame = transform_air_one(df=df_input)
+    df_output_actual: DataFrame = transform_air_one(df=df_input)
 
-    pd.testing.assert_frame_equal(df_output_expected, df_output_actual)
+    assert_frame_equal(df_output_expected, df_output_actual)
