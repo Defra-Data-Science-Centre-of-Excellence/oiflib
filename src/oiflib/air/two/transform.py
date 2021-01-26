@@ -1,5 +1,7 @@
 """Transformation functions for air_two."""
 
+from typing import Union
+
 from pandas import DataFrame
 
 
@@ -20,17 +22,25 @@ def drop_BaseYear_column(df: DataFrame) -> DataFrame:
     )
 
 
-def forward_fill_NCFormat_column(df: DataFrame) -> DataFrame:
+def forward_fill_NCFormat_column(df: DataFrame) -> Union[DataFrame, None]:
     """Fills the blank cells in NCFormat column with the value from cell above.
 
     Args:
         df (DataFrame): A DataFrame with a NCFormat column that contains blanks.
 
     Returns:
-        DataFrame: A DataFrame with a NCFormat column that doesn't contains blanks.
+        Union[DataFrame, None]: A DataFrame with a NCFormat column that doesn't
+        contains blanks. Raises an error if the first value in "NCFormat" is None.
     """
-    df.NCFormat = df.NCFormat.ffill()
-
+    try:
+        if not df.NCFormat[0]:
+            raise ValueError(
+                "The first value in column 'NCFormat' is NaN. Cannot fill forward."
+            )
+    except ValueError as error:
+        print(error.args)
+    else:
+        df.NCFormat = df.NCFormat.ffill()
     return df
 
 
