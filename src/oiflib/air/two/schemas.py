@@ -217,8 +217,14 @@ schema_extracted: DataFrameSchema = DataFrameSchema(
         ),
         "BaseYear": Column(
             pandas_dtype=Float,
+            checks=Check.in_range(float(-10000), float(650000)),
         ),
-        r"\d{4}": Column(pandas_dtype=Float, nullable=True, regex=True),
+        "199[0589]|20[01][0-9]": Column(
+            pandas_dtype=Float,
+            checks=Check.in_range(float(-10000), float(650000)),
+            nullable=True,
+            regex=True,
+        ),
     },
     coerce=True,
     strict=True,
