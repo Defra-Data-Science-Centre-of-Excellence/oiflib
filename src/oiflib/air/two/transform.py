@@ -67,13 +67,19 @@ def unpivot(df: DataFrame) -> DataFrame:
 
 
 def transform_air_two(df: DataFrame) -> DataFrame:
-    """TODO function docstring.
+    """Drop BaseYear, fill NCFormat from above, unpivot <year> names and values.
+
+    This function:
+    - Drops the "BaseYear" column, as this is a duplicate of the "1990" column.
+    - Replace NaNs in the NCFormat column with the preceding non-NaN value.
+    - Unpivots the <year> column names into an "EmissionsYear" column and their values
+        into a "CO2 Equiv" column.
 
     Args:
-        df (DataFrame): [description]
+        df (DataFrame): An extarcted and validated Air Two DataFrame.
 
     Returns:
-        DataFrame: [description]
+        DataFrame: A transformed Air Two DataFrame.
     """
     return (
         df.pipe(drop_BaseYear_column).pipe(forward_fill_NCFormat_column).pipe(unpivot)
