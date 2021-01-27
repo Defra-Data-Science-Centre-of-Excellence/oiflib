@@ -2,19 +2,21 @@
 
 from functools import reduce
 
-import pandas as pd
+from pandas import DataFrame, merge, read_csv
+
+from oiflib.core import column_name_to_string
 
 
-def extract_air_three() -> pd.DataFrame:
+def extract_air_three() -> DataFrame:
     """TODO function docstring.
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     return reduce(
-        lambda x, y: pd.merge(left=x, right=y, on=["Area code", "Country"]),
+        lambda x, y: merge(left=x, right=y, on=["Area code", "Country"]),
         [
-            pd.read_csv(
+            read_csv(
                 filepath_or_buffer=url,
                 skiprows=2,
             )
@@ -23,4 +25,4 @@ def extract_air_three() -> pd.DataFrame:
                 for year in range(2011, 2020)
             ]
         ],
-    )
+    ).pipe(column_name_to_string)
