@@ -1,16 +1,16 @@
 """Functions to transform Air Three DataFrames."""
 
-import pandas as pd
+from pandas import DataFrame
 
 
-def unpivot(df: pd.DataFrame) -> pd.DataFrame:
+def unpivot(df: DataFrame) -> DataFrame:
     """TODO function docstring.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): [description]
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     return df.melt(
         id_vars=["Area code", "Country"],
@@ -18,14 +18,14 @@ def unpivot(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def split_variable_column(df: pd.DataFrame) -> pd.DataFrame:
+def split_variable_column(df: DataFrame) -> DataFrame:
     """TODO function docstring.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): [description]
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     df["year"] = df.variable.str.extract(r"(\d{4})")
 
@@ -34,38 +34,38 @@ def split_variable_column(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def select_columns(df: pd.DataFrame) -> pd.DataFrame:
+def select_columns(df: DataFrame) -> DataFrame:
     """TODO function docstring.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): [description]
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     return df[["Area code", "Country", "year", "measure", "ugm-3"]]
 
 
-def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
+def filter_rows(df: DataFrame) -> DataFrame:
     """TODO function docstring.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): [description]
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     return df.query('Country == "England" & measure == "total"')
 
 
-def transform_air_three(df: pd.DataFrame) -> pd.DataFrame:
+def transform_air_three(df: DataFrame) -> DataFrame:
     """TODO function docstring.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): [description]
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: [description]
     """
     return (
         df.pipe(unpivot)
