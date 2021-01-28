@@ -14,6 +14,7 @@ import os
 import sys
 from typing import Any, List
 
+import nbsphinx  # noqa: F401 - It is being used
 import sphinx_rtd_theme  # noqa: F401 - It is being used
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
@@ -38,6 +39,7 @@ extensions: List[str] = [
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
     "sphinx_rtd_theme",
+    "nbsphinx",
 ]
 
 # Napoleon settings
@@ -75,3 +77,5 @@ html_theme: str = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 # html_static_path: List[str] = ["_static"]
+
+source_suffix = [".rst", ".ipynb"]
