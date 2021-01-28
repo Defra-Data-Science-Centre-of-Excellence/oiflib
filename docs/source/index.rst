@@ -10,6 +10,7 @@ Welcome to oiflib's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
    oiflib
    oiflib.air.one
    oiflib.air.two
