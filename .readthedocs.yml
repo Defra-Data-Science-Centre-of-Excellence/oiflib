@@ -16,5 +16,5 @@ python:
   version: 3.8
   install:
     - requirements: docs/source/requirements.txt
-    - method: setuptools
+    - method: pip
       path: .
