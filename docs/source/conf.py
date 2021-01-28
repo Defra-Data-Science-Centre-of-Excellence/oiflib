@@ -14,6 +14,8 @@ import os
 import sys
 from typing import Any, List
 
+import sphinx_rtd_theme  # noqa: F401 - It is being used
+
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 
 # -- Project information -----------------------------------------------------
@@ -35,6 +37,7 @@ extensions: List[str] = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
+    "sphinx_rtd_theme",
 ]
 
 # Napoleon settings
@@ -66,7 +69,7 @@ exclude_patterns: List[str] = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme: str = "alabaster"
+html_theme: str = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
