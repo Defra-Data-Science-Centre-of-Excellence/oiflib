@@ -120,8 +120,8 @@ def test_unpivot(df_input: DataFrame):
                 "Another Total",
             ]
             * 3,
-            "Year": ["NFRCode"] * 6 + ["SourceName"] * 6 + ["Value"] * 6,
-            "Emissions": [0] * 6 + [0] * 6 + [1, 2, 3, 4, 5, 6],
+            "EmissionYear": ["NFRCode"] * 6 + ["SourceName"] * 6 + ["Value"] * 6,
+            "Emission": [0] * 6 + [0] * 6 + [1, 2, 3, 4, 5, 6],
         },
     )
 
@@ -137,8 +137,8 @@ def test_transform_air_one(df_input: DataFrame):
     df_output_expected: DataFrame = DataFrame(
         data={
             "ShortPollName": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5"],
-            "Year": ["Value"] * 5,
-            "Emissions": [1, 2, 3, 4, 5],
+            "EmissionYear": ["Value"] * 5,
+            "Emission": [1, 2, 3, 4, 5],
         },
     )
 

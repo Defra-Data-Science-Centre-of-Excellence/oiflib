@@ -27,9 +27,9 @@ def split_variable_column(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: [description]
     """
-    df["year"]: pd.Series = df.variable.str.extract("(\d{4})")
+    df["year"] = df.variable.str.extract(r"(\d{4})")
 
-    df["measure"]: pd.Series = df.variable.str.extract("\((\S*)\)")
+    df["measure"] = df.variable.str.extract(r"\((\S*)\)")
 
     return df
 

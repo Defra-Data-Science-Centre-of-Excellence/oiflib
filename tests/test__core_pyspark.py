@@ -1,4 +1,4 @@
-# """TODO docstring."""
+"""Dummy module docstring."""
 
 # # Third-party libraries
 # from chispa.dataframe_comparer import assert_df_equality

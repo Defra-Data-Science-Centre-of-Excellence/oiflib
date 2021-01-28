@@ -15,10 +15,10 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: Set up Python 3.9
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.8
 
     - name: Set up poetry 1.1.4
       uses: abatilo/actions-poetry@v2.0.0
@@ -41,7 +41,7 @@ jobs:
         poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Check with mypy
       run: |
-        poetry run mypy ./src
+        poetry run mypy --ignore-missing-imports .
 
     - name: Test with pytest
       run: |
