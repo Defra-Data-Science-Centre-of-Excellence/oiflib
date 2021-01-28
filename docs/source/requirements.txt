@@ -1,3 +1,2 @@
-sphinx==3.4.2
-ipykernel==5.4.3
-nbsphinx==0.2.12
+ipykernel
+nbsphinx
