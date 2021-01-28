@@ -14,8 +14,8 @@ import os
 import sys
 from typing import Any, List
 
-import nbsphinx  # noqa: F401 - It is being used
-import sphinx_rtd_theme  # noqa: F401 - It is being used
+# import nbsphinx  # noqa: F401 - It is being used
+# import sphinx_rtd_theme  # noqa: F401 - It is being used
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 
