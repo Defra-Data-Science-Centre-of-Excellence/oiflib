@@ -63,7 +63,7 @@ napoleon_attr_annotations: bool = True
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-# exclude_patterns: List[str] = []
+exclude_patterns: List[str] = ["_build"]
 
 
 # -- Options for HTML output -------------------------------------------------
