@@ -5,7 +5,7 @@ Outcome Indicator Framework (OIF) Python Library
    :maxdepth: 4
    :caption: Contents:
 
-   air
+   air.ipynb
    api
 
 Indices and tables
