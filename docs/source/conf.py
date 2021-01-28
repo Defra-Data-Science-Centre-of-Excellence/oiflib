@@ -78,4 +78,4 @@ html_theme: str = "sphinx_rtd_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 # html_static_path: List[str] = ["_static"]
 
-source_suffix = [".rst", ".ipynb"]
+source_suffix: List[str] = [".rst", ".ipynb"]
