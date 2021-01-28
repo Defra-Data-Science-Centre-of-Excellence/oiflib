@@ -1,10 +1,5 @@
-.. oiflib documentation master file, created by
-   sphinx-quickstart on Thu Jan  7 16:47:15 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to oiflib's documentation!
-==================================
+Outcome Indicator Framework (OIF) Python Library
+================================================
 
 .. toctree::
    :maxdepth: 4
