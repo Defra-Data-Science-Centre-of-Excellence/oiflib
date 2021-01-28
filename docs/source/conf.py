@@ -58,12 +58,12 @@ napoleon_type_aliases: Any = None
 napoleon_attr_annotations: bool = True
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path: List[str] = ["_templates"]
+# templates_path: List[str] = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns: List[str] = []
+# exclude_patterns: List[str] = []
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -78,4 +78,4 @@ html_theme: str = "sphinx_rtd_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 # html_static_path: List[str] = ["_static"]
 
-source_suffix: List[str] = [".rst", ".ipynb"]
+# source_suffix: List[str] = [".rst", ".ipynb"]
