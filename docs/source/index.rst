@@ -2,11 +2,15 @@ Outcome Indicator Framework (OIF) Python Library
 ================================================
 
 .. toctree::
-   :maxdepth: 4
+   :hidden:
    :caption: Contents:
 
    air.ipynb
+   structure
    api
+   development
+
+A Python Library for processing data for the `25 Year Environment Plan Outcome Indicator Framework (OIF) <https://www.gov.uk/government/publications/25-year-environment-plan-progress-reports>`_.
 
 Indices and tables
 ==================
