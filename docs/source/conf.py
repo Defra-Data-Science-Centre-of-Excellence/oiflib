@@ -40,6 +40,7 @@ extensions: List[str] = [
     "sphinx.ext.intersphinx",
     "sphinx_rtd_theme",
     "nbsphinx",
+    "recommonmark",
 ]
 
 # Napoleon settings
