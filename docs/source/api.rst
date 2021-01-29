@@ -1,10 +1,8 @@
-.. api:
-
-OIF Functions
+API Reference
 =============
 
-Project-level
--------------
+General
+-------
 
 Functions used across the project.
 
@@ -38,4 +36,46 @@ Validate
 ^^^^^^^^
 
 .. automodule:: oiflib.air.one.validate
+   :members:
+
+Air Two
+-------
+
+Transform
+^^^^^^^^^
+
+.. automodule:: oiflib.air.two.transform
+   :members:
+
+Enrich
+^^^^^^
+
+.. automodule:: oiflib.air.two.enrich
+   :members:
+
+Validate
+^^^^^^^^
+
+.. automodule:: oiflib.air.two.validate
+   :members:
+
+Air Three
+---------
+
+Transform
+^^^^^^^^^
+
+.. automodule:: oiflib.air.three.transform
+   :members:
+
+Enrich
+^^^^^^
+
+.. automodule:: oiflib.air.three.enrich
+   :members:
+
+Validate
+^^^^^^^^
+
+.. automodule:: oiflib.air.three.validate
    :members:
