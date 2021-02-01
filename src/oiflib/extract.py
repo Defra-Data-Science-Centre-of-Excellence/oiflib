@@ -1,14 +1,24 @@
 """."""
 
+from json import load
 from typing import Dict, Union
 
 from pandas import DataFrame, read_excel
 
 from oiflib.core import column_name_to_string
-from oiflib.datasets import oif_datasets
 
 
-def extract(theme: str, indicator: str) -> DataFrame:
+def _dict_from_json_file(path: str) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
+    with open(file=path, mode="r") as file_json:
+        dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = load(file_json)
+    return dictionary
+
+
+def extract(
+    theme: str,
+    indicator: str,
+    path: str = "/home/edfawcetttaylor/repos/oiflib/data/datasets.json",
+) -> DataFrame:
     """Reads in data for the theme and indicator specified.
 
     This function extracts a DataFrame from an Excel or OpenDocument workbook based on
@@ -20,13 +30,17 @@ def extract(theme: str, indicator: str) -> DataFrame:
     column_name_to_string(). This convertion is necessary for subsequent validation.
 
     Args:
+        path (str): path to JSON file containing OIF datasets dictionary.
         theme (str): Theme name, as a lower case string. E.g. "air".
         indicator (str): Indicator number, as a lower case string. E.g. "one".
 
     Returns:
         DataFrame: The DataFrame for the given theme and indicator.
     """
-    metadata: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = oif_datasets
+    metadata: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = _dict_from_json_file(
+        path,
+    )
+
     if metadata is not None:
         try:
             theme_metadata: Dict[str, Dict[str, Union[str, int]]] = metadata[theme]
