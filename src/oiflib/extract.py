@@ -9,6 +9,14 @@ from oiflib.core import column_name_to_string
 
 
 def _dict_from_json_file(path: str) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
+    """Read OIF dataset dictionary from JSON file.
+
+    Args:
+        path (str): path to JSON file containing OIF datasets dictionary.
+
+    Returns:
+        Dict[str, Dict[str, Dict[str, Union[str, int]]]]: Python dict of OIF datasets.
+    """
     with open(file=path, mode="r") as file_json:
         dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = load(file_json)
     return dictionary
@@ -30,7 +38,8 @@ def extract(
     column_name_to_string(). This convertion is necessary for subsequent validation.
 
     Args:
-        path (str): path to JSON file containing OIF datasets dictionary.
+        path (str): path to JSON file containing OIF datasets dictionary. Defaults to
+            "/home/edfawcetttaylor/repos/oiflib/data/datasets.json".
         theme (str): Theme name, as a lower case string. E.g. "air".
         indicator (str): Indicator number, as a lower case string. E.g. "one".
 
