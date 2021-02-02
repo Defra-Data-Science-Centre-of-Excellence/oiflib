@@ -25,13 +25,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Set up nox
-      uses: excitedleigh/setup-nox@1.0.0
+    - name: Install nox
+      run: pip install nox==2020.12.31
 
-    - name: Set up poetry 1.1.4
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.1.4
+    - name: Install poetry
+      run: pip install poetry==1.1.4
 
     - name: Run nox
       run: nox
