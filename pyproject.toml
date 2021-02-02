@@ -12,7 +12,6 @@ authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 python = "^3.8"
 pandas = "^1.2.0"
 openpyxl = "^3.0.6"
-jupyter = "^1.0.0"
 pandera = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
@@ -36,6 +35,8 @@ hypothesis = "^6.0.3"
 sphinx-rtd-theme = "^0.5.1"
 nbsphinx = "^0.8.1"
 recommonmark = "^0.7.1"
+nox = "^2020.12.31"
+jupyter = "^1.0.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
