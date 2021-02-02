@@ -1,14 +1,73 @@
 """."""
 
+from json import load
 from typing import Dict, Union
 
 from pandas import DataFrame, read_excel
 
-from oiflib.core import column_name_to_string
-from oiflib.datasets import oif_datasets
+
+def _dict_from_json_file(path: str) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
+    """Read OIF dataset dictionary from JSON file.
+
+    Args:
+        path (str): path to JSON file containing OIF datasets dictionary.
+
+    Returns:
+        Dict[str, Dict[str, Dict[str, Union[str, int]]]]: Python dict of OIF datasets.
+    """
+    with open(file=path, mode="r") as file_json:
+        dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = load(file_json)
+    return dictionary
 
 
-def extract(theme: str, indicator: str) -> DataFrame:
+def _kwargs_from_dict(
+    dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]],
+    theme: str,
+    indicator: str,
+) -> Dict[str, Union[str, int]]:
+    try:
+        dictionary_theme: Dict[str, Dict[str, Union[str, int]]] = dictionary[theme]
+    except KeyError:
+        print(f"Theme: { theme } does not exist.")
+        raise
+    else:
+        try:
+            dictionary_indicator: Dict[str, Union[str, int]] = dictionary_theme[
+                indicator
+            ]
+        except KeyError:
+            print(
+                f"Indicator: { indicator } does not exist in Theme: { theme }.",
+            )
+            raise
+        else:
+            return dictionary_indicator
+
+
+def _df_from_kwargs(
+    dictionary_indicator: Dict[str, Union[str, int]],
+) -> DataFrame:
+    return read_excel(**dictionary_indicator)
+
+
+def _column_name_to_string(df: DataFrame) -> DataFrame:
+    """Converts the column names of a DataFrame to string.
+
+    Args:
+        df (DataFrame): A DataFrame with column names to convert.
+
+    Returns:
+        DataFrame: A DataFrame with column names converted to string.
+    """
+    df.columns = df.columns.astype(str)
+    return df
+
+
+def extract(
+    theme: str,
+    indicator: str,
+    path: str = "/home/edfawcetttaylor/repos/oiflib/data/datasets.json",
+) -> DataFrame:
     """Reads in data for the theme and indicator specified.
 
     This function extracts a DataFrame from an Excel or OpenDocument workbook based on
@@ -20,30 +79,24 @@ def extract(theme: str, indicator: str) -> DataFrame:
     column_name_to_string(). This convertion is necessary for subsequent validation.
 
     Args:
+        path (str): path to JSON file containing OIF datasets dictionary. Defaults to
+            "/home/edfawcetttaylor/repos/oiflib/data/datasets.json".
         theme (str): Theme name, as a lower case string. E.g. "air".
         indicator (str): Indicator number, as a lower case string. E.g. "one".
 
     Returns:
         DataFrame: The DataFrame for the given theme and indicator.
     """
-    metadata: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = oif_datasets
-    if metadata is not None:
-        try:
-            theme_metadata: Dict[str, Dict[str, Union[str, int]]] = metadata[theme]
-        except KeyError:
-            print(f"Theme: {theme} does not exist.")
-        else:
-            if theme_metadata is not None:
-                try:
-                    dataset_metadata: Dict[str, Union[str, int]] = theme_metadata[
-                        indicator
-                    ]
-                except KeyError:
-                    print(
-                        f"Indicator: { indicator } does not exist in Theme: { theme }."
-                    )
-                else:
-                    if dataset_metadata is not None:
-                        return read_excel(**dataset_metadata).pipe(
-                            column_name_to_string
-                        )
+    dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = _dict_from_json_file(
+        path,
+    )
+
+    kwargs: Dict[str, Union[str, int]] = _kwargs_from_dict(
+        dictionary,
+        theme,
+        indicator,
+    )
+
+    df: DataFrame = _df_from_kwargs(kwargs)
+
+    return df.pipe(_column_name_to_string)
