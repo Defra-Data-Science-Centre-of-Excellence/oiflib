@@ -1,15 +1,49 @@
 """Nox sessions."""
 import tempfile
-from glob import glob
 from typing import Any
 
 import nox
 from nox.sessions import Session
 
 package = "oiflib"
-# nox.options.sessions = "lint", "safety", "mypy", "pytype", "tests"
-nox.options.sessions = "lint", "safety", "mypy", "tests"
-locations = [f for f in glob("**/*.py", recursive=True) if "pyspark" not in f]
+nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
+locations = [
+    "noxfile.py",
+    "src/oiflib/__init__.py",
+    "src/oiflib/extract.py",
+    "src/oiflib/core.py",
+    "src/oiflib/air/two/transform.py",
+    "src/oiflib/air/two/__init__.py",
+    "src/oiflib/air/two/schemas.py",
+    "src/oiflib/air/two/enrich.py",
+    "src/oiflib/air/two/validate.py",
+    "src/oiflib/air/three/transform.py",
+    "src/oiflib/air/three/__init__.py",
+    "src/oiflib/air/three/schemas.py",
+    "src/oiflib/air/three/enrich.py",
+    "src/oiflib/air/three/extract.py",
+    "src/oiflib/air/three/validate.py",
+    "src/oiflib/air/one/transform.py",
+    "src/oiflib/air/one/__init__.py",
+    "src/oiflib/air/one/schemas.py",
+    "src/oiflib/air/one/enrich.py",
+    "src/oiflib/air/one/validate.py",
+    "data/air/two/_lookup.py",
+    "tests/__init__.py",
+    "tests/test_extract.py",
+    "tests/test_oiflib.py",
+    "tests/test_core.py",
+    "tests/air/__init__.py",
+    "tests/air/two/test_schemas.py",
+    "tests/air/two/__init__.py",
+    "tests/air/two/test_enrich.py",
+    "tests/air/two/test_transform.py",
+    "tests/air/two/test_validate.py",
+    "tests/air/one/__init__.py",
+    "tests/air/one/test_enrich.py",
+    "tests/air/one/test_transform.py",
+    "docs/source/conf.py",
+]
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -39,6 +73,14 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
             external=True,
         )
         session.install(f"--constraint={requirements.name}", *args, **kwargs)
+
+
+@nox.session(python="3.8")
+def isort(session: Session) -> None:
+    """Sort imports with isort."""
+    args = session.posargs or locations
+    install_with_constraints(session, "isort")
+    session.run("isort", *args)
 
 
 @nox.session(python="3.8")
@@ -95,26 +137,15 @@ def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or locations
     install_with_constraints(session, "mypy")
-    # session.run("mypy", *args)
     session.run("mypy", *args, "--ignore-missing-imports")
-
-
-# @nox.session(python="3.7")
-# def pytype(session: Session) -> None:
-#     """Type-check using pytype."""
-#     args = session.posargs or ["--disable=import-error", locations]
-#     install_with_constraints(session, "pytype")
-#     session.run("pytype", *args)
 
 
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    # args = session.posargs or ["--cov", "-m", "not e2e"]
     args = session.posargs or ["--cov"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
-        # session, "coverage[toml]", "pytest", "pytest-cov", "pytest-mock"
         session,
         "coverage[toml]",
         "pytest",
@@ -122,32 +153,6 @@ def tests(session: Session) -> None:
         "hypothesis",
     )
     session.run("pytest", *args)
-
-
-# @nox.session(python=["3.8", "3.7"])
-# def typeguard(session: Session) -> None:
-#     """Runtime type checking using Typeguard."""
-#     args = session.posargs or ["-m", "not e2e"]
-#     session.run("poetry", "install", "--no-dev", external=True)
-#     install_with_constraints(session, "pytest", "pytest-mock", "typeguard")
-#     session.run("pytest", f"--typeguard-packages={package}", *args)
-
-
-# @nox.session(python=["3.8", "3.7"])
-# def xdoctest(session: Session) -> None:
-#     """Run examples with xdoctest."""
-#     args = session.posargs or ["all"]
-#     session.run("poetry", "install", "--no-dev", external=True)
-#     install_with_constraints(session, "xdoctest")
-#     session.run("python", "-m", "xdoctest", package, *args)
-
-
-# @nox.session(python="3.8")
-# def coverage(session: Session) -> None:
-#     """Upload coverage data."""
-#     install_with_constraints(session, "coverage[toml]", "codecov")
-#     session.run("coverage", "xml", "--fail-under=100")
-#     session.run("codecov", *session.posargs)
 
 
 @nox.session(python="3.8")
