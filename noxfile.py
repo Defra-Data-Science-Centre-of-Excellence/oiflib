@@ -7,21 +7,13 @@ from nox.sessions import Session
 
 package: str = "oiflib"
 nox.options.sessions = ["isort", "lint", "safety", "mypy", "tests"]
-nox.options.pythons = ["3.7", "3.8", "3.9"]
 locations: List[str] = [
     "noxfile.py",
-    "src/oiflib/__init__.py",
-    "src/oiflib/extract.py",
-    "src/oiflib/core.py",
     "src/oiflib/air/one/transform.py",
     "src/oiflib/air/one/__init__.py",
     "src/oiflib/air/one/schemas.py",
     "src/oiflib/air/one/enrich.py",
     "src/oiflib/air/one/validate.py",
-    "tests/__init__.py",
-    "tests/test_oiflib.py",
-    "tests/test_core.py",
-    "tests/air/__init__.py",
     "tests/air/one/__init__.py",
     "tests/air/one/test_enrich.py",
     "tests/air/one/test_transform.py",
@@ -49,7 +41,6 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
             "poetry",
             "export",
             "--dev",
-            "--format=requirements.txt",
             "--without-hashes",
             f"--output={requirements.name}",
             external=True,
@@ -57,7 +48,7 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
         session.install(f"--constraint={requirements.name}", *args, **kwargs)
 
 
-@nox.session
+@nox.session(python="3.8")
 def isort(session: Session) -> None:
     """Sort imports with isort."""
     args = session.posargs or locations
@@ -65,7 +56,7 @@ def isort(session: Session) -> None:
     session.run("isort", *args)
 
 
-@nox.session
+@nox.session(python="3.8")
 def black(session: Session) -> None:
     """Run black code formatter."""
     args = session.posargs or locations
@@ -73,7 +64,7 @@ def black(session: Session) -> None:
     session.run("black", *args)
 
 
-@nox.session
+@nox.session(python=["3.7", "3.8", "3.9"])
 def lint(session: Session) -> None:
     """Lint using flake8."""
     args = session.posargs or locations
@@ -83,7 +74,6 @@ def lint(session: Session) -> None:
         "flake8-annotations",
         "flake8-bandit",
         "flake8-black",
-        "flake8-bugbear",
         "flake8-docstrings",
         "flake8-isort",
         "darglint",
@@ -91,7 +81,7 @@ def lint(session: Session) -> None:
     session.run("flake8", *args)
 
 
-@nox.session
+@nox.session(python="3.8")
 def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
     with tempfile.NamedTemporaryFile() as requirements:
@@ -106,7 +96,6 @@ def safety(session: Session) -> None:
         )
         install_with_constraints(session, "safety")
         session.run(
-            "safety",
             "check",
             f"--file={requirements.name}",
             "--full-report",
@@ -114,7 +103,7 @@ def safety(session: Session) -> None:
         )  # ignore tornado vulnerability CVE-2020-28476
 
 
-@nox.session
+@nox.session(python=["3.7", "3.8", "3.9"])
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or locations
@@ -122,14 +111,13 @@ def mypy(session: Session) -> None:
     session.run("mypy", *args, "--ignore-missing-imports")
 
 
-@nox.session
+@nox.session(python=["3.7", "3.8", "3.9"])
 def tests(session: Session) -> None:
     """Run the test suite."""
     args = session.posargs or ["--cov"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
-        "coverage[toml]",
         "pytest",
         "pytest-cov",
         "hypothesis",
@@ -137,7 +125,7 @@ def tests(session: Session) -> None:
     session.run("pytest", *args)
 
 
-@nox.session
+@nox.session(python="3.8")
 def docs(session: Session) -> None:
     """Build the documentation."""
     session.run("poetry", "install", "--no-dev", external=True)
