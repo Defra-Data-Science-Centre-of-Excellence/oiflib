@@ -5,8 +5,6 @@ from typing import Dict, Union
 
 from pandas import DataFrame, read_excel
 
-from oiflib.core import column_name_to_string
-
 
 def _dict_from_json_file(path: str) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
     """Read OIF dataset dictionary from JSON file.
@@ -20,6 +18,49 @@ def _dict_from_json_file(path: str) -> Dict[str, Dict[str, Dict[str, Union[str, 
     with open(file=path, mode="r") as file_json:
         dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = load(file_json)
     return dictionary
+
+
+def _kwargs_from_dict(
+    dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]],
+    theme: str,
+    indicator: str,
+) -> Dict[str, Union[str, int]]:
+    try:
+        dictionary_theme: Dict[str, Dict[str, Union[str, int]]] = dictionary[theme]
+    except KeyError:
+        print(f"Theme: { theme } does not exist.")
+        raise
+    else:
+        try:
+            dictionary_indicator: Dict[str, Union[str, int]] = dictionary_theme[
+                indicator
+            ]
+        except KeyError:
+            print(
+                f"Indicator: { indicator } does not exist in Theme: { theme }.",
+            )
+            raise
+        else:
+            return dictionary_indicator
+
+
+def _df_from_kwargs(
+    dictionary_indicator: Dict[str, Union[str, int]],
+) -> DataFrame:
+    return read_excel(**dictionary_indicator)
+
+
+def _column_name_to_string(df: DataFrame) -> DataFrame:
+    """Converts the column names of a DataFrame to string.
+
+    Args:
+        df (DataFrame): A DataFrame with column names to convert.
+
+    Returns:
+        DataFrame: A DataFrame with column names converted to string.
+    """
+    df.columns = df.columns.astype(str)
+    return df
 
 
 def extract(
@@ -46,27 +87,16 @@ def extract(
     Returns:
         DataFrame: The DataFrame for the given theme and indicator.
     """
-    metadata: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = _dict_from_json_file(
+    dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = _dict_from_json_file(
         path,
     )
 
-    if metadata is not None:
-        try:
-            theme_metadata: Dict[str, Dict[str, Union[str, int]]] = metadata[theme]
-        except KeyError:
-            print(f"Theme: {theme} does not exist.")
-        else:
-            if theme_metadata is not None:
-                try:
-                    dataset_metadata: Dict[str, Union[str, int]] = theme_metadata[
-                        indicator
-                    ]
-                except KeyError:
-                    print(
-                        f"Indicator: { indicator } does not exist in Theme: { theme }."
-                    )
-                else:
-                    if dataset_metadata is not None:
-                        return read_excel(**dataset_metadata).pipe(
-                            column_name_to_string
-                        )
+    kwargs: Dict[str, Union[str, int]] = _kwargs_from_dict(
+        dictionary,
+        theme,
+        indicator,
+    )
+
+    df: DataFrame = _df_from_kwargs(kwargs)
+
+    return df.pipe(_column_name_to_string)
