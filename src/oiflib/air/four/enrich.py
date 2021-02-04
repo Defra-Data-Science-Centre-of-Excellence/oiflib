@@ -1,16 +1,16 @@
-"""TODO module docstring."""
+"""Functions for enriching Air Four DataFrame."""
 
-import pandas as pd
+from pandas import DataFrame
 
 
-def add_bounds(df: pd.DataFrame) -> pd.DataFrame:
-    """TODO function docstring.
+def _add_bounds(df: DataFrame) -> DataFrame:
+    """Adds upper and lower bound columns.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): The extracted Air Four DataFrame.
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: An enriched DataFrame with upper and lower bound columns.
     """
     return df.assign(
         Lower_CI_bound=df[
@@ -24,13 +24,13 @@ def add_bounds(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def enrich_air_four(df: pd.DataFrame) -> pd.DataFrame:
-    """TODO function docstring.
+def enrich_air_four(df: DataFrame) -> DataFrame:
+    """Adds upper and lower bound columns.
 
     Args:
-        df (pd.DataFrame): [description]
+        df (DataFrame): The extracted Air Four DataFrame.
 
     Returns:
-        pd.DataFrame: [description]
+        DataFrame: An enriched DataFrame with upper and lower bound columns.
     """
-    return df.pipe(add_bounds)
+    return df.pipe(_add_bounds)
