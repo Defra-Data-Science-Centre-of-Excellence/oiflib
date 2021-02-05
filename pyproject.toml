@@ -51,8 +51,9 @@ show_missing = true
 fail_under = 100
 
 [tool.isort]
-profile = "hug"
+profile = "black"
 src_paths = ["src", "test"]
+multi_line_output = 3
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
