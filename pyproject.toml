@@ -12,12 +12,13 @@ authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 python = "^3.9"
 pandas = "^1.2.0"
 openpyxl = "^3.0.6"
+pandera = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 black = "^20.8b1"
 mypy = "^0.790"
-coverage = {extras = ["toml"], version = "^5.3.1"}
+coverage = {extras = ["toml"], version = "^5.4"}
 pytest-cov = "^2.10.1"
 flake8 = "^3.8.4"
 flake8-black = "^0.2.1"
@@ -29,7 +30,11 @@ flake8-docstrings = "^1.5.0"
 darglint = "^1.5.8"
 Sphinx = "^3.4.2"
 isort = "^5.7.0"
-chispa = "^0.6.0"
+pre-commit = "^2.9.3"
+nox = "^2020.12.31"
+safety = "^1.10.3"
+jupyter = "^1.0.0"
+hypothesis = "^6.1.1"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -40,6 +45,7 @@ source = ["oiflib"]
 
 [tool.coverage.report]
 show_missing = true
+fail_under = 100
 
 [tool.isort]
 profile = "hug"

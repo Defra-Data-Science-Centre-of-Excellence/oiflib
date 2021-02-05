@@ -49,6 +49,11 @@ However, it doesn't currently use:
 - [release-drafter](https://github.com/release-drafter/release-drafter) to help draft release notes
 - [Semantic Versioning](https://semver.org/) to indicate breaking changes, minor changes, or bug fixes
 
+It also uses the following additional tools:
+
+- [interrogate](https://interrogate.readthedocs.io/en/latest/) to check for missing docstrings
+- [pandera](https://pandera.readthedocs.io/en/stable/) for data validation
+
 ---
 
 ## Structure
@@ -78,12 +83,13 @@ src
 
 The `oiflib` package is divided into theme modules. These theme modules are divided into indicator modules. These indicator modules are divided into activity modules.
 
-There are four activity modules under each indicator:
+There are five activity modules under each indicator:
 
-1. `get`
-1. `validate`
-1. `transform`
-1. `enrich`
+1. `extract` contains functions for reading in the input data
+1. `transform` contains functions for transforming the input data into a tidy format
+1. `enrich` contains functions for adding additions columns
+1. `schemas` contains schemas for dataframes produced by the extract, transform, and enrich functions
+1. `validate` contains functions to validate the dataframes produced by the extract, transform, and enrich functions against those schema
 
 ---
 
