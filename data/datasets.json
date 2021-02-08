@@ -26,7 +26,8 @@
         "five": {
             "io": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/881868/NO2_tables.ods",
             "sheet_name": "Annex1",
-            "skiprows": 2
+            "skiprows": 2,
+            "nrows": 23
         },
         "six": {
             "": ""
