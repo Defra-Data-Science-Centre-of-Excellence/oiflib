@@ -21,23 +21,6 @@ from oiflib.extract import (
 )
 
 
-# ? Would it be better to use mock objects instead of temp files?
-# Input and output objects needed to multiple tests
-@pytest.fixture(scope="module")
-def df_input() -> DataFrame:
-    """A minimal input DataFrame for testing the extract module.
-
-    Returns:
-        DataFrame: A minimal input DataFrame for testing the extract module.
-    """
-    return DataFrame(
-        data={
-            1: ["a", "b"],
-            2: ["c", "d"],
-        },
-    )
-
-
 @pytest.fixture(scope="module")
 def file_xlsx(tmpdir_factory: TempdirFactory, df_input: DataFrame) -> str:
     """Writes a DataFrame to a temporary Excel file, returns the path as a string.
@@ -60,24 +43,10 @@ def file_xlsx(tmpdir_factory: TempdirFactory, df_input: DataFrame) -> str:
         startrow=5,
         startcol=5,
         index=False,
+        float_format="%.2f",
     )
 
     return path_as_string
-
-
-@pytest.fixture(scope="module")
-def df_output() -> DataFrame:
-    """A minimal output DataFrame for testing the extract module.
-
-    Returns:
-        DataFrame: A minimal output DataFrame for testing the extract module.
-    """
-    return DataFrame(
-        data={
-            "1": ["a", "b"],
-            "2": ["c", "d"],
-        },
-    )
 
 
 @pytest.fixture(scope="module")
@@ -94,7 +63,7 @@ def kwargs_input(file_xlsx: str) -> Dict[str, Any]:
     return {
         "io": file_xlsx,
         "sheet_name": "Sheet",
-        "usecols": [5, 6],
+        "usecols": [5, 6, 7],
         "skiprows": 5,
         "nrows": 2,
     }
