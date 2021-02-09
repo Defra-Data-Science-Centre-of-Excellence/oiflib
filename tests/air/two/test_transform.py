@@ -1,6 +1,7 @@
 """Tests for Air Two transform module."""
 
 # Third-party Libraries
+import pytest
 from hypothesis import HealthCheck, assume, given, settings
 from pandas import DataFrame, Series  # TODO find the missing import!
 from pandas.core.arrays.string_ import StringArray
@@ -100,6 +101,15 @@ class TestExamples:
             },
         )
 
+    @fixture
+    def df_input_missing(self, df_input: DataFrame) -> DataFrame:
+        """df_input but with the first NCFormat value removed."""
+        df: DataFrame = df_input
+
+        df["NCFormat"][0] = None
+
+        return df
+
     def test_drop_BaseYear_column(self, df_input: DataFrame) -> None:
         """BaseYear column is dropped.
 
@@ -167,10 +177,12 @@ class TestExamples:
 
         assert_frame_equal(left=df_output_expected, right=df_output_received)
 
-    def test_forward_fill_NCFormat_column_fail(self) -> None:
+    def test_forward_fill_NCFormat_column_fail(
+        self, df_input_missing: DataFrame
+    ) -> None:
         """Dummy docstring."""
-        # TODO test expection is raised as expected
-        pass
+        with pytest.raises(ValueError):
+            forward_fill_NCFormat_column(df=df_input_missing)
 
     def test_unpivot(self, df_input: DataFrame) -> None:
         """BaseYear and 1990 are unpivoted in to EmissionsYear and CO2 Equiv.
