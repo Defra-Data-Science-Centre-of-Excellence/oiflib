@@ -9,7 +9,7 @@ repository = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
 authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 pandas = "^1.2.0"
 openpyxl = "^3.0.6"
 
@@ -29,7 +29,7 @@ flake8-docstrings = "^1.5.0"
 darglint = "^1.5.8"
 Sphinx = "^3.4.2"
 isort = "^5.7.0"
-chispa = "^0.6.0"
+pre-commit = "^2.10.1"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
