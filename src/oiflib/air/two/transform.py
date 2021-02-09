@@ -28,20 +28,21 @@ def forward_fill_NCFormat_column(df: DataFrame) -> Union[DataFrame, None]:
     Args:
         df (DataFrame): A DataFrame with a NCFormat column that contains blanks.
 
+    Raises:
+        ValueError: If the first value in the NCFormat column is blank.
+
     Returns:
         Union[DataFrame, None]: A DataFrame with a NCFormat column that doesn't
         contains blanks. Raises an error if the first value in "NCFormat" is None.
     """
-    try:
-        if not df.NCFormat[0]:
-            raise ValueError(
-                "The first value in column 'NCFormat' is NaN. Cannot fill forward."
-            )
-    except ValueError as error:
-        print(error.args)
-    else:
+    if df.NCFormat[0]:
         df.NCFormat = df.NCFormat.ffill()
-    return df
+
+        return df
+    else:
+        raise ValueError(
+            "The first value in column 'NCFormat' is missing. Cannot fill forward."
+        )
 
 
 def unpivot(df: DataFrame) -> DataFrame:
