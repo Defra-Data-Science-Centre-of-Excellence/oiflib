@@ -264,7 +264,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 name = "dill"
 version = "0.3.3"
 description = "serialize all of python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.6, !=3.0.*"
 
@@ -1671,7 +1671,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a875299568070c280259ba58a0b77d95d6210046aea35ae6ae38d479b244b753"
+content-hash = "32078a724400b971480b73302e6c38a666961d79039820edc38a05f2748e6a82"
 
 [metadata.files]
 alabaster = [
