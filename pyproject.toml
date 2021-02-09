@@ -38,6 +38,7 @@ nbsphinx = "^0.8.1"
 recommonmark = "^0.7.1"
 nox = "^2020.12.31"
 jupyter = "^1.0.0"
+dill = "^0.3.3"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
