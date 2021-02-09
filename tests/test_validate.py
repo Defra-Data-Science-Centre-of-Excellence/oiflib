@@ -12,7 +12,7 @@ from pytest import fixture
 from oiflib.validate import _schema_from_dict, validate
 
 
-@fixture
+@fixture(scope="module")
 def schema_dict() -> Dict[str, Dict[str, Dict[str, DataFrameSchema]]]:
     """A minimal schema dictionary for testing the validate module."""
     return {
@@ -44,7 +44,7 @@ def schema_dict() -> Dict[str, Dict[str, Dict[str, DataFrameSchema]]]:
     }
 
 
-@fixture
+@fixture(scope="module")
 def schema() -> DataFrameSchema:
     """A minimal schema for testing the validate module."""
     return DataFrameSchema(
@@ -70,6 +70,11 @@ def schema() -> DataFrameSchema:
     )
 
 
+def test__dict_from_path() -> None:
+    """Placeholder."""
+    assert True
+
+
 def test__schema_from_dict(schema_dict, schema) -> None:
     """The expected schema is returned from the schema dictionary."""
     _ = _schema_from_dict(
@@ -82,14 +87,14 @@ def test__schema_from_dict(schema_dict, schema) -> None:
     assert _ == schema
 
 
-@patch("oiflib.validate._schema_from_dict")
+@patch("oiflib.validate._dict_from_path")
 def test_validate(
-    mock__schema_from_dict: DataFrameSchema,
-    schema: DataFrameSchema,
+    mock__dict_from_path: DataFrameSchema,
+    schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
     df_output: DataFrame,
 ) -> None:
     """Validating a valid DataFrame returns that DataFrame."""
-    mock__schema_from_dict.return_value = schema
+    mock__dict_from_path.return_value = schema_dict
 
     _ = validate(
         theme="test_theme", indicator="test_indicator", stage="test_stage", df=df_output
