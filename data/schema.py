@@ -1,6 +1,7 @@
 """Schema for Air Five DataFrames."""
 from typing import Dict
 
+from dill import dump  # noqa: S403 - security warnings n/a
 from numpy import float64, int64
 from pandera import Check, Column, DataFrameSchema
 
@@ -80,3 +81,6 @@ dict_schema: Dict[str, Dict[str, Dict[str, DataFrameSchema]]] = {
         },
     },
 }
+
+with open("/home/edfawcetttaylor/repos/oiflib/data/schema.pkl", "wb") as file:
+    dump(dict_schema, file)

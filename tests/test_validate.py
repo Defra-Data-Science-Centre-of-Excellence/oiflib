@@ -1,15 +1,16 @@
 """Tests for the validate module."""
-
 from typing import Dict
 from unittest.mock import patch
 
+from _pytest.tmpdir import TempdirFactory
+from dill import dump  # noqa: S403 - security warnings n/a
 from numpy import float64, int64
 from pandas import DataFrame
 from pandas.testing import assert_frame_equal
 from pandera import Check, Column, DataFrameSchema
 from pytest import fixture
 
-from oiflib.validate import _schema_from_dict, validate
+from oiflib.validate import _dict_from_path, _schema_from_dict, validate
 
 
 @fixture(scope="module")
@@ -45,6 +46,32 @@ def schema_dict() -> Dict[str, Dict[str, Dict[str, DataFrameSchema]]]:
 
 
 @fixture(scope="module")
+def file_pkl(
+    tmpdir_factory: TempdirFactory,
+    schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
+) -> str:
+    """Dill pickles dict, writes to temp file, returns path as string.
+
+    Args:
+        tmpdir_factory (TempdirFactory): A pytest pytest.fixture for creating temporary
+            directories.
+        schema_dict (Dict[str, Dict[str, Dict[str, Any]]]): The dictionary of
+            DataFrameSchema to be dill pickled and written to the temporary file.
+
+    Returns:
+        str: The path of the temporary JSON file.
+    """
+    path = tmpdir_factory.mktemp("test").join("test.pkl")
+
+    path_as_string: str = str(path)
+
+    with open(path_as_string, "wb") as file:
+        dump(schema_dict, file)
+
+    return path_as_string
+
+
+@fixture(scope="module")
 def schema() -> DataFrameSchema:
     """A minimal schema for testing the validate module."""
     return DataFrameSchema(
@@ -70,9 +97,15 @@ def schema() -> DataFrameSchema:
     )
 
 
-def test__dict_from_path() -> None:
+def test__dict_from_path(
+    file_pkl: str,
+    schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
+) -> None:
     """Placeholder."""
-    assert True
+    _ = _dict_from_path(
+        file_path=file_pkl,
+    )
+    assert _ == schema_dict
 
 
 def test__schema_from_dict(schema_dict, schema) -> None:

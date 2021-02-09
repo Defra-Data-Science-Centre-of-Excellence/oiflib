@@ -1,18 +1,12 @@
 """Functions for validating OIF DataFrames."""
-from importlib.abc import Loader
-from importlib.machinery import ModuleSpec
-from importlib.util import module_from_spec, spec_from_file_location
-from sys import modules
-from types import ModuleType
 from typing import Dict, Union
 
+from dill import load  # noqa: S403 - security warnings n/a
 from pandas import DataFrame
 from pandera import DataFrameSchema
 from pandera.errors import SchemaError
 
 
-#  ! I know this isn't a great idea but, until I can serialise the dictionary of
-#  ! DataFrameSchema, it's the only way I can think of separating config from code.
 def _dict_from_path(file_path: str) -> Dict[str, Dict[str, Dict[str, DataFrameSchema]]]:
     """Returns dictionary of DataFrameSchema from file path.
 
@@ -23,17 +17,13 @@ def _dict_from_path(file_path: str) -> Dict[str, Dict[str, Dict[str, DataFrameSc
         Dict[str, Dict[str, Dict[str, DataFrameSchema]]]: Dictionary of
             DataFrameSchema.
     """
-    module_name: str = file_path.split("/")[-1].replace(".py", "")
-    spec: ModuleSpec = spec_from_file_location(module_name, file_path)
-    module: ModuleType = module_from_spec(spec)
-    modules[module_name] = module
-
-    assert isinstance(spec.loader, Loader)  # noqa: S101 - prevents mypy error
-    spec.loader.exec_module(module)
-
-    __import__(module_name)
-
-    return module.__getattribute__("dict_schema")
+    with open(file=file_path, mode="rb") as file:
+        dictionary: Dict[
+            str, Dict[str, Dict[str, DataFrameSchema]]
+        ] = load(  # noqa: S301 - security warnings n/a
+            file
+        )
+    return dictionary
 
 
 def _schema_from_dict(
@@ -64,7 +54,7 @@ def validate(
     indicator: str,
     stage: str,
     df: DataFrame,
-    file_path: str = "/home/edfawcetttaylor/repos/oiflib/data/schema.py",
+    file_path: str = "/home/edfawcetttaylor/repos/oiflib/data/schema.pkl",
 ) -> Union[DataFrame, SchemaError]:
     """Validates a DataFrame against a DataFrameSchema.
 
