@@ -1,7 +1,6 @@
 """Tests for Air Two enrich module."""
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
-from _pytest.python import Function
 from pandas import DataFrame
 from pandas.testing import assert_frame_equal
 
@@ -14,7 +13,7 @@ from oiflib.air.two.enrich import (
 
 @patch("oiflib.air.two.enrich.read_csv")
 def test_join_to_lookup(
-    mock_read_csv: Function,
+    mock_read_csv: MagicMock,
     lookup: DataFrame,
     transformed: DataFrame,
     transformed_joined: DataFrame,
@@ -51,7 +50,7 @@ def test_agg_CO2e_by_category_and_year(
 
 @patch("oiflib.air.two.enrich.read_csv")
 def test_enrich(
-    mock_read_csv: Function,
+    mock_read_csv: MagicMock,
     lookup: DataFrame,
     transformed: DataFrame,
     enriched: DataFrame,
