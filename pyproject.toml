@@ -48,7 +48,8 @@ show_missing = true
 fail_under = 100
 
 [tool.isort]
-profile = "hug"
+profile = "black"
+multi_line_output = 3
 src_paths = ["src", "test"]
 
 [build-system]
