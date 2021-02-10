@@ -89,39 +89,6 @@ class TestExamples:
     """A class to hold example-based tests."""
 
     @fixture
-    def df_input(self) -> DataFrame:
-        """Creates a minimal DataFrame for testing Air Two transform functions.
-
-        Returns:
-            DataFrame: A minimal DataFrame for testing Air Two transform
-            functions.
-        """
-        return DataFrame(
-            data={
-                "NCFormat": [
-                    "Agriculture",
-                    None,
-                    "Agriculture Total",
-                ],
-                "IPCC": [
-                    "1A4ci_Agriculture/Forestry/Fishing:Stationary",
-                    "1A4cii_Agriculture/Forestry/Fishing:Off-road",
-                    None,
-                ],
-                "BaseYear": [
-                    float(0),
-                    float(1),
-                    float(2),
-                ],
-                "1990": [
-                    float(3),
-                    float(4),
-                    float(5),
-                ],
-            },
-        )
-
-    @fixture
     def df_input_missing(self, df_input: DataFrame) -> DataFrame:
         """df_input but with the first NCFormat value removed."""
         df: DataFrame = df_input
@@ -252,7 +219,9 @@ class TestExamples:
 
         assert_frame_equal(left=df_output_expected, right=df_output_received)
 
-    def test_transform_air_two(self, df_input: DataFrame) -> None:
+    def test_transform_air_two(
+        self, df_input: DataFrame, transformed: DataFrame
+    ) -> None:
         """BaseYear dropped, NCFormat filled from above, BaseYear & 1990 unpivoted.
 
         - BaseYear column is dropped.
@@ -263,31 +232,7 @@ class TestExamples:
             df_input (DataFrame): A minimal DataFrame for testing Air Two transform
                 functions.
         """  # noqa - D403: "Proper capitalisation of first line" isn't appropriate
-        df_output_expected: DataFrame = DataFrame(
-            data={
-                "NCFormat": [
-                    "Agriculture",
-                    "Agriculture",
-                    "Agriculture Total",
-                ],
-                "IPCC": [
-                    "1A4ci_Agriculture/Forestry/Fishing:Stationary",
-                    "1A4cii_Agriculture/Forestry/Fishing:Off-road",
-                    None,
-                ],
-                "EmissionYear": [
-                    "1990",
-                    "1990",
-                    "1990",
-                ],
-                "CO2 Equiv": [
-                    float(3),
-                    float(4),
-                    float(5),
-                ],
-            },
-        )
 
         df_output_received: DataFrame = transform_air_two(df=df_input)
 
-        assert_frame_equal(left=df_output_expected, right=df_output_received)
+        assert_frame_equal(left=transformed, right=df_output_received)
