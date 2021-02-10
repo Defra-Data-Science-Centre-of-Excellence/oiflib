@@ -51,10 +51,14 @@ def test_agg_CO2e_by_category_and_year(
 
 @patch("read_csv")
 def test_enrich(
+    mock_read_csv: Function,
+    lookup: DataFrame,
     transformed: DataFrame,
     enriched: DataFrame,
 ) -> None:
     """OIF categories are joined, CO2e is aggregated by category and EmissionsYear."""
+    mock_read_csv.return_value = lookup
+
     returned: DataFrame = enrich_air_two(transformed)
 
     expected: DataFrame = enriched
