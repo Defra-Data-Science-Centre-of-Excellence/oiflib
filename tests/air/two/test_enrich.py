@@ -12,7 +12,7 @@ from oiflib.air.two.enrich import (
 )
 
 
-@patch("read_csv")
+@patch("oiflib.air.two.enrich.read_csv")
 def test_join_to_lookup(
     mock_read_csv: Function,
     lookup: DataFrame,
@@ -49,7 +49,7 @@ def test_agg_CO2e_by_category_and_year(
     )
 
 
-@patch("read_csv")
+@patch("oiflib.air.two.enrich.read_csv")
 def test_enrich(
     mock_read_csv: Function,
     lookup: DataFrame,
