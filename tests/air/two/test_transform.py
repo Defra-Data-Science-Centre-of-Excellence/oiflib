@@ -1,21 +1,41 @@
 """Tests for Air Two transform module."""
+from typing import Dict
 
 # Third-party Libraries
-import pytest
 from hypothesis import HealthCheck, assume, given, settings
-from pandas import DataFrame, Series  # TODO find the missing import!
+from pandas import DataFrame, Series
 from pandas.core.arrays.string_ import StringArray
 from pandas.testing import assert_frame_equal
-from pytest import fixture
+from pandera import DataFrameSchema
+from pytest import fixture, raises
 
 # Local libraries
-from oiflib.air.two.schemas import schema_extracted
 from oiflib.air.two.transform import (
     drop_BaseYear_column,
     forward_fill_NCFormat_column,
     transform_air_two,
     unpivot,
 )
+from oiflib.validate import _dict_from_path, _schema_from_dict
+
+
+def get_schema_extracted() -> DataFrameSchema:
+    """Returns Air Two Extracted DataFrameScheme from pickled dict."""
+    dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]] = _dict_from_path(
+        file_path="/home/edfawcetttaylor/repos/oiflib/data/schema.pkl",
+    )
+
+    schema: DataFrameSchema = _schema_from_dict(
+        dict=dict,
+        theme="air",
+        indicator="two",
+        stage="extracted",
+    )
+
+    return schema
+
+
+schema_extracted: DataFrameSchema = get_schema_extracted()
 
 
 class TestProperties:
@@ -181,7 +201,7 @@ class TestExamples:
         self, df_input_missing: DataFrame
     ) -> None:
         """Dummy docstring."""
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             forward_fill_NCFormat_column(df=df_input_missing)
 
     def test_unpivot(self, df_input: DataFrame) -> None:
