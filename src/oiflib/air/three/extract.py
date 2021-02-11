@@ -4,7 +4,7 @@ from functools import reduce
 
 from pandas import DataFrame, merge, read_csv
 
-from oiflib.core import column_name_to_string
+from oiflib.extract import _column_name_to_string
 
 
 def extract_air_three() -> DataFrame:
@@ -25,4 +25,4 @@ def extract_air_three() -> DataFrame:
                 for year in range(2011, 2020)
             ]
         ],
-    ).pipe(column_name_to_string)
+    ).pipe(_column_name_to_string)
