@@ -143,6 +143,3 @@ cython_debug/
 # Azure stuff
 local-sp.json
 setenv.sh
-
-# local testing notebooks
-src/oiflib/air/four/air_four.ipynb
