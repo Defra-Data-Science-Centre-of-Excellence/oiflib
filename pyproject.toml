@@ -32,11 +32,9 @@ darglint = "^1.5.8"
 Sphinx = "^3.4.2"
 isort = "^5.7.0"
 pre-commit = "^2.9.3"
-hypothesis = "^6.0.3"
 jupyter = "^1.0.0"
 nox = "^2020.12.31"
 safety = "^1.10.3"
-jupyter = "^1.0.0"
 hypothesis = "^6.1.1"
 
 [tool.coverage.paths]
