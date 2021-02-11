@@ -107,7 +107,7 @@ def mypy(session: Session) -> None:
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov"]
+    args = session.posargs or ["--cov", "-v"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
