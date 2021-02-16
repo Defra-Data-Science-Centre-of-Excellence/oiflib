@@ -6,6 +6,8 @@ General
 
 Functions used across the project.
 
+.. _extract_function:
+
 Extract
 ^^^^^^^
 .. automodule:: oiflib.extract
