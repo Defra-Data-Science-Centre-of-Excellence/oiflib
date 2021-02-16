@@ -5,7 +5,7 @@ Outcome Indicator Framework (OIF) Python Library
    :hidden:
    :caption: Contents:
 
-   air.ipynb
+   usage
    structure
    api
    development
