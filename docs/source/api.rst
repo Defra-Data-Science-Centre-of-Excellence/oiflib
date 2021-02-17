@@ -13,6 +13,8 @@ Extract
 .. automodule:: oiflib.extract
    :members:
 
+.. _validate_function:
+
 Validate
 ^^^^^^^^
 .. automodule:: oiflib.validate
@@ -27,11 +29,15 @@ Core: helper functions
 Air One
 -------
 
+.. _air_one_transform_module:
+
 Transform
 ^^^^^^^^^
 
 .. automodule:: oiflib.air.one.transform
    :members:
+
+.. _air_one_enrich_module:
 
 Enrich
 ^^^^^^
