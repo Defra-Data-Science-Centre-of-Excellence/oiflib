@@ -7,19 +7,35 @@ Repository structure
 .github/workflows
 ^^^^^^^^^^^^^^^^^
 
+This folder contains `GitHub Actions`_ workflow definition files. See
+`Continuous Integration`_ for more information.
+
+.. _GitHub Actions: https://docs.github.com/en/actions
+
 data
 ^^^^
+
+This folder contains data files, they will be moving to online storage shortly.
 
 docs
 ^^^^
 
+This folder contains the files used to create the library documentation. See
+`Project Documentation`_ for more information.
+
 scr/oiflib
 ^^^^^^^^^^
 
-This project uses a `src package layout <https://hynek.me/articles/testing-packaging/>`_.
+This folder contains the library source code. See `Hynek Schlawack, Testing & Packaging`_
+for more information about why it uses a src package layout.
+
+.. _Hynek Schlawack, Testing & Packaging: https://hynek.me/articles/testing-packaging/
 
 tests
 ^^^^^
+
+This folder contains unit tests and associated configuration. See Testing_ for more
+information.
 
 Top-level files
 ^^^^^^^^^^^^^^^
@@ -27,38 +43,70 @@ Top-level files
 .darglint
 """""""""
 
+The configuration file for darglint. See Linting_ for more information.
+
 .flake8
 """""""
+
+The configuration file for flake8. See Linting_ for more information.
 
 .gitignore
 """"""""""
 
+A GitHub configuration file. It includes a list of rules for ignoring files. See
+`Ignoring files`_ for more information.
+
+.. _Ignoring files: https://docs.github.com/en/github/using-git/ignoring-files
+
 .pre-commit-config.yaml
 """""""""""""""""""""""
+
+The configuration file for pre-commit. See `Continuous Integration`_ for more information.
 
 .python-version
 """""""""""""""
 
+The configuration file for pyenv. See `Version and Dependency Management`_ for more
+information.
+
 .readthedocs.yaml
 """""""""""""""""
+
+The configuration file for Read the Docs. See `Project Documentation`_ for more information.
 
 LICENSE.md
 """"""""""
 
+Software license file. See `Licensing a repository`_ for more information.
+
+.. _Licensing a repository: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository
+
 README.md
 """""""""
+
+A text file containing information that is displayed on the repoistory home page.
 
 mypy.ini
 """"""""
 
+The configuration file for mypy. See `Static Type Checking`_ for more information.
+
 noxfile.py
 """"""""""
+
+The configuration file for nox. See `Continuous Integration`_ for more information.
 
 poetry.lock
 """""""""""
 
+A list of dependencies created by poetry. See `Version and Dependency Management`_ for more
+information.
+
 pyproject.toml
 """"""""""""""
+
+The overall library configuration file. See `Version and Dependency Management`_ for more
+information.
 
 Tools and practices
 -------------------
@@ -70,11 +118,36 @@ This project implements many of the tools and best practices recommended in `Hyp
 Visual Studio Code
 ^^^^^^^^^^^^^^^^^^
 
+This library has been developed using the `Visual Studio Code`_ IDE.
+
+.. _Visual Studio Code: https://code.visualstudio.com/
+
+The following extensions have been very useful:
+
+- aaron-bond.better-comments
+- github.vscode-pull-request-github
+- ms-python.python
+- ms-python.vscode-pylance
+- ms-toolsai.jupyter
+- ms-vscode-remote.vscode-remote-extensionpack
+- njpwerner.autodocstring
+- streetsidesoftware.code-spell-checker
+
 Version and Dependency Management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - `pyenv <https://github.com/pyenv/pyenv>`_ for Python version management.
-- `poetry <https://python-poetry.org/>`_ for packaging, dependency, and virtual environment management.
+
+.. _poetry:
+
+poetry
+""""""
+`poetry <https://python-poetry.org/>`_ is a tool for dependency management and packaging.
+It is recommended by the `Python Packaging Authority`_ as an alternative to pipenv_.
+
+.. _Python Packaging Authority: https://packaging.python.org/guides/tool-recommendations/
+
+.. _pipenv: https://pipenv.pypa.io/en/latest/
 
 Testing
 ^^^^^^^
