@@ -5,8 +5,8 @@ Outcome Indicator Framework (OIF) Python Library
    :hidden:
    :caption: Contents:
 
+   installation
    usage
-   structure
    api
    development
 
