@@ -7,10 +7,8 @@ Repository structure
 .github/workflows
 ^^^^^^^^^^^^^^^^^
 
-This folder contains `GitHub Actions`_ workflow definition files. See
+This folder contains the GitHub Actions configuration files. See
 `Continuous Integration`_ for more information.
-
-.. _GitHub Actions: https://docs.github.com/en/actions
 
 data
 ^^^^
@@ -137,13 +135,10 @@ Version and Dependency Management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - `pyenv <https://github.com/pyenv/pyenv>`_ for Python version management.
+- poetry_ is a tool for dependency management and packaging.
+  It is recommended by the `Python Packaging Authority`_ as an alternative to pipenv_.
 
-.. _poetry:
-
-poetry
-""""""
-`poetry <https://python-poetry.org/>`_ is a tool for dependency management and packaging.
-It is recommended by the `Python Packaging Authority`_ as an alternative to pipenv_.
+.. _poetry: https://python-poetry.org/
 
 .. _Python Packaging Authority: https://packaging.python.org/guides/tool-recommendations/
 
@@ -202,7 +197,7 @@ Continuous Integration
 ^^^^^^^^^^^^^^^^^^^^^^
 
 - `Nox <https://nox.thea.codes/>`_ for test automation
-- `GitHub Actions <https://github.com/features/actions>`_ for continuous integration
+- `GitHub Actions <https://docs.github.com/en/actions>`_ for continuous integration
 - `pre-commit <https://pre-commit.com/>`_ to leverage linters written in other languages
 
 
