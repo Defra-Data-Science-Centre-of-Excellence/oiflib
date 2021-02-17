@@ -1,9 +1,9 @@
 Installation
 ============
 
-The library uses :ref:`poetry` for dependency management, so you'll need to install
+The library uses poetry for dependency management, so you'll need to install
 poetry to install the library's dependencies. To install poetry, follow the
-instructions here_.
+instructions here_. For more information about poetry, see :ref:`version-and-dependency-management-label`.
 
 .. _here: https://python-poetry.org/docs/#installation
 

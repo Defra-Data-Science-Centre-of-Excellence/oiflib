@@ -131,6 +131,8 @@ The following extensions have been very useful:
 - njpwerner.autodocstring
 - streetsidesoftware.code-spell-checker
 
+.. _version-and-dependency-management-label:
+
 Version and Dependency Management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
