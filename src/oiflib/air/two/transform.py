@@ -28,20 +28,21 @@ def forward_fill_NCFormat_column(df: DataFrame) -> Union[DataFrame, None]:
     Args:
         df (DataFrame): A DataFrame with a NCFormat column that contains blanks.
 
+    Raises:
+        ValueError: If the first value in the NCFormat column is blank.
+
     Returns:
         Union[DataFrame, None]: A DataFrame with a NCFormat column that doesn't
         contains blanks. Raises an error if the first value in "NCFormat" is None.
     """
-    try:
-        if not df.NCFormat[0]:
-            raise ValueError(
-                "The first value in column 'NCFormat' is NaN. Cannot fill forward."
-            )
-    except ValueError as error:
-        print(error.args)
-    else:
+    if df.NCFormat[0]:
         df.NCFormat = df.NCFormat.ffill()
-    return df
+
+        return df
+    else:
+        raise ValueError(
+            "The first value in column 'NCFormat' is missing. Cannot fill forward."
+        )
 
 
 def unpivot(df: DataFrame) -> DataFrame:
@@ -73,7 +74,7 @@ def transform_air_two(df: DataFrame) -> DataFrame:
     - Drops the "BaseYear" column, as this is a duplicate of the "1990" column.
     - Replace NaNs in the NCFormat column with the preceding non-NaN value.
     - Unpivots the <year> column names into an "EmissionsYear" column and their values
-    into a "CO2 Equiv" column.
+        into a "CO2 Equiv" column.
 
     Args:
         df (DataFrame): An extarcted and validated Air Two DataFrame.

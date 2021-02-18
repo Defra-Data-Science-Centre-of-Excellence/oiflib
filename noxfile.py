@@ -7,43 +7,7 @@ from nox.sessions import Session
 
 package = "oiflib"
 nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
-locations = [
-    "noxfile.py",
-    "src/oiflib/__init__.py",
-    "src/oiflib/extract.py",
-    "src/oiflib/core.py",
-    "src/oiflib/air/two/transform.py",
-    "src/oiflib/air/two/__init__.py",
-    "src/oiflib/air/two/schemas.py",
-    "src/oiflib/air/two/enrich.py",
-    "src/oiflib/air/two/validate.py",
-    "src/oiflib/air/three/transform.py",
-    "src/oiflib/air/three/__init__.py",
-    "src/oiflib/air/three/schemas.py",
-    "src/oiflib/air/three/enrich.py",
-    "src/oiflib/air/three/extract.py",
-    "src/oiflib/air/three/validate.py",
-    "src/oiflib/air/one/transform.py",
-    "src/oiflib/air/one/__init__.py",
-    "src/oiflib/air/one/schemas.py",
-    "src/oiflib/air/one/enrich.py",
-    "src/oiflib/air/one/validate.py",
-    "data/air/two/_lookup.py",
-    "tests/__init__.py",
-    "tests/test_extract.py",
-    "tests/test_oiflib.py",
-    "tests/test_core.py",
-    "tests/air/__init__.py",
-    "tests/air/two/test_schemas.py",
-    "tests/air/two/__init__.py",
-    "tests/air/two/test_enrich.py",
-    "tests/air/two/test_transform.py",
-    "tests/air/two/test_validate.py",
-    "tests/air/one/__init__.py",
-    "tests/air/one/test_enrich.py",
-    "tests/air/one/test_transform.py",
-    "docs/source/conf.py",
-]
+locations = "src", "tests", "noxfile.py", "docs/source/conf.py", "data/schema.py"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -143,7 +107,7 @@ def mypy(session: Session) -> None:
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov"]
+    args = session.posargs or ["--cov", "-v"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
