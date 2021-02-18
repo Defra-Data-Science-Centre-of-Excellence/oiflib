@@ -55,7 +55,9 @@ def filter_rows(df: DataFrame) -> DataFrame:
     Returns:
         DataFrame: [description]
     """
-    return df.query('Country == "England" & measure == "total"')
+    return df.query('Country == "England" & measure == "total"').reset_index(
+        drop=True,
+    )
 
 
 def transform_air_three(df: DataFrame) -> DataFrame:
