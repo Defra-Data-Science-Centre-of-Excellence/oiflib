@@ -10,20 +10,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: ["3.7", "3.8", "3.9"]
-    name: Python ${{ matrix.python-version }}
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: Set up Python versions
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.8
 
     - name: Install nox
       run: pip install nox==2020.12.31

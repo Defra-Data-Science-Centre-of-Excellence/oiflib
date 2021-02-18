@@ -1,23 +1,13 @@
 """Nox sessions."""
 import tempfile
-from typing import Any, List
+from typing import Any
 
 import nox
 from nox.sessions import Session
 
-package: str = "oiflib"
-nox.options.sessions = ["isort", "lint", "safety", "mypy", "tests"]
-locations: List[str] = [
-    "noxfile.py",
-    "src/oiflib/air/one/transform.py",
-    "src/oiflib/air/one/__init__.py",
-    "src/oiflib/air/one/schemas.py",
-    "src/oiflib/air/one/enrich.py",
-    "src/oiflib/air/one/validate.py",
-    "tests/air/one/__init__.py",
-    "tests/air/one/test_enrich.py",
-    "tests/air/one/test_transform.py",
-]
+package = "oiflib"
+nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
+locations = "src", "tests", "noxfile.py", "docs/source/conf.py"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -41,6 +31,7 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
             "poetry",
             "export",
             "--dev",
+            "--format=requirements.txt",
             "--without-hashes",
             f"--output={requirements.name}",
             external=True,
@@ -74,6 +65,7 @@ def lint(session: Session) -> None:
         "flake8-annotations",
         "flake8-bandit",
         "flake8-black",
+        "flake8-bugbear",
         "flake8-docstrings",
         "flake8-isort",
         "darglint",
@@ -96,6 +88,7 @@ def safety(session: Session) -> None:
         )
         install_with_constraints(session, "safety")
         session.run(
+            "safety",
             "check",
             f"--file={requirements.name}",
             "--full-report",
@@ -114,10 +107,11 @@ def mypy(session: Session) -> None:
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov"]
+    args = session.posargs or ["--cov", "-v"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
+        "coverage[toml]",
         "pytest",
         "pytest-cov",
         "hypothesis",
