@@ -22,13 +22,13 @@ def extract_air_three(
 
     The first list comprehension statement:
 
-    [
-        file_path_base.replace(string_to_replace, str(year))
-        for year in range(
-            range_start,
-            range_end + 1,
-        )
-    ]
+    >>> list_of_urls = [
+    >>>     file_path_base.replace(string_to_replace, str(year))
+    >>>     for year in range(
+    >>>         range_start,
+    >>>         range_end + 1,
+    >>>     )
+    >>> ]
 
     returns a list of URLs by taking the string supplied by the `file_path_base` arg
     and replacing the string supplied by the `string_to_replace` arg with a range of
@@ -37,22 +37,22 @@ def extract_air_three(
 
     The output of that first list comprehension is then used by the second:
 
-    [
-        read_csv(
-            filepath_or_buffer=file_path,
-            skiprows=2,
-        )
-        for file_path in <output of first list comprehension>
-    ]
+    >>> list_of_dfs = [
+    >>>     read_csv(
+    >>>         filepath_or_buffer=file_path,
+    >>>         skiprows=2,
+    >>>     )
+    >>>     for file_path in list_of_urls
+    >>> ]
 
     which returns a list of DataFrames.
 
     Finally, the reduce function:
 
-    reduce(
-        lambda x, y: merge(left=x, right=y, how="left", on=join),
-        <output of second list comprehension>,
-    )
+    >>> merged_df = reduce(
+    >>>     lambda x, y: merge(left=x, right=y, how="left", on=join),
+    >>>     list_of_dfs,
+    >>> )
 
     joins them all together. reduce applies a function cumulatively then returns the
     final output (as opposed to accumulate, which returns the intermediate outputs as
