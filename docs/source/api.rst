@@ -10,7 +10,6 @@ Functions used across the project.
 
 Extract
 ^^^^^^^
-
 .. automodule:: oiflib.extract
    :members:
 
@@ -18,7 +17,6 @@ Extract
 
 Validate
 ^^^^^^^^
-
 .. automodule:: oiflib.validate
    :members:
 
