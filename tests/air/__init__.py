@@ -1,1 +1,1 @@
-"""Tests processing Air indicator DataFrames."""
+"""Tests for module that process Air indicator DataFrames."""
