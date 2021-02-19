@@ -104,10 +104,18 @@ def mypy(session: Session) -> None:
     session.run("mypy", *args, "--ignore-missing-imports")
 
 
+# TODO Capture all np DeprecationWarnings in one line
+# TODO Move pytest config to pyproject.toml
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov", "-v"]
+    args = session.posargs or [
+        "--cov",
+        "-v",
+        "-W ignore:`np.complex` is a deprecated:DeprecationWarning",
+        "-W ignore:`np.int` is a deprecated:DeprecationWarning",
+        "-W ignore:`np.float` is a deprecated:DeprecationWarning",
+    ]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
