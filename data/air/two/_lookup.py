@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from oiflib.air.two.transform import forward_fill_NCFormat_column
+from oiflib.air.two.transform import forward_fill_column
 
 df_raw: pd.DataFrame = pd.read_excel(
     io="https://uk-air.defra.gov.uk/assets/documents/reports/cat09/2006160834_DA_GHGI_1990-2018_v01-04.xlsm",  # noqa Stop black from complaining about long URLs
