@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "OIF-related python libraries"
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
+documentation = "https://oiflib.readthedocs.io"
 repository = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
 authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 
