@@ -22,7 +22,7 @@ A Python Library for processing data for the [25 Year Environment Plan Outcome I
 The development version of `oiflib` can be installed from GitHub using pip:
 
 ```sh
-python -m pip install --upgrade git+https://github.com/Defra-Data-Science-Centre-of-Excellence/OIF-Pipeline-Logic.git@develop
+python -m pip install git+https://github.com/Defra-Data-Science-Centre-of-Excellence/OIF-Pipeline-Logic.git@develop
 ```
 
 ---
