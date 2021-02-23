@@ -143,3 +143,7 @@ cython_debug/
 # Azure stuff
 local-sp.json
 setenv.sh
+
+# Ignore development notebooks
+
+src/oiflib/air/six/dev.ipynb
