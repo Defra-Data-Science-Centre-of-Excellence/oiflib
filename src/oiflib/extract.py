@@ -92,7 +92,8 @@ def _dict_from_json_s3(
     """
     s3_resource = resource("s3")
     json_string: str = (
-        s3_resource.Object(bucket_name=bucket_name, key=object_key)
+        s3_resource.Bucket(bucket_name)
+        .Object(object_key)
         .get()["Body"]
         .read()
         .decode("utf-8")
