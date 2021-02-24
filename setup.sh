@@ -36,4 +36,3 @@ pyenv install 3.9.1
 
 ## Install poetry Python packaging and dependencies manager
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-
