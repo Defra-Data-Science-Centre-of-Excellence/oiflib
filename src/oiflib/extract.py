@@ -58,19 +58,21 @@ from typing import Dict, Optional, Union
 from boto3 import resource
 from pandas import DataFrame, read_excel
 
+from oiflib._helper import _check_s3_or_local
+
 
 def _dict_from_json_local(
-    path: str,
+    file_path: str,
 ) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
     """Read OIF metadata dictionary from a local JSON file.
 
     Args:
-        path (str): path to JSON file containing OIF datasets dictionary.
+        file_path (str): path to JSON file containing OIF datasets dictionary.
 
     Returns:
         Dict[str, Dict[str, Dict[str, Union[str, int]]]]: Python dict of OIF datasets.
     """
-    with open(file=path, mode="r") as file_json:
+    with open(file=file_path, mode="r") as file_json:
         dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = load(file_json)
     return dictionary
 
@@ -99,52 +101,23 @@ def _dict_from_json_s3(
     return dictionary
 
 
-def _dict_from_json_kwarg_check(
-    bucket_name: Optional[str],
-    object_key: Optional[str],
-    path: Optional[str],
-) -> str:
-    """# TODO [summary].
-
-    Args:
-        bucket_name (str): # TODO [description].
-        object_key (str): # TODO [description].
-        path (str): # TODO [description].
-
-    Raises:
-        ValueError: # TODO [description]
-
-    Returns:
-        str: # TODO [description]
-    """
-    if bucket_name and object_key and not path:
-        return "s3"
-    elif not bucket_name and not object_key and path:
-        return "local"
-    else:
-        raise ValueError(
-            "You must supply either bucket_name and object_key to read from s3 or path \
-            to read from a local file"
-        )
-
-
 def _dict_from_json(
     bucket_name: Optional[str],
     object_key: Optional[str],
-    path: Optional[str],
+    file_path: Optional[str],
 ) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
     """Read OIF metadata dictionary from JSON file (s3 or local).
 
     Args:
         bucket_name (str): # TODO [description].
         object_key (str): # TODO [description].
-        path (str): path to JSON file containing OIF datasets dictionary.
+        file_path (str): path to JSON file containing OIF datasets dictionary.
 
     Returns:
         Dict[str, Dict[str, Dict[str, Union[str, int]]]]: Python dict of OIF datasets.
     """
-    source: str = _dict_from_json_kwarg_check(
-        bucket_name=bucket_name, object_key=object_key, path=path
+    source: str = _check_s3_or_local(
+        bucket_name=bucket_name, object_key=object_key, file_path=file_path
     )
 
     dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]]
@@ -156,7 +129,7 @@ def _dict_from_json(
         )
     else:
         dictionary = _dict_from_json_local(
-            path=str(path),
+            file_path=str(file_path),
         )
 
     return dictionary
@@ -210,7 +183,7 @@ def extract(
     indicator: str,
     bucket_name: Optional[str] = "s3-ranch-019",
     object_key: Optional[str] = "metadata_dictionary.json",
-    path: Optional[str] = None,
+    file_path: Optional[str] = None,
 ) -> DataFrame:
     """Reads in data for the theme and indicator specified.
 
@@ -229,14 +202,16 @@ def extract(
             "s3-ranch-019".
         object_key (Optional[str], optional): [description]. Defaults to
             "metadata_dictionary.json".
-        path (Optional[str], optional): path to JSON file containing OIF datasets
+        file_path (Optional[str], optional): path to JSON file containing OIF datasets
             dictionary. Defaults to None.
 
     Returns:
         DataFrame: The DataFrame for the given theme and indicator.
     """
     dictionary: Dict[str, Dict[str, Dict[str, Union[str, int]]]] = _dict_from_json(
-        bucket_name=bucket_name, object_key=object_key, path=path
+        bucket_name=bucket_name,
+        object_key=object_key,
+        file_path=file_path,
     )
 
     kwargs: Dict[str, Union[str, int]] = _kwargs_from_dict(

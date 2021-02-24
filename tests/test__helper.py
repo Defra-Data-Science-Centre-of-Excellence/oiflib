@@ -2,10 +2,10 @@
 from pandas import Series
 from pandas.testing import assert_series_equal
 
-from oiflib.core import index_to_base_year
+from oiflib._helper import _index_to_base_year
 
 
-def test_index_to_base_year():
+def test__index_to_base_year():
     """Each item has been divided by the first item, then multipied by 100."""
     test_input: Series = Series(
         [2.0, 3.0, 4.0, 5.0, 6.0],
@@ -22,9 +22,9 @@ def test_index_to_base_year():
     )
 
     assert_series_equal(
-        left=index_to_base_year(test_input),
+        left=_index_to_base_year(test_input),
         right=test_expected,
     ) and assert_series_equal(
-        left=index_to_base_year(test_input),
+        left=_index_to_base_year(test_input),
         right=test_input,
     ) is False
