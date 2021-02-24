@@ -16,7 +16,48 @@ def extract_air_three(
 ) -> DataFrame:
     """Extracts and joins CSV files with similar paths into a single wide DataFrame.
 
-    Performs a left join and converts all column names to string.
+    Unlike the other Air indicators, which publish a complete time series every year,
+    the Air Three input data is published in yearly chunks. This function uses nested
+    list comprehension inside a reduce function too achieve this.
+
+    The first list comprehension statement:
+
+    >>> list_of_urls = [
+    >>>     file_path_base.replace(string_to_replace, str(year))
+    >>>     for year in range(
+    >>>         range_start,
+    >>>         range_end + 1,
+    >>>     )
+    >>> ]
+
+    returns a list of URLs by taking the string supplied by the `file_path_base` arg
+    and replacing the string supplied by the `string_to_replace` arg with a range of
+    years from the int supplied by `range_start` to the int derived from
+    `range_end + 1`.
+
+    The output of that first list comprehension is then used by the second:
+
+    >>> list_of_dfs = [
+    >>>     read_csv(
+    >>>         filepath_or_buffer=file_path,
+    >>>         skiprows=2,
+    >>>     )
+    >>>     for file_path in list_of_urls
+    >>> ]
+
+    which returns a list of DataFrames.
+
+    Finally, the reduce function:
+
+    >>> merged_df = reduce(
+    >>>     lambda x, y: merge(left=x, right=y, how="left", on=join),
+    >>>     list_of_dfs,
+    >>> )
+
+    joins them all together. reduce applies a function cumulatively then returns the
+    final output (as opposed to accumulate, which returns the intermediate outputs as
+    well). So, it joins the first two DataFrames in the list, then joins the third to
+    that, and the fourth to that, and so on.
 
     Args:
         file_path_base (str): A generic version of the file path with an integer element
