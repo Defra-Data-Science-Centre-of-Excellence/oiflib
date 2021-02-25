@@ -4,14 +4,8 @@ from typing import Dict, List, Optional, Union
 from git import Repo
 from pandas import DataFrame
 
-theme_lookup: Dict[str, str] = {
-    "air": "1",
-}
-
-indicator_lookup: Dict[str, str] = {
-    "one": "1",
-    "two": "2",
-}
+from oiflib._helper import indicator_lookup, theme_lookup
+from oiflib.metadata import _set_meta_file_name
 
 
 def _select_and_rename(
@@ -66,18 +60,18 @@ def _select_and_rename(
     return df[columns.keys()].rename(columns=columns)
 
 
-def _set_file_name(
+def _set_data_file_name(
     theme: str,
     indicator: str,
 ) -> str:
-    """[summary].
+    """#TODO [summary].
 
     Args:
-        theme (str): [description]
-        indicator (str): [description]
+        theme (str): #TODO [description]
+        indicator (str): #TODO [description]
 
     Returns:
-        str: [description]
+        str: #TODO [description]
     """
     return f"indicator_{theme_lookup.get(theme)}-{indicator_lookup.get(indicator)}-1.csv"  # noqa: B950 - breaking the line would decrease readability
 
@@ -85,18 +79,18 @@ def _set_file_name(
 def _write_to_csv(
     df: DataFrame,
     repo: str,
-    folder: str,
-    file_name: str,
+    data_folder: str,
+    data_file_name: str,
 ) -> None:
-    """[summary].
+    """#TODO [summary].
 
     Args:
-        df (DataFrame): [description]
-        repo (str): [description]
-        folder (str): [description]
-        file_name (str): [description]
+        df (DataFrame): #TODO [description]
+        repo (str): #TODO [description]
+        data_folder (str): #TODO [description]
+        data_file_name (str): #TODO [description]
     """
-    file_path: str = f"{repo}/{folder}/{file_name}"
+    file_path: str = f"{repo}/{data_folder}/{data_file_name}"
 
     df.to_csv(
         path_or_buf=file_path,
@@ -106,32 +100,49 @@ def _write_to_csv(
 
 def _commit_and_push(
     repo: str,
-    folder: str,
-    file_name: str,
+    data_folder: str,
+    data_file_name: str,
+    meta_folder: str,
+    meta_file_name: str,
     theme: str,
     indicator: str,
     branches: Union[str, List[str]],
-    commit_message: Optional[str],
+    data_commit_message: Optional[str],
+    meta_commit_message: Optional[str],
 ) -> None:
-    """[summary].
+    """#TODO [summary].
 
     Args:
-        repo (str): [description]
-        folder (str): [description]
-        file_name (str): [description]
-        theme (str): [description]
-        indicator (str): [description]
-        branches (Union[str, List[str]]): [description]
-        commit_message (Optional[str]): [description]
+        repo (str): #TODO [description]
+        data_folder (str): #TODO [description]
+        data_file_name (str): #TODO [description]
+        meta_folder (str): #TODO [description]
+        meta_file_name (str): #TODO [description]
+        theme (str): #TODO [description]
+        indicator (str): #TODO [description]
+        branches (Union[str, List[str]]): #TODO [description]
+        data_commit_message (Optional[str]): #TODO [description]
+        meta_commit_message (Optional[str]): #TODO [description]
     """
     _repo: Repo = Repo(repo)
 
-    _repo.index.add(f"{folder}/{file_name}")
+    if data_folder and data_file_name:
 
-    if not commit_message:
-        commit_message = f"add data for {theme} {indicator}"
+        _repo.index.add(f"{data_folder}/{data_file_name}")
 
-    _repo.index.commit(commit_message)
+        if not data_commit_message:
+            data_commit_message = f"add data for {theme} {indicator}"
+
+        _repo.index.commit(data_commit_message)
+
+    if meta_folder and meta_file_name:
+
+        _repo.index.add(f"{meta_folder}/{meta_file_name}")
+
+        if not meta_commit_message:
+            meta_commit_message = f"add meta for {theme} {indicator}"
+
+        _repo.index.commit(meta_commit_message)
 
     _refspec: str
 
@@ -151,10 +162,12 @@ def format_and_push(
     disaggregation_column: str,
     value_column: str,
     branches: Union[str, List[str]] = "develop",
-    commit_message: Optional[str] = None,
+    data_commit_message: Optional[str] = None,
+    meta_commit_message: Optional[str] = None,
     disaggregation_column_new: Optional[str] = None,
     repo: str = "OIF-Dashboard-Data",
-    folder: str = "data",
+    data_folder: str = "data",
+    meta_folder: str = "meta",
 ) -> None:
     """[summary].
 
@@ -175,12 +188,15 @@ def format_and_push(
         year_column (str): [description]
         disaggregation_column (str): [description]
         value_column (str): [description]
-        branches (Union[str, List[str]]): [description]. Defaults to "develop".
-        commit_message (Optional[str], optional): [description]. Defaults to None.
-        disaggregation_column_new (Optional[str], optional): [description]. Defaults
-            to None.
+        branches (Union[str, List[str]], optional): [description]. Defaults to
+            "develop".
+        data_commit_message (Optional[str], optional): [description]. Defaults to None.
+        meta_commit_message (Optional[str], optional): [description]. Defaults to None.
+        disaggregation_column_new (Optional[str], optional): [description]. Defaults to
+            None.
         repo (str): [description]. Defaults to "OIF-Dashboard-Data".
-        folder (str): [description]. Defaults to "data".
+        data_folder (str): [description]. Defaults to "data".
+        meta_folder (str): [description]. Defaults to "meta".
     """
     _df: DataFrame = _select_and_rename(
         df=df,
@@ -190,7 +206,12 @@ def format_and_push(
         disaggregation_column_new=disaggregation_column_new,
     )
 
-    _file_name: str = _set_file_name(
+    _data_file_name: str = _set_data_file_name(
+        theme=theme,
+        indicator=indicator,
+    )
+
+    _meta_file_name: str = _set_meta_file_name(
         theme=theme,
         indicator=indicator,
     )
@@ -198,16 +219,19 @@ def format_and_push(
     _write_to_csv(
         df=_df,
         repo=repo,
-        folder=folder,
-        file_name=_file_name,
+        data_folder=data_folder,
+        data_file_name=_data_file_name,
     )
 
     _commit_and_push(
         theme=theme,
         indicator=indicator,
         repo=repo,
-        folder=folder,
-        file_name=_file_name,
+        data_folder=data_folder,
+        data_file_name=_data_file_name,
+        meta_folder=meta_folder,
+        meta_file_name=_meta_file_name,
         branches=branches,
-        commit_message=commit_message,
+        data_commit_message=data_commit_message,
+        meta_commit_message=meta_commit_message,
     )
