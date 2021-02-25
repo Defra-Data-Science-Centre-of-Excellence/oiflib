@@ -1,6 +1,18 @@
-from typing import Optional
+from typing import Dict, Optional
 
 from pandas import Series
+
+theme_lookup: Dict[str, str] = {
+    "air": "1",
+}
+
+indicator_lookup: Dict[str, str] = {
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+}
 
 
 def _index_to_base_year(series: Series) -> Series:
