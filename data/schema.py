@@ -1,6 +1,7 @@
 """Schema for Air Five DataFrames."""
 from typing import Dict
 
+from boto3 import resource
 from dill import dump  # noqa: S403 - security warnings n/a
 from numpy import float64, int64
 from pandera import Check, Column, DataFrameSchema
@@ -950,6 +951,7 @@ dict_schema: Dict[str, Dict[str, Dict[str, DataFrameSchema]]] = {
                                 "3D13 Urine and Dung deposited by grazing animals",
                                 "3D14 Crop Residues",
                                 "3D15 Mineralisation/immobilisation associated with loss/gain of soil organic matter",  # noqa: B950 - Line length caused by indentation                               "3D16 Cultivation of Organic soils",
+                                "3D16 Cultivation of Organic soils",
                                 "3D21 Atmospheric Deposition",
                                 "3D22 Nitrogen Leaching and Run-off",
                                 "3F11_Field_burning",
@@ -1040,6 +1042,100 @@ dict_schema: Dict[str, Dict[str, Dict[str, DataFrameSchema]]] = {
                 },
                 coerce=True,
                 strict=True,
+            ),
+        },
+        "three": {
+            "extracted": DataFrameSchema(
+                columns={
+                    "Area code": Column(
+                        pandas_dtype=str,
+                        checks=Check.isin(
+                            [
+                                "Eng",
+                                "Wal",
+                                "Sco",
+                                "Nir",
+                            ]
+                        ),
+                        allow_duplicates=False,
+                    ),
+                    "Country": Column(
+                        pandas_dtype=str,
+                        checks=Check.isin(
+                            [
+                                "England",
+                                "Wales",
+                                "Scotland",
+                                "Northern Ireland",
+                            ],
+                        ),
+                        allow_duplicates=False,
+                    ),
+                    r"PM2.5 201[0-9] \(total\)": Column(
+                        pandas_dtype=float,
+                        checks=Check.in_range(float(0), float(15)),
+                        regex=True,
+                    ),
+                    r"PM2.5 201[0-9] \(non-anthropogenic\)": Column(
+                        pandas_dtype=float,
+                        checks=Check.in_range(float(0), float(5)),
+                        regex=True,
+                    ),
+                    r"PM2.5 201[0-9] \(anthropogenic\)": Column(
+                        pandas_dtype=float,
+                        checks=Check.in_range(float(0), float(10)),
+                        regex=True,
+                    ),
+                },
+                coerce=True,
+                strict=True,
+            ),
+            "transformed": DataFrameSchema(
+                columns={
+                    "Area code": Column(
+                        pandas_dtype=str,
+                        checks=Check.isin(
+                            [
+                                "Eng",
+                                "Wal",
+                                "Sco",
+                                "Nir",
+                            ],
+                        ),
+                    ),
+                    "Country": Column(
+                        pandas_dtype=str,
+                        checks=Check.isin(
+                            [
+                                "England",
+                                "Wales",
+                                "Scotland",
+                                "Northern Ireland",
+                            ],
+                        ),
+                    ),
+                    "year": Column(
+                        pandas_dtype=int,
+                        checks=Check.in_range(2011, 2019),
+                    ),
+                    "measure": Column(
+                        pandas_dtype=str,
+                        checks=Check.isin(
+                            [
+                                "total",
+                                "non-anthropogenic",
+                                "anthropogenic",
+                            ]
+                        ),
+                    ),
+                    "ugm-3": Column(
+                        pandas_dtype=float,
+                        checks=Check.in_range(float(0), float(15)),
+                    ),
+                },
+                coerce=True,
+                strict=True,
+                ordered=True,
             ),
         },
         "four": {
@@ -1191,3 +1287,11 @@ dict_schema: Dict[str, Dict[str, Dict[str, DataFrameSchema]]] = {
 
 with open("/home/edfawcetttaylor/repos/oiflib/data/schema.pkl", "wb") as file:
     dump(dict_schema, file)
+
+s3_resource = resource("s3")
+
+with open("/home/edfawcetttaylor/repos/oiflib/data/schema.pkl", "rb") as file:
+    s3_resource.Bucket("s3-ranch-019").Object("schemas.pkl").upload_fileobj(
+        file,
+        ExtraArgs={"ACL": "bucket-owner-full-control"},
+    )
