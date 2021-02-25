@@ -11,8 +11,8 @@ from oiflib.metadata import _set_meta_file_name
 def _select_and_rename(
     df: DataFrame,
     year_column: str,
-    disaggregation_column: str,
     value_column: str,
+    disaggregation_column: Optional[str],
     disaggregation_column_new: Optional[str],
 ) -> DataFrame:
     """Selects and renames columns to fit OpenSDG dataset format.
@@ -25,26 +25,31 @@ def _select_and_rename(
     >>> _select_and_rename(
         df=air_one_enriched_validated,
         year_column="EmissionYear",
+        value_column="Index",
         disaggregation_column="ShortPollName",
         disaggregation_column_new="Pollutant",
-        value_column="Index",
     )
 
     Args:
         df (DataFrame): A DataFrame will columns to be re-order and re-named.
         year_column (str): The name of the column containing year data.
-        disaggregation_column (str): The name of the column containing disaggregation
-            data.
         value_column (str): The name of the column containing value data.
-        disaggregation_column_new (Optional[str], optional): A new name for the column
-            containing disaggregation data, if one is needed. Defaults to None.
+        disaggregation_column (Optional[str]): The name of the column containing
+            disaggregation data, if one exists.
+        disaggregation_column_new (Optional[str]): A new name for the column
+            containing disaggregation data, if one is needed.
 
     Returns:
         DataFrame: A DataFrame with re-ordered and re-named columns.
     """
     columns: Dict[str, str]
 
-    if not disaggregation_column_new:
+    if not disaggregation_column:
+        columns = {
+            year_column: "Year",
+            value_column: "Value",
+        }
+    elif not disaggregation_column_new:
         columns = {
             year_column: "Year",
             disaggregation_column: disaggregation_column,
@@ -159,11 +164,11 @@ def format_and_push(
     theme: str,
     indicator: str,
     year_column: str,
-    disaggregation_column: str,
     value_column: str,
     branches: Union[str, List[str]] = "develop",
     data_commit_message: Optional[str] = None,
     meta_commit_message: Optional[str] = None,
+    disaggregation_column: Optional[str] = None,
     disaggregation_column_new: Optional[str] = None,
     repo: str = "OIF-Dashboard-Data",
     data_folder: str = "data",
@@ -176,9 +181,9 @@ def format_and_push(
         theme="air",
         indicator="one",
         year_column="EmissionYear",
+        value_column="Index",
         disaggregation_column="ShortPollName",
         disaggregation_column_new="Pollutant",
-        value_column="Index",
     )
 
     Args:
@@ -186,12 +191,12 @@ def format_and_push(
         theme (str): [description]
         indicator (str): [description]
         year_column (str): [description]
-        disaggregation_column (str): [description]
         value_column (str): [description]
         branches (Union[str, List[str]], optional): [description]. Defaults to
             "develop".
         data_commit_message (Optional[str], optional): [description]. Defaults to None.
         meta_commit_message (Optional[str], optional): [description]. Defaults to None.
+        disaggregation_column (Optional[str]): [description]. Defaults to None.
         disaggregation_column_new (Optional[str], optional): [description]. Defaults to
             None.
         repo (str): [description]. Defaults to "OIF-Dashboard-Data".
