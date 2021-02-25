@@ -10,7 +10,7 @@ from pandas.testing import assert_frame_equal
 from pandera import Check, Column, DataFrameSchema
 from pytest import fixture
 
-from oiflib.validate import _dict_from_path, _schema_from_dict, validate
+from oiflib.validate import _dict_from_pickle_local, _schema_from_dict, validate
 
 
 @fixture(scope="module")
@@ -97,12 +97,12 @@ def schema() -> DataFrameSchema:
     )
 
 
-def test__dict_from_path(
+def test__dict_from_pickle_local(
     file_pkl: str,
     schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
 ) -> None:
     """Placeholder."""
-    _ = _dict_from_path(
+    _ = _dict_from_pickle_local(
         file_path=file_pkl,
     )
     assert _ == schema_dict
@@ -120,7 +120,7 @@ def test__schema_from_dict(schema_dict, schema) -> None:
     assert _ == schema
 
 
-@patch("oiflib.validate._dict_from_path")
+@patch("oiflib.validate._dict_from_pickle_local")
 def test_validate(
     mock__dict_from_path: DataFrameSchema,
     schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
@@ -130,7 +130,13 @@ def test_validate(
     mock__dict_from_path.return_value = schema_dict
 
     _ = validate(
-        theme="test_theme", indicator="test_indicator", stage="test_stage", df=df_output
+        theme="test_theme",
+        indicator="test_indicator",
+        stage="test_stage",
+        df=df_output,
+        bucket_name=None,
+        object_key=None,
+        file_path="test_path",
     )
 
     assert_frame_equal(

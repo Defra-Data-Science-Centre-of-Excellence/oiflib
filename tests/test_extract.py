@@ -15,7 +15,7 @@ from pandas.testing import assert_frame_equal
 from oiflib.extract import (
     _column_name_to_string,
     _df_from_kwargs,
-    _dict_from_json_file,
+    _dict_from_json_local,
     _kwargs_from_dict,
     extract,
 )
@@ -117,7 +117,7 @@ def file_json(
 
 
 # Example-based tests
-def test__dict_from_json_file(
+def test__dict_from_json_local(
     file_json: str,
     dictionary_input: Dict[str, Dict[str, Dict[str, Any]]],
 ) -> None:
@@ -128,7 +128,7 @@ def test__dict_from_json_file(
         dictionary_input (Dict[str, Dict[str, Dict[str, Any]]]): A minimal data
             dictionary for testing the extract module.
     """
-    dictionary_output = _dict_from_json_file(path=file_json)
+    dictionary_output = _dict_from_json_local(file_path=file_json)
 
     assert dictionary_output == dictionary_input
 
@@ -231,7 +231,9 @@ def test_extract(file_json: str, df_output: DataFrame) -> None:
     df_output_actual: DataFrame = extract(
         theme="theme",
         indicator="indicator",
-        path=file_json,
+        bucket_name=None,
+        object_key=None,
+        file_path=file_json,
     )
 
     assert_frame_equal(
