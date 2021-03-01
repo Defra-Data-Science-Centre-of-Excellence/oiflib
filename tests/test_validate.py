@@ -10,7 +10,7 @@ from pandas.testing import assert_frame_equal
 from pandera import Check, Column, DataFrameSchema
 from pytest import fixture
 
-from oiflib.validate import _dict_from_path, _schema_from_dict, validate
+from oiflib.validate import _dict_from_pickle_local, _schema_from_dict, validate
 
 
 @fixture(scope="module")
@@ -97,12 +97,12 @@ def schema() -> DataFrameSchema:
     )
 
 
-def test__dict_from_path(
+def test__dict_from_pickle_local(
     file_pkl: str,
     schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
 ) -> None:
     """Placeholder."""
-    _ = _dict_from_path(
+    _ = _dict_from_pickle_local(
         file_path=file_pkl,
     )
     assert _ == schema_dict
