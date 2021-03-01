@@ -231,6 +231,8 @@ def test_extract(file_json: str, df_output: DataFrame) -> None:
     df_output_actual: DataFrame = extract(
         theme="theme",
         indicator="indicator",
+        bucket_name=None,
+        object_key=None,
         file_path=file_json,
     )
 

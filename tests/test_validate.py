@@ -1,6 +1,5 @@
 """Tests for the validate module."""
 from typing import Dict
-from unittest.mock import patch
 
 from _pytest.tmpdir import TempdirFactory
 from dill import dump  # noqa: S403 - security warnings n/a
@@ -120,17 +119,19 @@ def test__schema_from_dict(schema_dict, schema) -> None:
     assert _ == schema
 
 
-@patch("oiflib.validate._dict_from_path")
 def test_validate(
-    mock__dict_from_path: DataFrameSchema,
-    schema_dict: Dict[str, Dict[str, Dict[str, DataFrameSchema]]],
+    file_pkl: str,
     df_output: DataFrame,
 ) -> None:
     """Validating a valid DataFrame returns that DataFrame."""
-    mock__dict_from_path.return_value = schema_dict
-
     _ = validate(
-        theme="test_theme", indicator="test_indicator", stage="test_stage", df=df_output
+        theme="test_theme",
+        indicator="test_indicator",
+        stage="test_stage",
+        df=df_output,
+        bucket_name=None,
+        object_key=None,
+        file_path=file_pkl,
     )
 
     assert_frame_equal(
