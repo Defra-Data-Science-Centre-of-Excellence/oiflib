@@ -128,7 +128,7 @@ def test__dict_from_json_local(
         dictionary_input (Dict[str, Dict[str, Dict[str, Any]]]): A minimal data
             dictionary for testing the extract module.
     """
-    dictionary_output = _dict_from_json_local(path=file_json)
+    dictionary_output = _dict_from_json_local(file_path=file_json)
 
     assert dictionary_output == dictionary_input
 
