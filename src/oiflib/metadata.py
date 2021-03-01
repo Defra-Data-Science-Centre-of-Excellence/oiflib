@@ -1,99 +1,100 @@
 """Functions to generate metada."""
-from typing import Dict
+from typing import Dict, Optional, Union
+
+from IPython.display import Markdown, display
 
 from oiflib._helper import indicator_lookup, theme_lookup
 
 
-def _generate_metadata(
-    metadata: Dict[str, str],
-    trend_description: str,
-) -> str:
-    """# TODO [summary].
+class MetaData(object):
+    """# TODO [summary]."""
 
-    Args:
-        metadata (Dict[str, str]): #TODO [description]
-        trend_description (str): #TODO [description]
+    theme: str
+    indicator: str
+    metadata: Optional[Dict[str, Union[str, Dict[str, str]]]]
+    trend_description: Optional[str]
+    notes: Optional[str]
 
-    Returns:
-        str: #TODO [description]
-    """
-    lst = [
-        "---",
-        "\n".join([f"{key}: {value}" for key, value in metadata.items()]),
-        "---",
-        f"**Trend description**: {trend_description}",
-    ]
+    def __init__(
+        self,  # noqa: ANN101 - For instance methods, omit type for "self"
+        theme: str,
+        indicator: str,
+        metadata: Optional[Dict[str, Union[str, Dict[str, str]]]] = None,
+        trend_description: Optional[str] = None,
+        notes: Optional[str] = None,
+    ) -> None:
+        """# TODO [summary].
 
-    markdown = "\n".join(lst)
+        Args:
+            theme (str):# TODO [description]
+            indicator (str):# TODO [description]
+            metadata (Optional[Dict[str, Union[str, Dict[str, str]]]], optional):# TODO
+                # TODO [description]. Defaults to None.
+            trend_description (Optional[str], optional):# TODO [description]. Defaults
+                # TODO to None.
+            notes (Optional[str], optional): [description].# TODO Defaults to None.
+        """
+        self.theme = theme
+        self.indicator = indicator
+        self.metadata = metadata
+        self.trend_description = (
+            "**Trend description:** " + trend_description if trend_description else None
+        )
+        self.notes = "**Notes:** " + notes if notes else None
 
-    return markdown
+    def _set_file_name(
+        self,  # noqa: ANN101 - For instance methods, omit type for "self"
+    ) -> str:
+        """# TODO [summary]."""
+        return f"{theme_lookup.get(self.theme)}-{indicator_lookup.get(self.indicator)}-1.md"  # noqa: B950 - breaking this line would reduce readability
 
+    def to_markdown(
+        self,  # noqa: ANN101 - For instance methods, omit type for "self"
+        to_display: bool = True,
+        to_file: bool = False,
+        repo: str = "OIF-Dashboard-Data",
+        folder: str = "meta",
+        file_name: Optional[str] = None,
+    ) -> None:
+        """# TODO [summary].
 
-def _set_meta_file_name(
-    theme: str,
-    indicator: str,
-) -> str:
-    """#TODO [summary].
+        Args:
+            to_display (bool): [description]. Defaults to True.
+            to_file (bool): [description]. Defaults to False.
+            repo (str): [description]. Defaults to "OIF-Dashboard-Data".
+            folder (str): [description]. Defaults to "meta".
+            file_name (Optional[str]): [description]. Defaults to None.
+        """
+        lst = []
 
-    Args:
-        theme (str): #TODO [description]
-        indicator (str): #TODO [description]
+        lst.extend(
+            [
+                "---",
+                "\n".join([f"{key}: {value}" for key, value in self.metadata.items()]),
+                "---",
+            ],
+        ) if self.metadata else None
 
-    Returns:
-        str: #TODO [description]
-    """
-    return f"{theme_lookup.get(theme)}-{indicator_lookup.get(indicator)}-1.md"
+        lst.extend(
+            [
+                f"**Trend description:** {self.trend_description}",
+            ],
+        ) if self.trend_description else None
 
+        lst.extend(
+            [
+                f"**Notes:** {self.notes}",
+            ],
+        ) if self.notes else None
 
-def _write_to_md(
-    markdown: str,
-    repo: str,
-    folder: str,
-    file_name: str,
-) -> None:
-    """#TODO [summary].
+        markdown = "\n".join(lst)
 
-    Args:
-        markdown (str): #TODO [description]
-        repo (str): #TODO [description]
-        folder (str): #TODO [description]
-        file_name (str): #TODO [description]
-    """
-    with open(f"{repo}/{folder}/{file_name}", "w") as file:
-        file.write(markdown)
+        if to_display:
+            display(Markdown(markdown))
 
+        if to_file:
+            if not file_name:
+                file_name = self._set_file_name()
 
-def generate_markdown(
-    metadata: Dict[str, str],
-    trend_description: str,
-    theme: str,
-    indicator: str,
-    repo: str = "OIF-Dashboard-Data",
-    folder: str = "meta",
-) -> None:
-    """#TODO [summary].
-
-    Args:
-        metadata (Dict[str, str]): #TODO [description]
-        trend_description (str): #TODO [description]
-        theme (str): #TODO [description]
-        indicator (str): #TODO [description]
-        repo (str): #TODO [description]. Defaults to "OIF-Dashboard-Data".
-        folder (str): #TODO [description]. Defaults to "meta".
-    """
-    _markdown: str = _generate_metadata(
-        metadata=metadata,
-        trend_description=trend_description,
-    )
-
-    _file_name: str = _set_meta_file_name(
-        theme=theme,
-        indicator=indicator,
-    )
-
-    _write_to_md(
-        markdown=_markdown,
-        repo=repo,
-        folder=folder,
-        file_name=_file_name,
-    )
+            with open(f"{repo}/{folder}/{file_name}", "w") as file:
+                file.write(markdown)
