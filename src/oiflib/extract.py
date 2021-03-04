@@ -53,10 +53,10 @@ To use it to extract the Air One DataFrame, pass it the relevant **theme** and
 """
 
 from json import load, loads
-from typing import Dict, Optional, Union
+from typing import Dict, KeysView, Optional, Union
 
 from boto3 import resource
-from pandas import DataFrame, read_excel
+from pandas import DataFrame, read_csv, read_excel
 
 from oiflib._helper import _check_s3_or_local
 
@@ -163,7 +163,17 @@ def _kwargs_from_dict(
 def _df_from_kwargs(
     dictionary_indicator: Dict[str, Union[str, int]],
 ) -> DataFrame:
-    return read_excel(**dictionary_indicator)
+    dict_keys: KeysView[str] = dictionary_indicator.keys()
+
+    if "io" in dict_keys:
+        return read_excel(**dictionary_indicator)
+    elif "filepath_or_buffer" in dict_keys:
+        return read_csv(**dictionary_indicator)
+    else:
+        raise NotImplementedError(
+            "At the moment, extract() only supports reading .xls* and .odf files using \
+                read_excel() or .csv files using read_csv().",
+        )
 
 
 def _column_name_to_string(df: DataFrame) -> DataFrame:
