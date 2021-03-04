@@ -1,1 +1,0 @@
-"""Air Six DataFrames schema."""
