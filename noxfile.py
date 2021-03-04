@@ -7,7 +7,7 @@ from nox.sessions import Session
 
 package = "oiflib"
 nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
-locations = "src", "tests", "noxfile.py", "docs/source/conf.py"
+locations = "src", "tests", "noxfile.py", "docs/source/conf.py", "data/schema.py"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -104,10 +104,18 @@ def mypy(session: Session) -> None:
     session.run("mypy", *args, "--ignore-missing-imports")
 
 
+# TODO Capture all np DeprecationWarnings in one line
+# TODO Move pytest config to pyproject.toml
 @nox.session(python="3.8")
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov"]
+    args = session.posargs or [
+        "--cov",
+        "-v",
+        "-W ignore:`np.complex` is a deprecated:DeprecationWarning",
+        "-W ignore:`np.int` is a deprecated:DeprecationWarning",
+        "-W ignore:`np.float` is a deprecated:DeprecationWarning",
+    ]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session,
