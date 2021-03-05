@@ -9,7 +9,6 @@ from _pytest.tmpdir import TempdirFactory
 from pandas import DataFrame
 
 
-# ? Would it be better to use mock objects instead of temp files?
 # Input and output objects needed to multiple tests
 @pytest.fixture(scope="module")
 def df_input() -> DataFrame:
@@ -43,12 +42,12 @@ def df_output() -> DataFrame:
     )
 
 
-@pytest.pytest.fixture(scope="module")
+@pytest.fixture(scope="module")
 def file_xlsx(tmpdir_factory: TempdirFactory, df_input: DataFrame) -> str:
     """Writes a DataFrame to a temporary Excel file, returns the path as a string.
 
     Args:
-        tmpdir_factory (TempdirFactory): A pytest pytest.pytest.fixture for creating
+        tmpdir_factory (TempdirFactory): A pytest pytest.fixture for creating
             temporary directories.
         df_input (DataFrame): The DataFrame to write to a temporary file.
 
@@ -71,7 +70,7 @@ def file_xlsx(tmpdir_factory: TempdirFactory, df_input: DataFrame) -> str:
     return path_as_string
 
 
-@pytest.pytest.fixture(scope="module")
+@pytest.fixture(scope="module")
 def kwargs_input(file_xlsx: str) -> Dict[str, Any]:
     """Returns a dictionary of key word arguments to be passed to pandas.read_excel().
 
@@ -91,7 +90,7 @@ def kwargs_input(file_xlsx: str) -> Dict[str, Any]:
     }
 
 
-@pytest.pytest.fixture(scope="module")
+@pytest.fixture(scope="module")
 def dictionary_input(
     kwargs_input: Dict[str, Any]
 ) -> Dict[str, Dict[str, Dict[str, Any]]]:
@@ -112,7 +111,7 @@ def dictionary_input(
     }
 
 
-@pytest.pytest.fixture(scope="module")
+@pytest.fixture(scope="module")
 def file_json(
     tmpdir_factory: TempdirFactory,
     dictionary_input: Dict[str, Dict[str, Dict[str, Any]]],
@@ -120,7 +119,7 @@ def file_json(
     """Converts dict to JSON object, writes to temp file, returns path as string.
 
     Args:
-        tmpdir_factory (TempdirFactory): A pytest pytest.pytest.fixture for creating
+        tmpdir_factory (TempdirFactory): A pytest pytest.fixture for creating
             temporary directories.
         dictionary_input (Dict[str, Dict[str, Dict[str, Any]]]): The python dictionary
             to be converted to a JSON object and written to the temporary JSON file.
