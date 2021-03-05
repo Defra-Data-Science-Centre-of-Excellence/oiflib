@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 # Third party imports
 import pytest
-from _pytest.tmpdir import TempdirFactory
+from _pytest.tmpdir import TempPathFactory
 from pandas import DataFrame
 
 
@@ -43,18 +43,18 @@ def df_output() -> DataFrame:
 
 
 @pytest.fixture(scope="module")
-def file_xlsx(tmpdir_factory: TempdirFactory, df_input: DataFrame) -> str:
+def file_xlsx(tmp_path_factory: TempPathFactory, df_input: DataFrame) -> str:
     """Writes a DataFrame to a temporary Excel file, returns the path as a string.
 
     Args:
-        tmpdir_factory (TempdirFactory): A pytest pytest.fixture for creating
+        tmp_path_factory (TempPathFactory): A pytest pytest.fixture for creating
             temporary directories.
         df_input (DataFrame): The DataFrame to write to a temporary file.
 
     Returns:
         str: The path of the temporary Excel file.
     """
-    path = tmpdir_factory.mktemp("test").join("test.xlsx")
+    path = tmp_path_factory.getbasetemp() / "test.xlsx"
 
     path_as_string: str = str(path)
 
@@ -113,13 +113,13 @@ def dictionary_input(
 
 @pytest.fixture(scope="module")
 def file_json(
-    tmpdir_factory: TempdirFactory,
+    tmp_path_factory: TempPathFactory,
     dictionary_input: Dict[str, Dict[str, Dict[str, Any]]],
 ) -> str:
     """Converts dict to JSON object, writes to temp file, returns path as string.
 
     Args:
-        tmpdir_factory (TempdirFactory): A pytest pytest.fixture for creating
+        tmp_path_factory (TempPathFactory): A pytest pytest.fixture for creating
             temporary directories.
         dictionary_input (Dict[str, Dict[str, Dict[str, Any]]]): The python dictionary
             to be converted to a JSON object and written to the temporary JSON file.
@@ -127,7 +127,7 @@ def file_json(
     Returns:
         str: The path of the temporary JSON file.
     """
-    path = tmpdir_factory.mktemp("test").join("test.json")
+    path = tmp_path_factory.getbasetemp() / "test.json"
 
     path_as_string: str = str(path)
 
