@@ -1,12 +1,15 @@
 """Test configuration file for package-level modules."""
 # Standard library imports
 from json import dump
+from os import environ
 from pathlib import Path
 from typing import Any, Dict
 
 # Third party imports
 import pytest
 from _pytest.tmpdir import TempPathFactory
+from boto3 import resource
+from moto import mock_s3
 from pandas import DataFrame
 
 
@@ -86,7 +89,7 @@ def kwargs_xlsx(file_xlsx: str) -> Dict[str, Any]:
 def kwargs_csv(file_csv: str) -> Dict[str, Any]:
     """Returns a dictionary of key word arguments to be passed to read_excel()."""
     return {
-        "path_or_buf": file_csv,
+        "filepath_or_buffer": file_csv,
     }
 
 
@@ -117,3 +120,19 @@ def file_json(
         dump(dict_theme, file)
 
     return path_as_string
+
+
+@pytest.fixture(scope="module")
+def test_aws_credentials():
+    """Mocked AWS Credentials for moto."""
+    environ["AWS_ACCESS_KEY_ID"] = "testing"
+    environ["AWS_SECRET_ACCESS_KEY"] = "testing"  # noqa: S105 - fake creds
+    environ["AWS_SECURITY_TOKEN"] = "testing"  # noqa: S105 - fake creds
+    environ["AWS_SESSION_TOKEN"] = "testing"  # noqa: S105 - fake creds
+
+
+@pytest.fixture(scope="module")
+def test_s3_resource(test_aws_credentials):
+    """Mock s3 resource for testing."""
+    with mock_s3():
+        yield resource("s3", region_name="us-east-1")
