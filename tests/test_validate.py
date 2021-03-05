@@ -121,14 +121,14 @@ def test__schema_from_dict(schema_dict, schema) -> None:
 
 def test_validate(
     file_pkl: str,
-    df_output: DataFrame,
+    df_extracted_output: DataFrame,
 ) -> None:
     """Validating a valid DataFrame returns that DataFrame."""
     _ = validate(
         theme="test_theme",
         indicator="test_indicator",
         stage="test_stage",
-        df=df_output,
+        df=df_extracted_output,
         bucket_name=None,
         object_key=None,
         file_path=file_pkl,
@@ -136,5 +136,5 @@ def test_validate(
 
     assert_frame_equal(
         left=_,
-        right=df_output,
+        right=df_extracted_output,
     )
