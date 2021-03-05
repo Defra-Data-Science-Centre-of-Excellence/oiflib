@@ -121,8 +121,10 @@ def tests(session: Session) -> None:
         session,
         "coverage[toml]",
         "pytest",
+        "pytest_cases",
         "pytest-cov",
         "hypothesis",
+        "moto",
     )
     session.run("pytest", *args)
 
