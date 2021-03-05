@@ -1,6 +1,7 @@
 """Test configuration file for package-level modules."""
 # Standard library imports
 from json import dump
+from pathlib import Path
 from typing import Any, Dict
 
 # Third party imports
@@ -37,9 +38,9 @@ def df_output() -> DataFrame:
 @pytest.fixture(scope="module")
 def file_xlsx(tmp_path_factory: TempPathFactory, df_input: DataFrame) -> str:
     """Writes a DataFrame to a temporary Excel file, returns the path as a string."""
-    path: str = tmp_path_factory.getbasetemp() / "test.xlsx"
+    path: Path = tmp_path_factory.getbasetemp() / "test.xlsx"
 
-    path_as_string: str = str(path)
+    path_as_string = str(path)
 
     df_input.to_excel(
         excel_writer=path_as_string,
@@ -83,11 +84,11 @@ def file_json(
     dictionary_input: Dict[str, Dict[str, Dict[str, Any]]],
 ) -> str:
     """Converts dict to JSON object, writes to temp file, returns path as string."""
-    path = tmp_path_factory.getbasetemp() / "test.json"
+    path: Path = tmp_path_factory.getbasetemp() / "test.json"
 
     path_as_string: str = str(path)
 
-    with open(path_as_string, "w") as file:
+    with open(path, "w") as file:
         dump(dictionary_input, file)
 
     return path_as_string
