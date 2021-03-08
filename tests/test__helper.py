@@ -1,5 +1,5 @@
 """Tests for oiflib core functions."""
-from contextlib import contextmanager
+from contextlib import nullcontext as does_not_raise
 from typing import Optional
 
 from _pytest._code.code import ExceptionInfo
@@ -9,13 +9,6 @@ from pytest import raises
 from pytest_cases import parametrize
 
 from oiflib._helper import _check_s3_or_local, _index_to_base_year
-
-
-@contextmanager
-def does_not_raise():
-    """Dummy doc string."""
-    # TODO copied from https://docs.pytest.org/en/stable/example/parametrize.html#parametrizing-conditional-raising, not actually sure what it's doing  # noqa: B950 - URL
-    yield
 
 
 def test__index_to_base_year():

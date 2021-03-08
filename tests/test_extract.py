@@ -1,6 +1,6 @@
 """Tests for extract module."""
 # Standard library imports
-from contextlib import contextmanager
+from contextlib import nullcontext as does_not_raise
 from json import dumps
 from typing import Any, Dict, Optional
 
@@ -21,13 +21,6 @@ from oiflib.extract import (
     _kwargs_from_dict,
     extract,
 )
-
-
-@contextmanager
-def does_not_raise():
-    """Dummy doc string."""
-    # TODO copied from https://docs.pytest.org/en/stable/example/parametrize.html#parametrizing-conditional-raising, not actually sure what it's doing  # noqa: B950 - URL
-    yield
 
 
 # Example-based tests
