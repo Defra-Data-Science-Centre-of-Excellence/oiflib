@@ -4,6 +4,7 @@ from pandas import DataFrame
 
 
 def _unpivot(df: DataFrame) -> DataFrame:
+    """# TODO summary."""
     return df.melt(
         id_vars="Year",
         var_name="Country",
