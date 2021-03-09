@@ -11,16 +11,23 @@ def _set_data_file_name(
     theme: str,
     indicator: str,
 ) -> str:
-    """#TODO [summary].
+    """Given theme and indicator, sets OpenSDG-style filename.
+
+    Example:
+        >>> file_name = _set_data_file_name(
+            theme="air",
+            indicator="one",
+        )
+        indicator_1-1-1.csv
 
     Args:
-        theme (str): #TODO [description]
-        indicator (str): #TODO [description]
+        theme (str): Theme name, as a lower case string. E.g. "air".
+        indicator (str): Indicator number, as a lower case string. E.g. "one".
 
     Returns:
-        str: #TODO [description]
+        str: OpenSDG-style filename as string.
     """
-    return f"indicator_{theme_lookup.get(theme)}-{indicator_lookup.get(indicator)}-1.csv"  # noqa: B950 - breaking the line would decrease readability
+    return f"indicator_{getattr(theme_lookup, theme)}-{getattr(indicator_lookup, indicator)}-1.csv"  # noqa: B950 - breaking the line would decrease readability
 
 
 def _write_to_csv(
