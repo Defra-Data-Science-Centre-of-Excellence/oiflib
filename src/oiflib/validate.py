@@ -152,7 +152,7 @@ def _dict_from_pickle_s3(
     bucket_name: Optional[str],
     object_key: Optional[str],
 ) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
-    """Read OIF metadata dictionary from JSON file in S3.
+    """Read OIF metadata dictionary from pickle file in S3.
 
     .. warning::
         This is a private function. It is not intended to be called directly. It is
@@ -197,7 +197,7 @@ def _dict_from_pickle(
     object_key: Optional[str],
     file_path: Optional[str],
 ) -> Dict[str, Dict[str, Dict[str, Union[str, int]]]]:
-    """Read OIF metadata dictionary from JSON file (s3 or local).
+    """Read OIF metadata dictionary from pickle file (s3 or local).
 
     .. warning::
         This is a private function. It is not intended to be called directly. It is
@@ -225,7 +225,7 @@ def _dict_from_pickle(
     Args:
         bucket_name (str): The s3 object's bucket_name identifier
         object_key (str): The s3 object's key identifier.
-        file_path (str): path to JSON file containing OIF datasets dictionary.
+        file_path (str): path to pickle file containing OIF datasets dictionary.
 
     Returns:
         Dict[str, Dict[str, Dict[str, Union[str, int]]]]: Python dict of OIF datasets.
@@ -258,8 +258,8 @@ def _schema_from_dict(
     """Returns DataFrameSchema from dictionary of DataFrameSchema.
 
     .. warning::
-    This is a private function. It is not intended to be called directly. It is
-    called within :func:`validate`.
+        This is a private function. It is not intended to be called directly. It is
+        called within :func:`validate`.
 
     Example:
         >>> dict = _dict_from_pickle(
@@ -267,6 +267,7 @@ def _schema_from_dict(
             object_key="object key",
             file_path=None,
         )
+
         >>> schema = _schema_from_dict(
             dict=dict,
             theme="air",
@@ -277,8 +278,8 @@ def _schema_from_dict(
     Args:
         dict (Dict[str, Dict[str, Dict[str, DataFrameSchema]]]): The dictionary of
             DataFrameSchema.
-        theme (str): Theme name, as a lower case string.
-        indicator (str): Indicator number, as a lower case string.
+        theme (str): Theme name, as a lower case string. E.g. "air".
+        indicator (str): Indicator number, as a lower case string. E.g. "one".
         stage (str): Stage in pipeline, as lower case string. Must be one of
             "extracted", "transformed" or "enriched".
 
@@ -321,14 +322,14 @@ def validate(
         )
 
     Args:
-        theme (str): Theme name, as a lower case string.
-        indicator (str): Indicator number, as a lower case string.
+        theme (str): Theme name, as a lower case string. E.g. "air".
+        indicator (str): Indicator number, as a lower case string. E.g. "one".
         stage (str): Stage in pipeline, as lower case string. Must be one of
             "extracted", "transformed" or "enriched".
         df (DataFrame): A DataFrame to be validated.
-        bucket_name (Optional[str], optional): [description]. Defaults to
+        bucket_name (str): The s3 object's bucket_name identifier. Defaults to
             "s3-ranch-019".
-        object_key (Optional[str], optional): [description]. Defaults to
+        object_key (str): The s3 object's key identifier. Defaults to
             "schemas.pkl".
         file_path (Optional[str], optional): path to dill pickled file containing
             schemas. Defaults to None.
