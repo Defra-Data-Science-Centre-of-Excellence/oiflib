@@ -321,6 +321,9 @@ def validate(
             df=air_one_extracted,
         )
 
+    Under the hood, this function calls :func:`_dict_from_pickle` and
+    :func:`_schema_from_dict`.
+
     Args:
         theme (str): Theme name, as a lower case string. E.g. "air".
         indicator (str): Indicator number, as a lower case string. E.g. "one".
