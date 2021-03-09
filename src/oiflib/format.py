@@ -8,8 +8,8 @@ def format(
     df: DataFrame,
     year_column: str,
     value_column: str,
-    disaggregation_column: Optional[str],
-    disaggregation_column_new: Optional[str],
+    disaggregation_column: Optional[str] = None,
+    disaggregation_column_new: Optional[str] = None,
 ) -> DataFrame:
     """Selects and renames columns to fit OpenSDG dataset format.
 
@@ -19,6 +19,30 @@ def format(
     to rename the disaggregation column.
 
     Example:
+        If there isn't a disaggregation column, just specify the DataFrame to be
+        formatted, the year column, and the value column:
+
+        >>> air_one_formatted = format(
+            df=air_one_enriched_validated,
+            year_column="EmissionYear",
+            value_column="Index",
+        )
+
+        If there is a disaggregation column and it doesn't need to be renamed, specify
+        the DataFrame to be formatted, the year column, the value column, and the
+        disaggregation column:
+
+        >>> air_one_formatted = format(
+            df=air_one_enriched_validated,
+            year_column="EmissionYear",
+            value_column="Index",
+            disaggregation_column="ShortPollName",
+        )
+
+        If there is a disaggregation column and it does need to be renamed, specify
+        the DataFrame to be formatted, the year column, the value column, the
+        disaggregation column, and what to rename it:
+
         >>> air_one_formatted = format(
             df=air_one_enriched_validated,
             year_column="EmissionYear",
@@ -32,9 +56,9 @@ def format(
         year_column (str): The name of the column containing year data.
         value_column (str): The name of the column containing value data.
         disaggregation_column (Optional[str]): The name of the column containing
-            disaggregation data, if one exists.
+            disaggregation data, if one exists. Defaults to None.
         disaggregation_column_new (Optional[str]): A new name for the column
-            containing disaggregation data, if one is needed.
+            containing disaggregation data, if one is needed. Defaults to None.
 
     Returns:
         DataFrame: A DataFrame with re-ordered and re-named columns.
