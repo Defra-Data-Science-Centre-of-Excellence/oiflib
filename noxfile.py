@@ -120,9 +120,11 @@ def tests(session: Session) -> None:
     install_with_constraints(
         session,
         "coverage[toml]",
-        "pytest",
-        "pytest-cov",
         "hypothesis",
+        "moto",
+        "pytest",
+        "pytest_cases",
+        "pytest-cov",
     )
     session.run("pytest", *args)
 
