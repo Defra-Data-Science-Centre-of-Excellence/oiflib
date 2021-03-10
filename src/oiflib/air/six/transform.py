@@ -12,6 +12,40 @@ def _unpivot(df: DataFrame) -> DataFrame:
     )
 
 
+def _filter(df: DataFrame) -> DataFrame:
+    """Returns Air Six data for England only.
+
+    .. note:
+        This is a private function. It is not intended to be called directly.
+        It is called within :func:`transform_air_six`.
+
+    Example:
+        >>> extracted = extract(
+            theme="air",
+            indicator="six",
+            )
+        >>> extracted_validated = validate(
+            theme="air",
+            indicator="six",
+            stage="extracted",
+            df=extracted,
+        )
+        >>> _unpivoted = _unpivot(
+            df=extracted_validated,
+            )
+        >>> _filtered = _filter(
+            df=_unpivoted,
+        )
+
+    Args:
+        df (DataFrame): DataFame with data for UK nations.
+
+    Returns:
+        DataFrame: DataFame with data for England only.
+    """
+    return df[df["Country"] == "England"]
+
+
 def transform_air_six(df: DataFrame) -> DataFrame:
     """Transforms the extracted Air Six DataFrame into a tidy format.
 
