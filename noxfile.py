@@ -7,7 +7,7 @@ from nox.sessions import Session
 
 package = "oiflib"
 nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
-locations = "src", "tests", "noxfile.py", "docs/source/conf.py", "data/schema.py"
+locations = "src", "tests", "noxfile.py", "docs/source/conf.py"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -121,8 +121,10 @@ def tests(session: Session) -> None:
         session,
         "coverage[toml]",
         "pytest",
+        "pytest_cases",
         "pytest-cov",
         "hypothesis",
+        "moto",
     )
     session.run("pytest", *args)
 
