@@ -19,8 +19,8 @@ def air_six_extracted() -> DataFrame:
 
 
 @fixture
-def air_six_transformed() -> DataFrame:
-    """Example of Air Six transformed DataFrame."""
+def air_six_unpivoted() -> DataFrame:
+    """Example of Air Six unpivoted DataFrame."""
     return DataFrame(
         data={
             "Year": [
@@ -58,6 +58,27 @@ def air_six_transformed() -> DataFrame:
                 15.16,
                 29.04,
                 37.48,
+            ],
+        }
+    )
+
+
+@fixture
+def air_six_transformed() -> DataFrame:
+    """Example of Air Six transformed DataFrame."""
+    return DataFrame(
+        data={
+            "Year": [
+                "1995-1997",
+                "1998-2000",
+            ],
+            "Country": [
+                "England",
+                "England",
+            ],
+            "Percentage habitat area exceeded by deposition data": [
+                1.20,
+                3.40,
             ],
         }
     )
