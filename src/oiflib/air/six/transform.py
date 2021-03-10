@@ -4,7 +4,33 @@ from pandas import DataFrame
 
 
 def _unpivot(df: DataFrame) -> DataFrame:
-    """# TODO summary."""
+    """Returns unpivoted Air Six data.
+
+    .. note:
+        This is a private function. It is not intended to be called directly.
+        It is called within :func:`transform_air_six`.
+
+    Example:
+        >>> extracted = extract(
+            theme="air",
+            indicator="six",
+            )
+        >>> extracted_validated = validate(
+            theme="air",
+            indicator="six",
+            stage="extracted",
+            df=extracted,
+        )
+        >>> _unpivoted = _unpivot(
+            df=extracted_validated,
+            )
+
+    Args:
+        df (DataFrame): [description]
+
+    Returns:
+        DataFrame: [description]
+    """
     return df.melt(
         id_vars="Year",
         var_name="Country",
@@ -49,11 +75,24 @@ def _filter(df: DataFrame) -> DataFrame:
 def transform_air_six(df: DataFrame) -> DataFrame:
     """Transforms the extracted Air Six DataFrame into a tidy format.
 
-    This function calls the private _unpivot() function that unpivots the extracted
-    Air Six DataFrame into a tidy format.
+    Under the hood, this function calls :func:`_unpivot` to convert the extracted Air
+    Six DataFrame into a tidy format and :func:`_filter` to return only the England
+    data.
 
-    >>> df = extract(theme="air", indicator="six")
-    >>> transform_air_six(df=df)
+    Example:
+        >>> extracted = extract(
+            theme="air",
+            indicator="six",
+            )
+        >>> extracted_validated = validate(
+            theme="air",
+            indicator="six",
+            stage="extracted",
+            df=extracted,
+        )
+        >>> transformed = transform_air_six(
+            df=extracted_validated,
+            )
 
     Args:
         df (DataFrame): The extracted Air Six Dataframe.
@@ -61,4 +100,4 @@ def transform_air_six(df: DataFrame) -> DataFrame:
     Returns:
         DataFrame: The Air Six data in a tidy format.
     """
-    return _unpivot(df)
+    return df.pipe(_unpivot).pipe(_filter)
