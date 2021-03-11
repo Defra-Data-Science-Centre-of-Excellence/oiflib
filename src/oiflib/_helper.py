@@ -1,4 +1,5 @@
 from collections import namedtuple
+
 from typing import Optional
 
 from pandas import Series
