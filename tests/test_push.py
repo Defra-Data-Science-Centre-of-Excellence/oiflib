@@ -25,5 +25,10 @@ def test__write_to_csv(
     expected_air_one_formatted_rename_disaggregation_column,
 ) -> None:
     """A DataFrame is written to csv."""
-    _write_to_csv()
+    _write_to_csv(
+        df=expected_air_one_formatted_rename_disaggregation_column,
+        repo="OIF-Dashboard-Data",
+        data_folder="data",
+        data_file_name="",
+    )
     pass
