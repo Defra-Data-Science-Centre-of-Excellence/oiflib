@@ -6,25 +6,26 @@ General
 
 Functions used across the project.
 
-.. _extract_function:
-
 Extract
 ^^^^^^^
+
 .. automodule:: oiflib.extract
    :members:
-
-.. _validate_function:
+   :private-members:
 
 Validate
 ^^^^^^^^
+
 .. automodule:: oiflib.validate
    :members:
+   :private-members:
 
 Core: helper functions
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: oiflib.core
+.. automodule:: oiflib._helper
    :members:
+   :private-members:
 
 Air One
 -------

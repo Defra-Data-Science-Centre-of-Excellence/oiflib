@@ -144,5 +144,5 @@ cython_debug/
 local-sp.json
 setenv.sh
 
-# Development notebooks
+# dev notebooks
 dev.ipynb

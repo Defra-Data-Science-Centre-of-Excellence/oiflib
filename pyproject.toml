@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "OIF-related python libraries"
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
+documentation = "https://oiflib.readthedocs.io"
 repository = "https://github.com/Defra-Data-Science-Centre-of-Excellence/oiflib"
 authors = ["Ed Fawcett-Taylor <ed.fawcett-taylor@defra.gov.uk>"]
 
@@ -44,6 +44,7 @@ recommonmark = "^0.7.1"
 sphinx-autobuild = "^2020.9.1"
 pytest-cases = "^3.2.1"
 moto = {extras = ["s3"], version = "^2.0.1"}
+codecov = "^2.1.11"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -54,7 +55,7 @@ source = ["oiflib"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
+fail_under = 0
 
 [tool.isort]
 profile = "black"
