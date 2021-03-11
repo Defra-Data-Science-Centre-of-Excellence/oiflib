@@ -1,5 +1,3 @@
-from collections import namedtuple
-
 from typing import Optional
 
 from pandas import Series
@@ -81,68 +79,3 @@ def _check_s3_or_local(
             "You must supply either bucket_name and object_key to read from s3 or path "
             "to read from a local file"
         )
-
-
-IndicatorLookup = namedtuple(
-    "IndicatorLookup",
-    [
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine",
-        "ten",
-        "eleven",
-    ],
-)
-
-indicator_lookup = IndicatorLookup(
-    **{
-        "one": "1",
-        "two": "2",
-        "three": "3",
-        "four": "4",
-        "five": "5",
-        "six": "6",
-        "seven": "7",
-        "eight": "8",
-        "nine": "9",
-        "ten": "10",
-        "eleven": "11",
-    },
-)
-
-ThemeLookup = namedtuple(
-    "ThemeLookup",
-    [
-        "air",
-        "water",
-        "seas_and_estuaries",
-        "wildlife",
-        "natural_resources",
-        "resilience",
-        "natural_beauty_and_engagement",
-        "biosecurity_chemicals_and_noise",
-        "resource_use_and_waste",
-        "international",
-    ],
-)
-
-theme_lookup = ThemeLookup(
-    **{
-        "air": "1",
-        "water": "2",
-        "seas_and_estuaries": "3",
-        "wildlife": "4",
-        "natural_resources": "5",
-        "resilience": "6",
-        "natural_beauty_and_engagement": "7",
-        "biosecurity_chemicals_and_noise": "8",
-        "resource_use_and_waste": "9",
-        "international": "10",
-    },
-)
