@@ -503,7 +503,7 @@ flake8 = "*"
 name = "gitdb"
 version = "4.0.5"
 description = "Git Object Database"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.4"
 
@@ -514,7 +514,7 @@ smmap = ">=3.0.1,<4"
 name = "gitpython"
 version = "3.1.14"
 description = "Python Git Library"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.4"
 
@@ -1574,7 +1574,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "smmap"
 version = "3.0.5"
 description = "A pure Python implementation of a sliding window memory map manager"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -1932,7 +1932,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "7add40472f67322479dea72b48ab1ac7b48abca8275101b83a82c421b82a929c"
+content-hash = "abe3ee2128d13020bd5ead570461cc336ef2b8ee5f18d4043f74c605d130c119"
 
 [metadata.files]
 alabaster = [
