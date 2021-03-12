@@ -4,7 +4,7 @@ from typing import List, Optional, Union
 from git import Repo
 from pandas import DataFrame
 
-from oiflib._helper import indicator_lookup, theme_lookup
+from oiflib._helper import OIFlibToSDG
 
 
 def _set_data_file_name(
@@ -27,7 +27,8 @@ def _set_data_file_name(
     Returns:
         str: OpenSDG-style filename as string.
     """
-    return f"indicator_{getattr(theme_lookup, theme)}-{getattr(indicator_lookup, indicator)}-1.csv"  # noqa: B950 - breaking the line would decrease readability
+    oiflib_name: str = f"{theme}_{indicator}"
+    return f"indicator_{getattr(OIFlibToSDG, oiflib_name)}.csv"
 
 
 def _write_to_csv(
