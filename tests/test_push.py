@@ -41,7 +41,7 @@ def test__write_to_csv(
 
     file_path: str = _write_to_csv(
         df=expected_air_one_formatted_rename_disaggregation_column,
-        root=tmp_path,
+        root=str(tmp_path),
         repo="test-repo",
         data_folder="test",
         data_file_name="test.csv",
