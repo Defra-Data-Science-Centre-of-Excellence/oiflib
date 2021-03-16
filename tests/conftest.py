@@ -269,11 +269,11 @@ def expected_air_one_formatted_rename_disaggregation_column() -> DataFrame:
 
 
 @fixture
-def git_repo(tmp_path: Path) -> Tuple[str, str, str, Repo]:
-    """Local git repo for testing."""
+def remote_git_repo(tmp_path: Path) -> Tuple[str, str, str, Repo]:
+    """Remote git repo for testing."""
     _root_name: str = str(tmp_path)
 
-    _repo_name: str = "test_repo"
+    _repo_name: str = "test_remote_repo"
 
     _repo_path: Path = tmp_path / _repo_name
 
@@ -296,5 +296,32 @@ def git_repo(tmp_path: Path) -> Tuple[str, str, str, Repo]:
     _repo.index.add([str(_init_file_path)])
 
     _repo.index.commit("initial commit")
+
+    return (_root_name, _repo_name, _folder_name, _repo)
+
+
+@fixture
+def local_git_repo(
+    tmp_path: Path, remote_git_repo: Tuple[str, str, str, Repo]
+) -> Tuple[str, str, str, Repo]:
+    """Local git repo for testing."""
+    _root_name: str = str(tmp_path)
+
+    _repo_name: str = "test_local_repo"
+
+    _repo_path: Path = tmp_path / _repo_name
+
+    _repo_path.mkdir()
+
+    _repo = Repo.clone_from(
+        f"{_root_name}/{remote_git_repo[1]}",
+        str(_repo_path),
+    )
+
+    _repo.create_head("test")
+
+    _repo.heads.test.checkout()
+
+    _folder_name: str = remote_git_repo[2]
 
     return (_root_name, _repo_name, _folder_name, _repo)
