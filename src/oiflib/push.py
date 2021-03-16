@@ -4,7 +4,7 @@ from typing import Optional, Tuple, Union
 from git import Repo
 from pandas import DataFrame
 
-from oiflib._helper import OIFlibToSDG
+from oiflib._helper import _oiflib_to_sdg_lookup
 
 
 def _set_data_file_name(
@@ -28,7 +28,7 @@ def _set_data_file_name(
         str: OpenSDG-style filename as string.
     """
     oiflib_name: str = f"{theme}_{indicator}"
-    return f"indicator_{getattr(OIFlibToSDG, oiflib_name)}.csv"
+    return f"indicator_{_oiflib_to_sdg_lookup.get(oiflib_name)}.csv"
 
 
 def _write_to_csv(
