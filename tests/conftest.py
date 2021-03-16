@@ -194,3 +194,74 @@ def schema_dict(
             },
         },
     }
+
+
+@fixture
+def expected_air_one_enriched() -> DataFrame:
+    """Example of enriched Air One DataFrame."""
+    return DataFrame(
+        data={
+            "ShortPollName": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5"] * 2,
+            "EmissionYear": [1990] * 5 + [1991] * 5,
+            "Emission": [2] * 5 + [3] * 5,
+            "Index": [2 / 2 * 100] * 5 + [3 / 2 * 100] * 5,
+        },
+    )
+
+
+@fixture
+def kwargs_no_disaggregation_column() -> Dict[str, str]:
+    """Additional kwargs when there's no disaggregation column."""
+    return {}
+
+
+@fixture
+def kwargs_disaggregation_column() -> Dict[str, str]:
+    """Additional kwargs when the disaggregation column doesn't need to be renamed."""
+    return {
+        "disaggregation_column": "ShortPollName",
+    }
+
+
+@fixture
+def kwargs_rename_disaggregation_column() -> Dict[str, str]:
+    """Additional kwargs when the disaggregation column does need to be renamed."""
+    return {
+        "disaggregation_column": "ShortPollName",
+        "disaggregation_column_new": "Pollutant",
+    }
+
+
+@fixture
+def expected_air_one_formatted_no_disaggregation_column() -> DataFrame:
+    """Example of formatted Air One DataFrame."""
+    return DataFrame(
+        data={
+            "Year": [1990] * 5 + [1991] * 5,
+            "Value": [2 / 2 * 100] * 5 + [3 / 2 * 100] * 5,
+        },
+    )
+
+
+@fixture
+def expected_air_one_formatted_disaggregation_column() -> DataFrame:
+    """Example of formatted Air One DataFrame."""
+    return DataFrame(
+        data={
+            "Year": [1990] * 5 + [1991] * 5,
+            "ShortPollName": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5"] * 2,
+            "Value": [2 / 2 * 100] * 5 + [3 / 2 * 100] * 5,
+        },
+    )
+
+
+@fixture
+def expected_air_one_formatted_rename_disaggregation_column() -> DataFrame:
+    """Example of formatted Air One DataFrame."""
+    return DataFrame(
+        data={
+            "Year": [1990] * 5 + [1991] * 5,
+            "Pollutant": ["NH3", "NOx", "SO2", "NMVOC", "PM2.5"] * 2,
+            "Value": [2 / 2 * 100] * 5 + [3 / 2 * 100] * 5,
+        },
+    )
