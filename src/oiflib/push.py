@@ -79,9 +79,7 @@ def _add(
     """
     _repo: Repo = Repo(f"{root}/{repo}")
 
-    if data_folder and data_file_name:
-
-        _repo.index.add(f"{data_folder}/{data_file_name}")
+    _repo.index.add(f"{data_folder}/{data_file_name}")
 
     return None
 
