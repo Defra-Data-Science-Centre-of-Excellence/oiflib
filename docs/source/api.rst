@@ -8,17 +8,29 @@ Functions used across the project.
 
 Extract
 ^^^^^^^
+
 .. automodule:: oiflib.extract
    :members:
+   :private-members:
+
+Validate
+^^^^^^^^
+
+.. automodule:: oiflib.validate
+   :members:
+   :private-members:
 
 Core: helper functions
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: oiflib.core
+.. automodule:: oiflib._helper
    :members:
+   :private-members:
 
 Air One
 -------
+
+.. _air_one_transform_module:
 
 Transform
 ^^^^^^^^^
@@ -26,16 +38,12 @@ Transform
 .. automodule:: oiflib.air.one.transform
    :members:
 
+.. _air_one_enrich_module:
+
 Enrich
 ^^^^^^
 
 .. automodule:: oiflib.air.one.enrich
-   :members:
-
-Validate
-^^^^^^^^
-
-.. automodule:: oiflib.air.one.validate
    :members:
 
 Air Two
@@ -53,14 +61,14 @@ Enrich
 .. automodule:: oiflib.air.two.enrich
    :members:
 
-Validate
-^^^^^^^^
-
-.. automodule:: oiflib.air.two.validate
-   :members:
-
 Air Three
 ---------
+
+Extract
+^^^^^^^
+
+.. automodule:: oiflib.air.three.extract
+   :members:
 
 Transform
 ^^^^^^^^^
@@ -68,14 +76,20 @@ Transform
 .. automodule:: oiflib.air.three.transform
    :members:
 
+Air Four
+--------
+
 Enrich
 ^^^^^^
 
-.. automodule:: oiflib.air.three.enrich
+.. automodule:: oiflib.air.four.enrich
    :members:
 
-Validate
-^^^^^^^^
+Air Five
+--------
 
-.. automodule:: oiflib.air.three.validate
+Enrich
+^^^^^^
+
+.. automodule:: oiflib.air.five.enrich
    :members:
