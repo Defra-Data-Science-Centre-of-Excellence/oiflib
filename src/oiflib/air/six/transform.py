@@ -2,6 +2,8 @@
 
 from pandas import DataFrame
 
+from oiflib._helper import _where_column_contains_string
+
 
 def _unpivot(df: DataFrame) -> DataFrame:
     """Returns unpivoted Air Six data.
@@ -45,6 +47,10 @@ def _filter(df: DataFrame) -> DataFrame:
         This is a private function. It is not intended to be called directly.
         It is called within :func:`transform_air_six`.
 
+    Under the hood it calls:
+
+    - :func:`_where_column_contains_string`
+
     Example:
         >>> extracted = extract(
             theme="air",
@@ -69,7 +75,11 @@ def _filter(df: DataFrame) -> DataFrame:
     Returns:
         DataFrame: DataFame with data for England only.
     """
-    return df[df["Country"] == "England"]
+    return _where_column_contains_string(
+        df=df,
+        column_name="Country",
+        string="England",
+    )
 
 
 def transform_air_six(df: DataFrame) -> DataFrame:
