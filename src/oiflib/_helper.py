@@ -3,6 +3,7 @@ from typing import Optional
 
 from frozendict import frozendict
 from pandas import Series
+from pandas.core.frame import DataFrame
 
 
 def _index_to_base_year(series: Series) -> Series:
@@ -153,3 +154,34 @@ _oiflib_to_sdg_lookup: frozendict = frozendict(
         "international_four": "0-0-4",
     },
 )
+
+
+def _forward_fill_column(df: DataFrame, column_name: str) -> DataFrame:
+    """Fills the blank cells in given column with the value from cell above.
+
+    Args:
+        df (DataFrame): A DataFrame with a column that contains blanks.
+        column_name(str): The name of the column that contains blanks.
+
+    Raises:
+        ValueError: If the first value in the column is blank.
+
+    Returns:
+        DataFrame: A DataFrame with a column that doesn't contains blanks.
+    """
+    if df[column_name][0]:
+        df[column_name] = df[column_name].ffill()
+        return df
+    else:
+        raise ValueError(
+            f"The first value in column {column_name} is missing. Cannot fill forward."
+        )
+
+
+def _where_column_contains_string(
+    df: DataFrame, column_name: str, string: str, does: bool = True
+) -> DataFrame:
+    if does:
+        return df[df[column_name].str.contains(string)]
+    else:
+        return df[~df[column_name].str.contains(string)]
