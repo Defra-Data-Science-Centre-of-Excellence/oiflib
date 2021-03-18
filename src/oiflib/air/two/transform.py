@@ -1,8 +1,8 @@
 """Transformation functions for air_two."""
 
-from typing import Union
-
 from pandas import DataFrame
+
+from oiflib._helper import _forward_fill_column
 
 
 def drop_BaseYear_column(df: DataFrame) -> DataFrame:
@@ -22,27 +22,19 @@ def drop_BaseYear_column(df: DataFrame) -> DataFrame:
     )
 
 
-def forward_fill_NCFormat_column(df: DataFrame) -> Union[DataFrame, None]:
+def forward_fill_NCFormat_column(df: DataFrame) -> DataFrame:
     """Fills the blank cells in NCFormat column with the value from cell above.
 
     Args:
         df (DataFrame): A DataFrame with a NCFormat column that contains blanks.
 
-    Raises:
-        ValueError: If the first value in the NCFormat column is blank.
-
     Returns:
-        Union[DataFrame, None]: A DataFrame with a NCFormat column that doesn't
-        contains blanks. Raises an error if the first value in "NCFormat" is None.
+        DataFrame: A DataFrame with a NCFormat column that doesn't contains blanks.
     """
-    if df.NCFormat[0]:
-        df.NCFormat = df.NCFormat.ffill()
-
-        return df
-    else:
-        raise ValueError(
-            "The first value in column 'NCFormat' is missing. Cannot fill forward."
-        )
+    return _forward_fill_column(
+        df=df,
+        column_name="NCFormat",
+    )
 
 
 def unpivot(df: DataFrame) -> DataFrame:
