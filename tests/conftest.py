@@ -3,12 +3,13 @@
 from json import dump as dump_json
 from os import environ
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 
 # Third party imports
 from _pytest.tmpdir import TempPathFactory
 from boto3 import resource
 from dill import dump as dump_pickle  # noqa: S403 - security warnings n/a
+from git import Repo
 from moto import mock_s3
 from pandas import DataFrame
 from pandera import Check, Column, DataFrameSchema
@@ -265,3 +266,62 @@ def expected_air_one_formatted_rename_disaggregation_column() -> DataFrame:
             "Value": [2 / 2 * 100] * 5 + [3 / 2 * 100] * 5,
         },
     )
+
+
+@fixture
+def remote_git_repo(tmp_path: Path) -> Tuple[str, str, str, Repo]:
+    """Remote git repo for testing."""
+    _root_name: str = str(tmp_path)
+
+    _repo_name: str = "test_remote_repo"
+
+    _repo_path: Path = tmp_path / _repo_name
+
+    _repo_path.mkdir()
+
+    _repo = Repo.init(f"{_root_name}/{_repo_name}")
+
+    _folder_name: str = "test_folder"
+
+    _folder_path: Path = _repo_path / _folder_name
+
+    _folder_path.mkdir()
+
+    _init_file_name: str = "init_file.txt"
+
+    _init_file_path: Path = _folder_path / _init_file_name
+
+    open(_init_file_path, "wb").close()
+
+    _repo.index.add([str(_init_file_path)])
+
+    _repo.index.commit("initial commit")
+
+    return (_root_name, _repo_name, _folder_name, _repo)
+
+
+@fixture
+def local_git_repo(
+    tmp_path: Path, remote_git_repo: Tuple[str, str, str, Repo]
+) -> Tuple[str, str, str, Repo]:
+    """Local git repo for testing."""
+    _root_name: str = str(tmp_path)
+
+    _repo_name: str = "test_local_repo"
+
+    _repo_path: Path = tmp_path / _repo_name
+
+    _repo_path.mkdir()
+
+    _repo = Repo.clone_from(
+        f"{_root_name}/{remote_git_repo[1]}",
+        str(_repo_path),
+    )
+
+    _repo.create_head("test")
+
+    _repo.heads.test.checkout()
+
+    _folder_name: str = remote_git_repo[2]
+
+    return (_root_name, _repo_name, _folder_name, _repo)
