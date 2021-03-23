@@ -15,8 +15,7 @@ openpyxl = "^3.0.6"
 pandera = "^0.6.1"
 dill = "^0.3.3"
 odfpy = "^1.4.1"
-boto3 = "^1.17.13"
-requests = "^2.25.1"
+boto3 = "^1.17.14"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -44,6 +43,8 @@ nbsphinx = "^0.8.1"
 recommonmark = "^0.7.1"
 sphinx-autobuild = "^2020.9.1"
 pytest-cases = "^3.2.1"
+moto = {extras = ["s3"], version = "^2.0.1"}
+codecov = "^2.1.11"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -54,7 +55,7 @@ source = ["oiflib"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
+fail_under = 0
 
 [tool.isort]
 profile = "black"

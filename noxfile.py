@@ -7,7 +7,7 @@ from nox.sessions import Session
 
 package = "oiflib"
 nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
-locations = "src", "tests", "noxfile.py", "docs/source/conf.py", "data/schema.py"
+locations = "src", "tests", "noxfile.py", "docs/source/conf.py"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -120,12 +120,21 @@ def tests(session: Session) -> None:
     install_with_constraints(
         session,
         "coverage[toml]",
+        "hypothesis",
+        "moto",
         "pytest",
         "pytest_cases",
         "pytest-cov",
-        "hypothesis",
     )
     session.run("pytest", *args)
+
+
+@nox.session(python="3.8")
+def coverage(session: Session) -> None:
+    """Upload coverage data."""
+    install_with_constraints(session, "coverage[toml]", "codecov")
+    session.run("coverage", "xml", "--fail-under=0")
+    session.run("codecov", *session.posargs)
 
 
 @nox.session(python="3.8")

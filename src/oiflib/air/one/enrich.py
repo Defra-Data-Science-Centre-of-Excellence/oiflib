@@ -2,7 +2,7 @@
 
 from pandas import DataFrame
 
-from oiflib.core import index_to_base_year
+from oiflib._helper import _index_to_base_year
 
 
 def index_emission_to_base_year(df: DataFrame) -> DataFrame:
@@ -15,7 +15,7 @@ def index_emission_to_base_year(df: DataFrame) -> DataFrame:
         DataFrame: A Dataframe with an "Index" column.
     """
     return df.assign(
-        Index=(df.groupby("ShortPollName").Emission.apply(index_to_base_year))
+        Index=(df.groupby("ShortPollName").Emission.apply(_index_to_base_year))
     )
 
 
