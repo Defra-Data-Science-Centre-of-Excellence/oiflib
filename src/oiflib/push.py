@@ -10,12 +10,14 @@ from oiflib._helper import _oiflib_to_sdg_lookup
 def _reset_local_branch(
     root: str,
     repo: str,
+    ref: str,
 ) -> None:
     """[summary].
 
     Args:
         root (str): [description]
         repo (str): [description]
+        ref (str): [description]
 
     Raises:
         Exception: If the GitPython commands raise an exception.
@@ -24,7 +26,7 @@ def _reset_local_branch(
 
     try:
         _repo.remotes.origin.fetch()
-        _repo.head.reset(commit="origin")
+        _repo.head.reset(commit=ref)
     except Exception:
         raise
 
@@ -186,6 +188,7 @@ def publish(
     df: DataFrame,
     theme: str,
     indicator: str,
+    ref: str = "origin",
     branches: Union[str, Tuple[str, str]] = "develop",
     root: str = ".",
     repo: str = "OIF-Dashboard-Data",
@@ -198,7 +201,8 @@ def publish(
         df (DataFrame): [description]
         theme (str): [description]
         indicator (str): [description]
-        branches (Union[str, Tuple[str, str]], optional): [description]. Defaults to
+        ref (str): [description]. Defaults to "origin".
+        branches (Union[str, Tuple[str, str]]): [description]. Defaults to
             "develop".
         root (str): [description]. Defaults to ".".
         repo (str): [description]. Defaults to "OIF-Dashboard-Data".
@@ -208,6 +212,7 @@ def publish(
     _reset_local_branch(
         root=root,
         repo=repo,
+        ref=ref,
     )
 
     _data_file_name: str = _set_data_file_name(
