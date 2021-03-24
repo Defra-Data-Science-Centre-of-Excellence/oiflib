@@ -196,6 +196,12 @@ def publish(
         data_folder (str): [description]. Defaults to "data".
         data_commit_message (Optional[str]): [description]. Defaults to None.
     """
+    _reset_local_branch(
+        root=root,
+        repo=repo,
+        branches=branches,
+    )
+
     _data_file_name: str = _set_data_file_name(
         theme=theme,
         indicator=indicator,
