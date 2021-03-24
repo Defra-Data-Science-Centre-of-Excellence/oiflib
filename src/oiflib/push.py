@@ -7,6 +7,37 @@ from pandas import DataFrame
 from oiflib._helper import _oiflib_to_sdg_lookup
 
 
+def _reset_local_branch(
+    root: str,
+    repo: str,
+    branches: Union[str, Tuple[str, str]],
+) -> None:
+    """[summary].
+
+    Args:
+        root (str): [description]
+        repo (str): [description]
+        branches (Union[str, Tuple[str, str]]): [description]
+
+    Raises:
+        Exception: If the GitPython commands raise an exception.
+    """
+    _branch: str
+
+    if isinstance(branches, tuple):
+        _branch = branches[1]
+    else:
+        _branch = branches
+
+    _repo: Repo = Repo(f"{root}/{repo}")
+
+    try:
+        _repo.remotes.origin.fetch()
+        _repo.head.reset(commit=f"origin/{_branch}")
+    except Exception:
+        raise
+
+
 def _set_data_file_name(
     theme: str,
     indicator: str,
