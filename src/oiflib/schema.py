@@ -3,7 +3,7 @@ from typing import Dict, Optional, Tuple, Union
 
 from boto3 import resource
 from dill import dump, dumps, load, loads  # noqa: S403 - security warnings n/a
-from pandera import DataFrameSchema  # , Check, Column
+from pandera import DataFrameSchema
 
 
 def get(
@@ -63,11 +63,12 @@ def update(
 
     Define a new dictionary for the schema you want to add or update:
     >>> new_indicator_dictionary = {
-        "six": {
-            "extracted":
-                DataFrameSchema( ... )
+            {"three":
+                "formatted": DataFrameSchema(
+                    ...
+                ),
+            },
         }
-    }
 
     Specify the name of the theme within the update function:
     >>> new_oif_schema_dictionary = update(
@@ -84,9 +85,10 @@ def update(
 
     Define a new dictionary for the schema you want to add or update:
     >>> new_stage_dictionary = {
-        "transformed":
-            DataFrameSchema( ... )
-    }
+            "formatted": DataFrameSchema(
+                ...
+            ),
+        }
 
     Specify the name of the theme and indicator within the update function:
     >>> new_oif_schema_dictionary = update(
@@ -160,46 +162,3 @@ def put(
 
     else:
         raise NotImplementedError("# TODO")
-
-
-# old_oif_schema_dictionary = get()
-
-# new_stage_dictionary = {
-#     "formatted": DataFrameSchema(
-#         columns={
-#             "Year": Column(
-#                 pandas_dtype=int,
-#                 checks=Check.in_range(1990, 2018),
-#             ),
-#             "Pollutant": Column(
-#                 pandas_dtype=str,
-#                 checks=Check.isin(
-#                     [
-#                       "NOx",
-#                       "PM2.5",
-#                       "SO2",
-#                       "NMVOC",
-#                       "NH3",
-#                     ],
-#                 ),
-#             ),
-#             "Value": Column(
-#                 pandas_dtype=float,
-#                 checks=Check.in_range(0.0, 100.0)
-#             ),
-#         },
-#         coerce=True,
-#         strict=True,
-#     ),
-# }
-
-# new_oif_schema_dictionary = update(
-#     dictionary_one=old_oif_schema_dictionary,
-#     dictionary_two=new_stage_dictionary,
-#     theme="air",
-#     indicator="one",
-# )
-
-# put(
-#     dictionary=new_oif_schema_dictionary,
-# )
