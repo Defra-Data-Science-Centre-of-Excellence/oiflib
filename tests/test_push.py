@@ -1,14 +1,18 @@
 """Tests for push module."""
+from contextlib import nullcontext as does_not_raise
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
+from _pytest._code.code import ExceptionInfo
 from git import Repo
+from git.objects.commit import Commit
 from pandas import read_csv
 from pandas.core.frame import DataFrame
 from pandas.testing import assert_frame_equal
-from pytest_cases import parametrize
+from pytest import raises
+from pytest_cases import fixture_ref, parametrize
 
-from oiflib.push import (
+from oiflib.push import (  # _reset_local_branch,
     _add,
     _commit,
     _push,
@@ -16,6 +20,11 @@ from oiflib.push import (
     _write_to_csv,
     publish,
 )
+
+
+def test__reset_local_branch() -> None:
+    """Local branch is reset."""
+    pass
 
 
 @parametrize(
@@ -70,46 +79,85 @@ def test__write_to_csv(
     )
 
 
-def test__add(local_git_repo: Tuple[str, str, str, Repo]) -> None:
+@parametrize(
+    "local_git_repo, expectation",
+    [
+        (fixture_ref("local_git_repo"), does_not_raise()),
+        (
+            ("invalid_root", "invalid_repo", "invalid_folder_name", Repo()),
+            raises(Exception),
+        ),
+    ],
+    ids=[
+        "with valid local repo",
+        "with invalid local repo",
+    ],
+)
+def test__add(
+    local_git_repo: Tuple[str, str, str, Repo],
+    expectation: ExceptionInfo,
+) -> None:
     """File is added to git index."""
     _root_name: str = local_git_repo[0]
     _repo_name: str = local_git_repo[1]
     _folder_name: str = local_git_repo[2]
     _test_file_name: str = "test_file.txt"
 
-    open(f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}", "wb").close()
+    with expectation:
 
-    _add(
-        root=_root_name,
-        repo=_repo_name,
-        data_folder=_folder_name,
-        data_file_name=_test_file_name,
-    )
+        open(
+            f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}", "wb"
+        ).close()
 
-    _repo: Repo = local_git_repo[3]
+        _add(
+            root=_root_name,
+            repo=_repo_name,
+            data_folder=_folder_name,
+            data_file_name=_test_file_name,
+        )
 
-    _most_recently_added_item: str = [
-        index_item.a_path for index_item in _repo.index.diff("HEAD")
-    ].pop()
+        _repo: Repo = local_git_repo[3]
 
-    assert _most_recently_added_item == f"{_folder_name}/{_test_file_name}"
+        _most_recently_added_item: str = [
+            index_item.a_path for index_item in _repo.index.diff("HEAD")
+        ].pop()
+
+        assert _most_recently_added_item == f"{_folder_name}/{_test_file_name}"
 
 
 @parametrize(
-    "data_commit_message, expected",
+    "local_git_repo, data_commit_message, expected, expectation",
     [
-        (None, "add data for test_theme test_indicator"),
-        ("initial commit", "initial commit"),
+        (
+            fixture_ref("local_git_repo"),
+            None,
+            "add data for test_theme test_indicator",
+            does_not_raise(),
+        ),
+        (
+            fixture_ref("local_git_repo"),
+            "initial commit",
+            "initial commit",
+            does_not_raise(),
+        ),
+        (
+            ("invalid_root", "invalid_repo", "invalid_folder_name", Repo()),
+            "initial commit",
+            "initial commit",
+            raises(Exception),
+        ),
     ],
     ids=[
         "with generated commit message",
         "with provided commit message",
+        "with invalid local repo",
     ],
 )
 def test__commit(
     local_git_repo: Tuple[str, str, str, Repo],
     data_commit_message: Optional[str],
     expected: str,
+    expectation: ExceptionInfo,
 ) -> None:
     """File is committed with generated or provided message."""
     _root_name: str = local_git_repo[0]
@@ -117,38 +165,50 @@ def test__commit(
     _folder_name: str = local_git_repo[2]
     _test_file_name: str = "test_file.txt"
 
-    open(f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}", "wb").close()
+    with expectation:
 
-    _repo: Repo = local_git_repo[3]
+        open(
+            f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}", "wb"
+        ).close()
 
-    _repo.index.add(f"{_folder_name}/{_test_file_name}")
+        _repo: Repo = local_git_repo[3]
 
-    _commit(
-        root=_root_name,
-        repo=_repo_name,
-        theme="test_theme",
-        indicator="test_indicator",
-        data_commit_message=data_commit_message,
-    )
+        _repo.index.add(f"{_folder_name}/{_test_file_name}")
 
-    _most_recent_commit_message: str = _repo.head.commit.message
+        _commit(
+            root=_root_name,
+            repo=_repo_name,
+            theme="test_theme",
+            indicator="test_indicator",
+            data_commit_message=data_commit_message,
+        )
 
-    assert _most_recent_commit_message == expected
+        _most_recent_commit_message: str = _repo.head.commit.message
+
+        assert _most_recent_commit_message == expected
 
 
 @parametrize(
-    "branches",
+    "branches, local_git_repo, expectation",
     [
-        ("test"),
-        (("test", "master")),
+        ("test", fixture_ref("local_git_repo"), does_not_raise()),
+        (("test", "master"), fixture_ref("local_git_repo"), does_not_raise()),
+        (
+            ("test", "master"),
+            ("invalid_root", "invalid_repo", "invalid_folder_name", Repo()),
+            raises(Exception),
+        ),
     ],
     ids=[
         "to same branch",
         "to different branch",
+        "with invalid local repo",
     ],
 )
 def test__push(
-    branches: Union[str, Tuple[str, str]], local_git_repo: Tuple[str, str, str, Repo]
+    branches: Union[str, Tuple[str, str]],
+    local_git_repo: Tuple[str, str, str, Repo],
+    expectation: ExceptionInfo,
 ) -> None:
     """File is pushed to remote."""
     _root_name: str = local_git_repo[0]
@@ -156,28 +216,36 @@ def test__push(
     _folder_name: str = local_git_repo[2]
     _test_file_name: str = "test_file.txt"
 
-    open(f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}", "wb").close()
+    with expectation:
 
-    _repo: Repo = local_git_repo[3]
+        open(
+            f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}",
+            "wb",
+        ).close()
 
-    _repo.index.add(f"{_folder_name}/{_test_file_name}")
-    _repo.index.commit("test commit")
+        _repo: Repo = local_git_repo[3]
 
-    _push(
-        root=_root_name,
-        repo=_repo_name,
-        branches=branches,
-    )
+        _repo.index.add(f"{_folder_name}/{_test_file_name}")
+        _repo.index.commit("test commit")
 
-    _repo.remotes.origin.fetch()
+        _push(
+            root=_root_name,
+            repo=_repo_name,
+            branches=branches,
+        )
 
-    commits_behind = _repo.iter_commits("master..origin/master")
+        _repo.remotes.origin.fetch()
 
-    commits_ahead = _repo.iter_commits("origin/master..master")
+        local: Commit = _repo.commit("HEAD")
 
-    count = sum(1 for commits in commits_ahead) + sum(1 for commits in commits_behind)
+        remote: Commit
 
-    assert count == 0
+        if isinstance(branches, tuple):
+            remote = _repo.commit(f"origin/{branches[1]}")
+        else:
+            remote = _repo.commit(f"origin/{branches}")
+
+        assert local == remote
 
 
 def test_publish(
@@ -185,11 +253,13 @@ def test_publish(
     local_git_repo: Tuple[str, str, str, Repo],
 ) -> None:
     """DataFrame is pushed to remote."""  # noqa: D403 - capitalisation is correct
+    _branches: str = "test"
+
     publish(
         df=expected_air_one_formatted_rename_disaggregation_column,
         theme="air",
         indicator="one",
-        branches="test",
+        branches=_branches,
         root=local_git_repo[0],
         repo=local_git_repo[1],
         data_folder=local_git_repo[2],
@@ -199,10 +269,8 @@ def test_publish(
 
     _repo.remotes.origin.fetch()
 
-    commits_behind = _repo.iter_commits("master..origin/master")
+    local: Commit = _repo.commit("HEAD")
 
-    commits_ahead = _repo.iter_commits("origin/master..master")
+    remote: Commit = _repo.commit(f"origin/{_branches}")
 
-    count = sum(1 for commits in commits_ahead) + sum(1 for commits in commits_behind)
-
-    assert count == 0
+    assert local == remote
