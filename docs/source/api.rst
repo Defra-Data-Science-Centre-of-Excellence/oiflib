@@ -20,6 +20,21 @@ Validate
    :members:
    :private-members:
 
+Format
+^^^^^^^^
+
+.. automodule:: oiflib.format
+   :members:
+   :private-members:
+
+Push
+^^^^^^^^
+
+.. automodule:: oiflib.push
+   :members:
+   :private-members:
+
+
 Core: helper functions
 ^^^^^^^^^^^^^^^^^^^^^^
 
