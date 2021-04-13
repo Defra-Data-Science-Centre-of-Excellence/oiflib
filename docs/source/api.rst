@@ -108,3 +108,12 @@ Enrich
 
 .. automodule:: oiflib.air.five.enrich
    :members:
+
+Air Six
+--------
+
+Transform
+^^^^^^^^^
+
+.. automodule:: oiflib.air.six.transform
+   :members:
