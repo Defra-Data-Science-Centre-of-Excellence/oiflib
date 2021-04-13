@@ -6,7 +6,7 @@ import nox
 from nox.sessions import Session
 
 package = "oiflib"
-nox.options.sessions = "isort", "lint", "safety", "mypy", "tests", "docs"
+nox.options.sessions = "isort", "lint", "safety", "mypy", "tests"
 locations = "src", "tests", "noxfile.py", "docs/source/conf.py"
 
 
