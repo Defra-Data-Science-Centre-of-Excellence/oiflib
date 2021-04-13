@@ -1,7 +1,7 @@
 Usage
 =====
 
-The package provides generic Extract_ and Validate_ functions and theme and indicator
+The package provides generic Extract_, Validate_, Format_, and Publish_ functions and theme and indicator
 specific Transform_ and Enrich_ functions.
 
 Extract
@@ -55,6 +55,18 @@ Validate
 --------
 
 .. automodule:: oiflib.validate
+    :noindex:
+
+Format
+------
+
+.. automodule:: oiflib.format
+    :noindex:
+
+Publish
+-------
+
+.. automodule:: oiflib.push
     :noindex:
 
 
