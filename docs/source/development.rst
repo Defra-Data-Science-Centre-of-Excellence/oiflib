@@ -151,6 +151,7 @@ Testing
 
 - `pytest <https://docs.pytest.org/en/latest/>`_ for unit testing.
     - with `coverage <https://coverage.readthedocs.io/>`_ to measure test coverage
+    - and `codecov <https://codecov.io/>`_ to report testing coverage
 - Property-based tests using `hypothesis <https://hypothesis.readthedocs.io/en/latest/>`_.
 - `mocks <https://towardsdatascience.com/stop-mocking-me-unit-tests-in-pyspark-using-pythons-mock-library-a4b5cd019d7e>`_, `fakes, stubs <https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da>`_, or `markers <https://docs.pytest.org/en/latest/example/markers.html>`_ in testing
 
@@ -219,7 +220,6 @@ It doesn't currently use:
 - `Desert <https://desert.readthedocs.io/>`_ or `Marshmallow <https://marshmallow.readthedocs.io/>`_ for data validation
 - `xdoctest <https://github.com/Erotemic/xdoctest>`_ to test docstring examples
 - `sphinx-autodoc-typehints <https://github.com/agronholm/sphinx-autodoc-typehints>`_ to include type hints in documentation
-- `codecov <https://codecov.io/>`_ to report testing coverage
 - `pypi <https://pypi.org/>`_ for package hosting or `testpypi <https://test.pypi.org/>`_ to test package hosting
 - `release-drafter <https://github.com/release-drafter/release-drafter>`_ to help draft release notes
 - `Semantic Versioning <https://semver.org/>`_ to indicate breaking changes, minor changes, or bug fixes
