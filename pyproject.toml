@@ -18,7 +18,6 @@ odfpy = "^1.4.1"
 boto3 = "^1.17.14"
 GitPython = "^3.1.14"
 frozendict = "^1.2"
-sphinx-rtd-theme = "^0.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -54,10 +53,12 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
+omit = ["src/oiflib/core.py"]
 source = ["oiflib"]
 
 [tool.coverage.report]
 show_missing = true
+omit = ["src/oiflib/core.py"]
 fail_under = 0
 
 [tool.isort]
