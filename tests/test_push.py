@@ -232,9 +232,9 @@ def test__commit(
     "branches, local_git_repo, expectation",
     [
         ("test", fixture_ref("local_git_repo"), does_not_raise()),
-        (("test", "master"), fixture_ref("local_git_repo"), does_not_raise()),
+        (("test", "new"), fixture_ref("local_git_repo"), does_not_raise()),
         (
-            ("test", "master"),
+            ("test", "new"),
             ("invalid_root", "invalid_repo", "invalid_folder_name", Repo()),
             raises(Exception),
         ),
