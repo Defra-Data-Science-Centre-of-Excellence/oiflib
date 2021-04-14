@@ -225,6 +225,7 @@ def _commit(
         )
 
         To commit with the default generated message:
+
         >>> _commit(
             root="/home/oif",
             repo="OIF-Dashboard",
@@ -232,6 +233,7 @@ def _commit(
         )
 
         To commit with your own message
+
         >>> _commit(
             root="/home/oif",
             repo="OIF-Dashboard",
@@ -302,6 +304,7 @@ def _push(
         )
 
         To push the local branch to the same branch on the remote:
+
         >>> _push(
             root="/home/oif",
             repo="OIF-Dashboard",
@@ -310,6 +313,7 @@ def _push(
         )
 
         To push the local branch to a different branch on the remote:
+
         >>> _push(
             root="/home/oif",
             repo="OIF-Dashboard",
