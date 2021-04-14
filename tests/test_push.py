@@ -12,19 +12,59 @@ from pandas.testing import assert_frame_equal
 from pytest import raises
 from pytest_cases import fixture_ref, parametrize
 
-from oiflib.push import (  # _reset_local_branch,
+from oiflib.push import (
     _add,
     _commit,
     _push,
+    _reset_local_branch,
     _set_data_file_name,
     _write_to_csv,
     publish,
 )
 
 
-def test__reset_local_branch() -> None:
+def test__reset_local_branch(
+    local_git_repo: Tuple[str, str, str, Repo],
+) -> None:
     """Local branch is reset."""
-    pass
+    _root_name: str = local_git_repo[0]
+    _repo_name: str = local_git_repo[1]
+    _folder_name: str = local_git_repo[2]
+    _test_file_name: str = "test_file.txt"
+
+    open(
+        f"{_root_name}/{_repo_name}/{_folder_name}/{_test_file_name}",
+        "wb",
+    ).close()
+
+    _repo: Repo = local_git_repo[3]
+
+    _repo.index.add(f"{_folder_name}/{_test_file_name}")
+
+    _commit(
+        root=_root_name,
+        repo=_repo_name,
+        theme="test_theme",
+        indicator="test_indicator",
+        data_commit_message="test commit message",
+    )
+
+    _repo.remotes.origin.fetch()
+
+    remote: Commit = _repo.commit("origin")
+
+    local_before_reset: Commit = _repo.commit("HEAD")
+
+    _reset_local_branch(
+        root=_root_name,
+        repo=_repo_name,
+        ref="origin",
+    )
+
+    local_after_reset: Commit = _repo.commit("HEAD")
+
+    assert local_before_reset != remote
+    assert local_after_reset == remote
 
 
 @parametrize(
