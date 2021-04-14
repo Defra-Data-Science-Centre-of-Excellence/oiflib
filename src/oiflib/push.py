@@ -20,7 +20,7 @@ To do this the :func:`publish` function does the following:
 #. it records the changes to the local repository.
 #. it pushes those local changes to the remote repostory.
 
-.. note:
+.. note::
     SDG uses a three part Goal-Target-Indicator (GTI) numeric code, so the name of the
     CSV file must follow the format `indicator_#-#-#.csv`, where each # is an integer
     identifying, respectively, the goal, target, and indicator.
@@ -377,7 +377,7 @@ def publish(
     * :func:`_commit` to record the changes to the local repository.
     * :func:`_push` to push those local changes to the remote repostory.
 
-    .. note:
+    .. note::
         SDG uses a three part Goal-Target-Indicator (GTI) numeric code, so the name of
         the CSV file must follow the format `indicator_#-#-#.csv`, where each # is an
         integer identifying, respectively, the goal, target, and indicator.
