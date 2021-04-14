@@ -1,4 +1,42 @@
-"""Functions to format data for OpenSDG data repo."""
+"""A function to format data for OpenSDG data repo.
+
+The OpenSDG platform expects the first column to be "Year", the last to be "Value"
+and any in between to be disaggregations. The :func:`format` function re-orders and
+re-names the columns of a given DataFrame accordingly. It also gives the caller the
+opportunity to rename the disaggregation column.
+
+If there isn't a disaggregation column, just specify the DataFrame to be
+formatted, the year column, and the value column:
+
+>>> a1_formatted = format(
+    df=a1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+)
+
+If there is a disaggregation column and it doesn't need to be renamed, specify
+the DataFrame to be formatted, the year column, the value column, and the
+disaggregation column:
+
+>>> a1_formatted = format(
+    df=a1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+    disaggregation_column="ShortPollName",
+)
+
+If there is a disaggregation column and it does need to be renamed, specify
+the DataFrame to be formatted, the year column, the value column, the
+disaggregation column, and what to rename it:
+
+>>> a1_formatted = format(
+    df=a1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+    disaggregation_column="ShortPollName",
+    disaggregation_column_new="Pollutant",
+)
+"""
 from typing import Dict, Optional
 
 from pandas import DataFrame
@@ -22,8 +60,8 @@ def format(
         If there isn't a disaggregation column, just specify the DataFrame to be
         formatted, the year column, and the value column:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> a1_formatted = format(
+            df=a1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
         )
@@ -32,8 +70,8 @@ def format(
         the DataFrame to be formatted, the year column, the value column, and the
         disaggregation column:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> a1_formatted = format(
+            df=a1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
             disaggregation_column="ShortPollName",
@@ -43,8 +81,8 @@ def format(
         the DataFrame to be formatted, the year column, the value column, the
         disaggregation column, and what to rename it:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> a1_formatted = format(
+            df=a1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
             disaggregation_column="ShortPollName",

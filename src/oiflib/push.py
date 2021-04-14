@@ -1,6 +1,14 @@
 """A function to upload processed data to the GitHub repo.
 
-The OpenSDG platform requires data to be uploaded to the site's GitHub repo as a CSV.
+The OpenSDG platform requires data to be uploaded to the site's GitHub repo as a
+CSV. Given a DataFrame and an indicator code, this function saves an appropriately
+named CSV and then uploads it to GitHub.
+
+Example:
+    >>> publish(
+        df=a1_formatted_validated,
+        indicator_code="a1",
+    )
 
 To do this the :func:`publish` function does the following:
 
@@ -12,14 +20,16 @@ To do this the :func:`publish` function does the following:
 #. it records the changes to the local repository.
 #. it pushes those local changes to the remote repostory.
 
-SDG uses a three part Goal-Target-Indicator (GTI) numeric code, so the name of the CSV
-file must follow the format `indicator_#-#-#.csv`, where each # is an integer
-identifying, respectively, the goal, target, and indicator.
+.. note:
+    SDG uses a three part Goal-Target-Indicator (GTI) numeric code, so the name of the
+    CSV file must follow the format `indicator_#-#-#.csv`, where each # is an integer
+    identifying, respectively, the goal, target, and indicator.
 
-To make OIF fit the SDG convention, this module uses a look-up to convert the
-alphanumeric OIF codes into a three part Theme-Indicator-Chart (TIC) format. For
-example, OIF's A1 indicator would have a TIC code of 1-1-1, whereas, OIF's C1b
-indicator would have a TIC code of 3-1-2.
+    To make OIF fit the SDG convention, this function uses a look-up to convert the
+    alphanumeric OIF codes into a three part Theme-Indicator-Chart (TIC) format. For
+    example, OIF's A1 indicator would have a TIC code of 1-1-1, whereas, OIF's C1b
+    indicator would have a TIC code of 3-1-2.
+
 """
 from os import environ
 from typing import Optional, Tuple, Union
@@ -345,6 +355,10 @@ def publish(
 ) -> None:
     """Publishes an in-memory DataFrame to a remote git repository.
 
+    The OpenSDG platform requires data to be uploaded to the site's GitHub repo as a
+    CSV. Given a DataFrame and an indicator code, this function saves an appropriately
+    named CSV and then uploads it to GitHub.
+
     Example:
         >>> publish(
             df=a1_formatted,
@@ -358,6 +372,16 @@ def publish(
     * :func:`_add` to add the file to the local repository's index.
     * :func:`_commit` to record the changes to the local repository.
     * :func:`_push` to push those local changes to the remote repostory.
+
+    .. note:
+        SDG uses a three part Goal-Target-Indicator (GTI) numeric code, so the name of
+        the CSV file must follow the format `indicator_#-#-#.csv`, where each # is an
+        integer identifying, respectively, the goal, target, and indicator.
+
+        To make OIF fit the SDG convention, this function uses a look-up to convert the
+        alphanumeric OIF codes into a three part Theme-Indicator-Chart (TIC) format. For
+        example, OIF's A1 indicator would have a TIC code of 1-1-1, whereas, OIF's C1b
+        indicator would have a TIC code of 3-1-2.
 
     Args:
         df (DataFrame): A DataFrame to write.
