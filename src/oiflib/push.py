@@ -389,7 +389,11 @@ def publish(
         remote (str): The remote you want to overwrite the local repository with. If
             you want to reset your local repo to match the remote repo on GitHub, this
             will be "origin". Defaults to "origin".
-        branches (Union[str, Tuple[str, str]]): [description]. Defaults to
+        branches (Union[str, Tuple[str, str]]): If you want to push the local branch to
+            the same branch on the remote, provide the branch name as a string. However,
+            if you want push the local branch to a different branch on the remote,
+            provide the local and remote branch names as a tuple, e.g.
+            ("local-branch-name", "remote-branch-name"). Defaults to
             "develop".
         repo (str): The name of the repository, as a string. This will be appended to
             `root` to create a full path. Defaults to "OIF-Dashboard".
