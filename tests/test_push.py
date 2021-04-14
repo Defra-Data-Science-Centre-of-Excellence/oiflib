@@ -31,7 +31,7 @@ def test__reset_local_branch() -> None:
     "theme, indicator, expected",
     [
         ("air", "one", "indicator_1-1-1.csv"),
-        ("international", "four", "indicator_0-0-4.csv"),
+        ("international", "four", "indicator_10-4-1.csv"),
     ],
     ids=[
         "for air one",
