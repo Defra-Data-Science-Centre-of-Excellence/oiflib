@@ -18,17 +18,12 @@ def _reset_local_branch(
         root (str): [description]
         repo (str): [description]
         ref (str): [description]
-
-    Raises:
-        Exception: If the GitPython commands raise an exception.
     """
     _repo: Repo = Repo(f"{root}/{repo}")
 
-    try:
-        _repo.remotes.origin.fetch()
-        _repo.head.reset(commit=ref)
-    except Exception:
-        raise
+    _repo.remotes.origin.fetch()
+
+    _repo.head.reset(commit=ref)
 
 
 def _set_data_file_name(
@@ -98,18 +93,12 @@ def _add(
         data_folder (str): [description]
         data_file_name (str): [description]
 
-    Raises:
-        Exception: If the GitPython commands raise an exception.
-
     Returns:
         [type]: [description]
     """
     _repo: Repo = Repo(f"{root}/{repo}")
 
-    try:
-        _repo.index.add(f"{data_folder}/{data_file_name}")
-    except Exception:
-        raise
+    _repo.index.add(f"{data_folder}/{data_file_name}")
 
     return None
 
@@ -130,9 +119,6 @@ def _commit(
         indicator (str): [description]
         data_commit_message (Optional[str]): [description]
 
-    Raises:
-        Exception: If the GitPython commands raise an exception.
-
     Returns:
         [type]: [description]
     """
@@ -141,10 +127,7 @@ def _commit(
     if not data_commit_message:
         data_commit_message = f"add data for {theme} {indicator}"
 
-    try:
-        _repo.index.commit(data_commit_message)
-    except Exception:
-        raise
+    _repo.index.commit(data_commit_message)
 
     return None
 
@@ -161,9 +144,6 @@ def _push(
         repo (str): [description]
         branches (Union[str, Tuple[str, str]]): [description]
 
-    Raises:
-        Exception: If the GitPython commands raise an exception.
-
     Returns:
         [type]: [description]
     """
@@ -176,10 +156,7 @@ def _push(
     else:
         _refspec = f"{branches}:{branches}"
 
-    try:
-        _repo.remotes.origin.push(refspec=_refspec)
-    except Exception:
-        raise
+    _repo.remotes.origin.push(refspec=_refspec)
 
     return None
 
