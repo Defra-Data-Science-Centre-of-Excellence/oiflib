@@ -95,7 +95,7 @@ def _set_data_file_name(
     Returns:
         str: Theme-Indicator-Chart filename as string.
     """
-    tic_code: str = _oiflib_to_sdg_lookup.get(indicator_code, default="0-0-0")
+    tic_code: str = _oiflib_to_sdg_lookup.get(indicator_code, "0-0-0")
     return f"indicator_{tic_code}.csv"
 
 
