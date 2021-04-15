@@ -73,12 +73,14 @@ def test__reset_local_branch(
         ("B1b", "indicator_2-1-2.csv"),
         ("C2ai", "indicator_3-2-1-a.csv"),
         ("D7i", "indicator_4-7-1-a.csv"),
+        ("Z99", "indicator_0-0-0.csv"),
     ],
     ids=[
         "for two-part OIF code",
         "for three-part OIF code",
         "for four-part OIF code",
         "for four-part OIF code with missing third part",
+        "for code not in lookup",
     ],
 )
 def test__set_data_file_name(indicator_code, expected) -> None:
