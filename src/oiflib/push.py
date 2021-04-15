@@ -410,6 +410,7 @@ def publish(
             generated using the `indicator_code`, otherwise the provided message will
             be used.
     """
+
     if not root:
         root = environ["HOME"]
 

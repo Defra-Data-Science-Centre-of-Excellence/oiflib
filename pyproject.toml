@@ -53,6 +53,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
+omit = ["src/oiflib/core.py"]
 source = ["oiflib"]
 
 [tool.coverage.report]

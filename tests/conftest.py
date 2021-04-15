@@ -297,6 +297,8 @@ def remote_git_repo(tmp_path: Path) -> Tuple[str, str, str, Repo]:
 
     _repo.index.commit("initial commit")
 
+    _repo.create_head("new")
+
     return (_root_name, _repo_name, _folder_name, _repo)
 
 
