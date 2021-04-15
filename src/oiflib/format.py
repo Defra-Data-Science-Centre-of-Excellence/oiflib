@@ -1,7 +1,7 @@
 """A function to format data for OpenSDG data repo.
 
 The OpenSDG platform expects the first column to be "Year", the last to be "Value"
-and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.  # noqa: B950 - URL
+and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.
 The :func:`format` function re-orders and re-names the columns of a given DataFrame
 accordingly. It also gives the caller the opportunity to rename the disaggregation
 column.
@@ -38,9 +38,9 @@ disaggregation column, and what to rename it:
     disaggregation_column_new="Pollutant",
 )
 
-For more infomation see the `Data format <https://open-sdg.readthedocs.io/en/latest/data-format/>`_  # noqa: B950 - URL
+For more infomation see the `Data format <https://open-sdg.readthedocs.io/en/latest/data-format/>`_
 of the OpenSDG docs.
-"""
+"""  # noqa: B950 - URL
 from typing import Dict, Optional
 
 from pandas import DataFrame
@@ -56,7 +56,7 @@ def format(
     """Selects and renames columns to fit OpenSDG dataset format.
 
     The OpenSDG platform expects the first column to be "Year", the last to be "Value"
-    and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.  # noqa: B950 - URL
+    and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.
     This function re-orders and re-names the columns of a given DataFrame
     accordingly. It also gives the caller the opportunity to rename the disaggregation
     column.
@@ -106,7 +106,7 @@ def format(
 
     Returns:
         DataFrame: A DataFrame with re-ordered and re-named columns.
-    """
+    """  # noqa: B950 - URL
     columns: Dict[str, str]
 
     if not disaggregation_column:
