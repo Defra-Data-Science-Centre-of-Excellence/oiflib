@@ -219,6 +219,7 @@ def test__commit(
 
         _repo.index.add(f"{_folder_name}/{_test_file_name}")
 
+
         _commit(
             root=_root_name,
             repo=_repo_name,
