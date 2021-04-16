@@ -6,8 +6,8 @@ named CSV and then uploads it to GitHub.
 
 Example:
     >>> publish(
-        df=a1_formatted_validated,
-        indicator_code="a1",
+        df=A1_formatted_validated,
+        indicator_code="A1",
     )
 
 To do this the :func:`publish` function does the following:
@@ -85,17 +85,17 @@ def _set_data_file_name(
 
     Example:
         >>> file_name = _set_data_file_name(
-            indicator_code="a1",
+            indicator_code="A1",
         )
         indicator_1-1-1.csv
 
     Args:
-        indicator_code (str): Indicator code, as a lower case string. E.g. "a1".
+        indicator_code (str): Indicator code, as a string. E.g. "A1".
 
     Returns:
         str: Theme-Indicator-Chart filename as string.
     """
-    tic_code: str = _oiflib_to_sdg_lookup.get(indicator_code)
+    tic_code: str = _oiflib_to_sdg_lookup.get(indicator_code, "0-0-0")
     return f"indicator_{tic_code}.csv"
 
 
@@ -114,11 +114,11 @@ def _write_to_csv(
 
     Example:
         >>> file_name = _set_data_file_name(
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         >>> _write_to_csv(
-            df=a1_formatted,
+            df=A1_formatted,
             root="/home/oif",
             repo="OIF-Dashboard",
             data_folder="data",
@@ -161,11 +161,11 @@ def _add(
 
     Example:
         >>> file_name = _set_data_file_name(
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         >>> _write_to_csv(
-            df=a1_formatted,
+            df=A1_formatted,
             root="/home/oif",
             repo="OIF-Dashboard",
             data_folder="data",
@@ -206,11 +206,11 @@ def _commit(
 
     Example:
         >>> file_name = _set_data_file_name(
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         >>> _write_to_csv(
-            df=a1_formatted,
+            df=A1_formatted,
             root="/home/oif",
             repo="OIF-Dashboard",
             data_folder="data",
@@ -229,7 +229,7 @@ def _commit(
         >>> _commit(
             root="/home/oif",
             repo="OIF-Dashboard",
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         To commit with your own message
@@ -237,7 +237,7 @@ def _commit(
         >>> _commit(
             root="/home/oif",
             repo="OIF-Dashboard",
-            indicator_code="a1",
+            indicator_code="A1",
             data_commit_message="my commit message"
         )
 
@@ -246,7 +246,7 @@ def _commit(
             `repo` to create a full path.
         repo (str): The name of the repository, as a string. This will be appended to
             `root` to create a full path.
-        indicator_code (str): Indicator code, as a lower case string. E.g. "a1".
+        indicator_code (str): Indicator code, as a string. E.g. "A1".
         data_commit_message (Optional[str]): If no message is provided, one will be
             generated using the `indicator_code`, otherwise the provided message will
             be used.
@@ -279,11 +279,11 @@ def _push(
         )
 
         >>> file_name = _set_data_file_name(
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         >>> _write_to_csv(
-            df=a1_formatted,
+            df=A1_formatted,
             root="/home/oif",
             repo="OIF-Dashboard",
             data_folder="data",
@@ -300,7 +300,7 @@ def _push(
         >>> _commit(
             root="/home/oif",
             repo="OIF-Dashboard",
-            indicator_code="a1",
+            indicator_code="A1",
         )
 
         To push the local branch to the same branch on the remote:
@@ -365,8 +365,8 @@ def publish(
 
     Example:
         >>> publish(
-            df=a1_formatted,
-            indicator_code="a1",
+            df=A1_formatted,
+            indicator_code="A1",
         )
 
     Under the hood, this function calls:
@@ -389,7 +389,7 @@ def publish(
 
     Args:
         df (DataFrame): A DataFrame to write.
-        indicator_code (str): Indicator code, as a lower case string. E.g. "a1".
+        indicator_code (str): Indicator code, as a string. E.g. "A1".
         remote (str): The remote you want to overwrite the local repository with. If
             you want to reset your local repo to match the remote repo on GitHub, this
             will be "origin". Defaults to "origin".

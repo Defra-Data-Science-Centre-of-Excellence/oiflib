@@ -69,12 +69,16 @@ def test__reset_local_branch(
 @parametrize(
     "indicator_code, expected",
     [
-        ("a1", "indicator_None.csv"),
-        ("k4", "indicator_None.csv"),
+        ("A1", "indicator_1-1-1.csv"),
+        ("B2", "indicator_2-2-1.csv"),
+        ("C3", "indicator_3-3-1.csv"),
+        ("Z99", "indicator_0-0-0.csv"),
     ],
     ids=[
-        "for a1",
-        "for k4",
+        "for A1",
+        "for B2",
+        "for C2",
+        "for code not in lookup",
     ],
 )
 def test__set_data_file_name(indicator_code, expected) -> None:
