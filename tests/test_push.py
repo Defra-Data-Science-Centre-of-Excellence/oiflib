@@ -44,8 +44,7 @@ def test__reset_local_branch(
     _commit(
         root=_root_name,
         repo=_repo_name,
-        theme="test_theme",
-        indicator="test_indicator",
+        indicator_code="test_indicator",
         data_commit_message="test commit message",
     )
 
@@ -58,7 +57,7 @@ def test__reset_local_branch(
     _reset_local_branch(
         root=_root_name,
         repo=_repo_name,
-        ref="origin",
+        remote="origin",
     )
 
     local_after_reset: Commit = _repo.commit("HEAD")
@@ -68,21 +67,24 @@ def test__reset_local_branch(
 
 
 @parametrize(
-    "theme, indicator, expected",
+    "indicator_code, expected",
     [
-        ("air", "one", "indicator_1-1-1.csv"),
-        ("international", "four", "indicator_0-0-4.csv"),
+        ("A1", "indicator_1-1-1.csv"),
+        ("B2", "indicator_2-2-1.csv"),
+        ("C3", "indicator_3-3-1.csv"),
+        ("Z99", "indicator_0-0-0.csv"),
     ],
     ids=[
-        "for air one",
-        "for international four",
+        "for A1",
+        "for B2",
+        "for C2",
+        "for code not in lookup",
     ],
 )
-def test__set_data_file_name(theme, indicator, expected) -> None:
+def test__set_data_file_name(indicator_code, expected) -> None:
     """A filename is returned."""
     returned: str = _set_data_file_name(
-        theme=theme,
-        indicator=indicator,
+        indicator_code=indicator_code,
     )
 
     assert returned == expected
@@ -171,7 +173,7 @@ def test__add(
         (
             fixture_ref("local_git_repo"),
             None,
-            "add data for test_theme test_indicator",
+            "add data for test_indicator",
             does_not_raise(),
         ),
         (
@@ -218,8 +220,7 @@ def test__commit(
         _commit(
             root=_root_name,
             repo=_repo_name,
-            theme="test_theme",
-            indicator="test_indicator",
+            indicator_code="test_indicator",
             data_commit_message=data_commit_message,
         )
 
@@ -254,6 +255,7 @@ def test__push(
     _root_name: str = local_git_repo[0]
     _repo_name: str = local_git_repo[1]
     _folder_name: str = local_git_repo[2]
+    _remote: str = "origin"
     _test_file_name: str = "test_file.txt"
 
     with expectation:
@@ -271,6 +273,7 @@ def test__push(
         _push(
             root=_root_name,
             repo=_repo_name,
+            remote=_remote,
             branches=branches,
         )
 
@@ -297,8 +300,7 @@ def test_publish(
 
     publish(
         df=expected_air_one_formatted_rename_disaggregation_column,
-        theme="air",
-        indicator="one",
+        indicator_code="test indicator",
         branches=_branches,
         root=local_git_repo[0],
         repo=local_git_repo[1],
