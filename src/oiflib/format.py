@@ -22,8 +22,8 @@ def format(
         If there isn't a disaggregation column, just specify the DataFrame to be
         formatted, the year column, and the value column:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> A1_formatted = format(
+            df=A1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
         )
@@ -32,8 +32,8 @@ def format(
         the DataFrame to be formatted, the year column, the value column, and the
         disaggregation column:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> A1_formatted = format(
+            df=A1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
             disaggregation_column="ShortPollName",
@@ -43,8 +43,8 @@ def format(
         the DataFrame to be formatted, the year column, the value column, the
         disaggregation column, and what to rename it:
 
-        >>> air_one_formatted = format(
-            df=air_one_enriched_validated,
+        >>> A1_formatted = format(
+            df=A1_enriched_validated,
             year_column="EmissionYear",
             value_column="Index",
             disaggregation_column="ShortPollName",
