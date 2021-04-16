@@ -20,6 +20,21 @@ Validate
    :members:
    :private-members:
 
+Format
+^^^^^^^^
+
+.. automodule:: oiflib.format
+   :members:
+   :private-members:
+
+Push
+^^^^^^^^
+
+.. automodule:: oiflib.push
+   :members:
+   :private-members:
+
+
 Core: helper functions
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -92,4 +107,13 @@ Enrich
 ^^^^^^
 
 .. automodule:: oiflib.air.five.enrich
+   :members:
+
+Air Six
+--------
+
+Transform
+^^^^^^^^^
+
+.. automodule:: oiflib.air.six.transform
    :members:

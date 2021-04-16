@@ -141,5 +141,5 @@ def coverage(session: Session) -> None:
 def docs(session: Session) -> None:
     """Build the documentation."""
     session.run("poetry", "install", "--no-dev", external=True)
-    install_with_constraints(session, "sphinx", "nbsphinx")
-    session.run("sphinx-build", "docs", "docs/_build")
+    install_with_constraints(session, "sphinx")
+    session.run("sphinx-build", "docs/source", "docs/_build")

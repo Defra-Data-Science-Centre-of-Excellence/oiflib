@@ -1,4 +1,46 @@
-"""Functions to format data for OpenSDG data repo."""
+"""A function to format data for OpenSDG data repo.
+
+The OpenSDG platform expects the first column to be "Year", the last to be "Value"
+and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.
+The :func:`format` function re-orders and re-names the columns of a given DataFrame
+accordingly. It also gives the caller the opportunity to rename the disaggregation
+column.
+
+If there isn't a disaggregation column, just specify the DataFrame to be
+formatted, the year column, and the value column:
+
+>>> A1_formatted = format(
+    df=A1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+)
+
+If there is a disaggregation column and it doesn't need to be renamed, specify
+the DataFrame to be formatted, the year column, the value column, and the
+disaggregation column:
+
+>>> A1_formatted = format(
+    df=A1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+    disaggregation_column="ShortPollName",
+)
+
+If there is a disaggregation column and it does need to be renamed, specify
+the DataFrame to be formatted, the year column, the value column, the
+disaggregation column, and what to rename it:
+
+>>> A1_formatted = format(
+    df=A1_enriched_validated,
+    year_column="EmissionYear",
+    value_column="Index",
+    disaggregation_column="ShortPollName",
+    disaggregation_column_new="Pollutant",
+)
+
+For more infomation see the `Data format <https://open-sdg.readthedocs.io/en/latest/data-format/>`_
+of the OpenSDG docs.
+"""  # noqa: B950 - URL
 from typing import Dict, Optional
 
 from pandas import DataFrame
@@ -14,9 +56,11 @@ def format(
     """Selects and renames columns to fit OpenSDG dataset format.
 
     The OpenSDG platform expects the first column to be "Year", the last to be "Value"
-    and any in between to be disaggregations. This function re-orders and re-names the
-    columns of a given DataFrame accordingly. It also gives the caller the opportunity
-    to rename the disaggregation column.
+    and any in between to be `disaggregations <https://open-sdg.readthedocs.io/en/latest/glossary/#disaggregations>`_.
+    This function re-orders and re-names the columns of a given DataFrame
+    accordingly. It also gives the caller the opportunity to rename the disaggregation
+    column.
+
 
     Example:
         If there isn't a disaggregation column, just specify the DataFrame to be
@@ -62,7 +106,7 @@ def format(
 
     Returns:
         DataFrame: A DataFrame with re-ordered and re-named columns.
-    """
+    """  # noqa: B950 - URL
     columns: Dict[str, str]
 
     if not disaggregation_column:

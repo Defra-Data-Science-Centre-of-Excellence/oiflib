@@ -58,6 +58,7 @@ source = ["oiflib"]
 
 [tool.coverage.report]
 show_missing = true
+omit = ["src/oiflib/core.py"]
 fail_under = 0
 
 [tool.isort]
